@@ -4,7 +4,7 @@ title: Elements
 ---
 # An open source, sidechain-capable blockchain platform.
 
-## Designing, building and operating your own private blockchain is easy with Elements.
+## Designing, building and operating your own blockchain is easy with Elements.
 
 Elements is an open source, sidechain-capable blockchain platform. Elements provides access to powerful features developed by members of the community, reducing internal development and research costs and enabling you to explore new applications of Blockchain and Sidechain technology.
 
