@@ -32,24 +32,38 @@ These actions are split between two distinct roles in order to enhance security 
 
 When combined, the roles of these participants allows Elements to deliver both rapid block creation (faster and final transaction confirmation) and assured, transferable assets (pegged assets directly linkable to another blockchain).
  
-We will look at how Block Signers create blocks later and will begin by finding out how Watchmen enforce something called a **Federated Peg**, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain.
+We will look at how Block Signers create blocks later and will begin by finding out how Watchmen enforce something called a Federated Peg, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain.
 
 * * * 
 
 ### The role of Watchmen in a Strong Federation
 
-In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses something called a "Federated Peg" to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers, as we shall now see.
+In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses a **Federated Peg** to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers.
  
-At a high level, these transfers work by freezing the assets in a transaction on the main chain, making them unusable there, and then creating a transaction on the sidechain that describes the locked asset. This process effectively moves assets from the parent chain to the sidechain. To move assets back to the main chain a similar process occurs; a transaction is created in the sidechain which describes an output of an amount of the asset on the mainchain and destroys the same amount on the sidechain.
+At a high level, these transfers work by freezing assets on the main chain and then creating a transaction on the sidechain that releases the same amount of a new asset. This process effectively moves assets from the parent chain to the sidechain. 
+
+
+**Diagram showing how Watchmen enable the transfer of assets into an Elements sidechain:**
+
+![watchmen]({{ site.url }}/images/peg-in.png)
+
+<br/>
+
+To move assets back to the main chain a similar process occurs, whereby a transaction is created which releases an amount of the asset on the mainchain and destroys the same amount on the sidechain.
  
-This process of creating and destroying assets on the sidechain is secured by a consensus mechanism within the sidechain and is performed by Functionaries named "Watchmen" who move assets into and out of the sidechain by signing transactions on both chains. 
- 
-In order to transfer bitcoin between chains a multi-signature mechanism is used, whereby a threshold number of participants in the federation of mutually distrusting participants must sign before the transaction is considered valid and the assets transferred between chains.
- 
+In order to transfer bitcoin between chains a multi-signature mechanism is used, whereby a threshold number of participants in the federation must sign before the transaction is considered valid and the assets transferred between chains.
+
+
+**Diagram showing how Watchmen enable the transfer of assets out of an Elements sidechain:**
+
+![watchmen]({{ site.url }}/images/peg-out.png)
+
+<br/>
+
 The Watchmen observe both the main blockchain and the Elements sidechain in order to validate asset transfers between them. A set of geographically and jurisdictionally distributed servers are preferred, creating a compromise-resistant network of Functionaries.
  
 This network retains a number of the beneficial properties of a fully decentralized security model without introducing the need for a trusted 3rd party or single point of failure.
- 
+
 * * * 
  
 ### The role of Block Signers in a Strong Federation
