@@ -51,8 +51,6 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 * [Confidential Transactions]({{ site.url }}/elements-code-tutorial/confidential-transactions)
 * [Federated Two-Way Peg]({{ site.url }}/elements-code-tutorial/sidechain)
 * [Signed Blocks]({{ site.url }}/elements-code-tutorial/block-creation)
-* Schnorr Signature Validation
-* Signature Covers Value
 
 * * * 
 
