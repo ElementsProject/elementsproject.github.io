@@ -19,7 +19,7 @@ Elements provides the tools needed to prototype and deploy your own blockchains 
 
 ### When to use a Blockchain
 
-A blockchain is an inherently inefficient means of data storage when compared to centralised database solutions. This inefficiency is a price worth paying only if you genuinly require the properties that a blockchain offers. It is important to correctly evaluate the requirements of your proposed system before deciding on a blockchain based solution.
+A blockchain is an inherently inefficient means of data storage when compared to centralized database solutions. This inefficiency is a price worth paying only if you genuinly require the properties that a blockchain offers. It is important to correctly evaluate the requirements of your proposed system before deciding on a blockchain based solution.
 
 ##### Note: If your requirements do not necessitate it, implementing a blockchain based system will be counterproductive.
  
