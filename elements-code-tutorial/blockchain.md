@@ -28,7 +28,7 @@ In this section we will:
 
 We'll assume that you have already run the [Installing Elements]({{ site.url }}/elements-code-tutorial/installing-elements) and [Setting up your working environment]({{ site.url }}/elements-code-tutorial/working-environment) tutorial sections to install and prepare elements.
    
-In order to run Elements as a stand-alone blockchain we will make use of a few parameters that can be added to the elements.conf file or passed in on node start up. They are:
+In order to run Elements as a standalone blockchain we will make use of a few parameters that can be added to the elements.conf file or passed in on node start up. They are:
 
 <div class="console-output">defaultpeggedassetname
 
