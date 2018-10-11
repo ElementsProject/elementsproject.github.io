@@ -14,7 +14,7 @@ Whilst a sidechain is aware of the main chain and its transaction history, the m
 
 An example of an Elements based sidechain in production use is Liquid. 
 
-Liquid is an implementation of a federated sidechain - a private blockchain with different features, capabilities, and benefits than the main Bitcoin blockchain. 
+Liquid is an implementation of a federated sidechain - a blockchain with different features, capabilities, and benefits than the main Bitcoin blockchain. 
 
 By extending the functionality of Bitcoin and leveraging its underlying security, the Liquid network is able to provide new functionality that was previously not available to Bitcoin users.
 
