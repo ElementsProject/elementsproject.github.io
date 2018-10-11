@@ -1,0 +1,30 @@
+theme: minima
+#remote_theme: jekyll/minima
+
+# Build settings
+markdown: kramdown
+kramdown:
+   syntax_highlighter_opts:
+      disable : true
+
+# Site settings
+#    Used to personalize the site. If you look in the HTML files,
+#    you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+#    You can create any custom variable you like, and they will be accessible
+#    in the templates via {{ site.myvariable }} for example.
+url: "https://elementsproject.github.io" 
+baseurl: "" # the subpath of your site if neded, e.g. /sitecontent
+
+#email: elements@blockstream.io
+
+title: elementsproject.org
+description: >- # this means to ignore newlines
+  Elements - an open source, sidechain-capable blockchain platform.
+
+
+web_github_link: https://github.com/ElementsProject/elementsproject.github.io
+elements_github_link: https://github.com/ElementsProject/elements
+slack_link: https://blockstream.slack.com
+slack_sign_up_link: https://blockstream.herokuapp.com
+mailing_list_link: https://lists.linuxfoundation.org/mailman/listinfo/sidechains-dev
+freenode_irc_link: http://webchat.freenode.net/?channels=%23sidechains-dev

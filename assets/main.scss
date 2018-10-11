@@ -1,0 +1,349 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+/*
+
+CSS NOTES
+*********
+
+use of letter-spacing on smaller font sizes makes the font easier to read in most browsers but this does not render well in Firefox on Ubuntu for some reason, due to the rendering engine it uses. So spacing has been ommited aprt from in h1, h2 etc.
+
+Elements theme color ref:
+  Grey h1 and borders: #f0f0f0
+  "black" text and highlighted drop down parent etc is actually: #333
+  top left logo light blue: #5caadd
+  left logo blue: #6d8ac5
+  right logo purple-blue: #5f53a2
+  bottom right logo purple: #7a4596
+
+
+*/
+
+//todo: font stuff:
+//////// trying to style fonts (not sure diff between font-family and font)
+.html, html, .body, body {
+  font-family: Open Sans, sans-serif !important;
+  //letter-spacing: 0.4px !important;
+}
+
+.h1, h1 {
+  background-color: #6d8ac5;
+  color: white !important;
+  font-family: Open Sans, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: lighter !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+  padding-left: 30px;
+  padding-top: 20px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+  margin-top: 30px !important;
+  margin-bottom: 0px !important;
+  border-radius: 4px;
+  //border-top-right-radius: 4px;
+  //border-top-left-radius: 4px;
+  //border-bottom: none;
+}
+
+// Light background box
+.h2, h2 {
+  background-color: #f5f5f5;
+  padding-left: 30px;
+  padding-top: 20px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+  border-radius: 4px;
+  //border-top: none;
+  //border-bottom-right-radius: 4px;
+  //border-bottom-left-radius: 4px;
+  margin-top: 14px !important;
+  margin-bottom: 20px !important;
+  color: #333 !important;
+  font-family: Open Sans, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: lighter !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+}
+
+.h3, h3 {
+  color: #333 !important;
+  font-family: Open Sans, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: lighter !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+  margin-bottom: 26px !important;
+  margin-top: 36px !important;
+  padding-bottom: 4px;
+}
+
+// A h4 is used as a comment/tip block:
+.h4, h4 {
+  color: #333 !important;
+  font-family: Open Sans, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  //letter-spacing: 0.4px !important;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+  border-left: 2px solid #6d8ac5;
+  padding-left: 16px;
+  line-height: 1.42857143 !important;
+}
+
+// A h5 is used as a code 'note:' block:
+.h5, h5 {
+  color: #333 !important;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+  border-left: 2px solid #6d8ac5;
+  padding-left: 16px;
+  line-height: 1.42857143 !important;
+}
+
+// Used to display output from a command (so the output of something wrapped in a h5)
+.console-output {
+  white-space: pre-wrap;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+  padding-left: 17px;
+}
+
+
+.p, p {
+  font-family: Open Sans, sans-serif !important;
+  font-size: inherit !important;
+  margin-left: 18px !important;
+  margin-right: 18px !important;
+  margin-bottom: 16px !important;
+  //letter-spacing: 0.4px !important;
+}
+
+.li, li {
+  margin-bottom: 12px;
+}
+
+//////// not sure if the above do much
+
+// Override page-content
+.page-content {
+  padding: 0px 0;
+  flex: 1;
+}
+
+// Color of drop down nav item when clicked and showing sub items
+.navbar-nav>.open>a {
+  background-color: #f5f5f5 !important;
+  border-radius: 4px !important;
+  border: 1px white !important;
+}
+
+// Highlight current active page on nav bar
+.navbar-nav>.active>a {
+  background-color: #5caadd !important;
+  color: white !important;
+}
+
+.navbar-nav>.active>a {
+  border-radius: 4px !important;
+  border: 1px white !important;
+}
+
+// Highlight current active page in nav drop down
+.dropdown-menu>.active>a {
+  background-color: #5caadd !important;
+  color: white !important;
+}
+
+// Override the site header to remove border-bottom
+.site-header {
+  border-top: 5px solid #424242;
+  border-bottom: 0px solid #e8e8e8;
+  min-height: 55.95px;
+  position: relative;
+}
+
+// Size and spacing around the site logo - floated to the right
+.logo-float-left {
+  vertical-align: bottom;
+  height: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+// Size and spacing around the site logo - as used in the footer
+.logo-footer {
+  height: 40px;
+  margin-bottom: 12px;
+}
+
+// Additional style for the site title
+// Note: padding-top: 4px; is top aligned with the logo 21px is bottom aligned with Elements text
+.site-title {
+  padding-top: 33px;
+  float: right;
+  margin-right: 0px;
+}
+
+// Make the nav bar align with the site identity and logo
+.navbar-elements-narrow {
+  max-width: calc(800px - (30px * 2));
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 0px !important;
+  margin-top: 10px;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+  position: relative;
+  background-color: white !important;
+  border: none !important; 
+}
+
+.navbar-toggle {
+  margin-right: 0px !important;
+}
+
+//Make sure the drop down items aren't spaced out like normal li instances
+.dropdown-menu > li {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  margin-left: 0px !important;
+  vertical-align: middle;
+}
+
+.dropdown-menu > li > a {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.navbar-right > li {
+  margin-bottom: 0px !important;
+}
+
+// Override site-footer to add more space above
+.site-footer {
+  margin-top: 45px;
+}
+
+// Table theme (e.g. when | col1 | col2 | is used in markdown)
+table {
+  color: #333 !important;
+  font-family: Open Sans, sans-serif !important;
+  //font-weight: 300 !important;
+  //letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+  border: none;
+  margin-left: 18px;
+}
+
+table th {
+  background-color: white;
+  color: #6d8ac5;
+  font-family: Open Sans, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: lighter !important;
+  //letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+  border-bottom: 1px solid #c9c9c9;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding-left : 0px;
+}
+
+table td {
+  border: none;
+  vertical-align: top;
+  line-height: 1.42857143 !important;
+}
+
+table tr:nth-child(even) {
+  background-color: white;
+}
+
+table tr:nth-child(1) > td:nth-child(1) {
+  padding-top: 20px;
+}
+
+table tr:nth-child(1) > td:nth-child(2) {
+  padding-top: 20px;
+}
+
+table td:nth-child(1) {
+  padding-left: 0px;
+  padding-right: 10px;
+}
+
+table td:nth-child(2) {
+  padding-left: 10px;
+  padding-right: 0px;
+}
+
+table th:nth-child(2) {
+  padding-left: 10px;
+}
+
+// Add a bit more room around a hr
+hr {
+  margin-top: 40px !important;
+  margin-bottom: 40px !important;
+}
+
+ul > li {
+  margin-left: 6px;
+}
+
+// Code blocks used via the ~~~~ wrapper
+pre {
+  padding-left: 17px !important;
+  padding-right: 17px !important;
+  padding-top: 8px !important;
+  padding-bottom: 6px !important;
+  margin-bottom: 20px !important;
+  font-size: 13px !important;
+}
+
+// In-text code used via the ` character wrapper. Please note that syntax_highlighter_opts have been disabled in _config.yml
+code {
+  color: #333 !important;
+  background-color: #f5f5f5 !important;
+  padding-top: 3px !important;
+  padding-bottom: 2px !important;
+  font-size: 13px !important;
+}
+
+.footer-links {
+  margin-bottom: 0px !important;
+  margin-left: 0px !important;
+}
+
+.footer-col-1 {
+  width: 50% !important;
+}
+
+.footer-col-3 {
+  width: 50% !important;
+}
+
+.footer-col-3 > p {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+
+// Override link color NB: don't, it changes menu items etc.
+/*
+a {
+  color: #1756a9 !important;
+}
+
+a:visited {
+  color: #1756a9 !important;
+}
+*/
