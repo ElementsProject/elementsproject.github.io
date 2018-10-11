@@ -43,9 +43,7 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
 
 ### Elements extends Bitcoin's code and features
 
-Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a test-bed for changes to the Bitcoin protocol itself. 
-
-The Elements test network is called Elements Alpha and functions as a sidechain to Bitcoin’s testnet. It serves as a technology demo and testing environment, making it easy for the community to jointly test the latest features being added to Elements. It also provides a way for developers to contribute their own Elements for community review, helping to improve and extend the Elements project and acting as a reliable way to test proposed changes to Bitcoin itself.
+Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a testbed for changes to the Bitcoin protocol itself. 
 
 ### Elements provides the following enhanced features
 
