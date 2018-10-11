@@ -8,7 +8,7 @@ Github Pages itself uses [Jeykyll](https://jekyllrb.com/) to generate static web
 
 You can edit files within this repository directly via Github or follow the steps below if you prefer to work on and preview your changes locally.
 
-If you are not comfortable doing this then please raise any changes you would like to propose as an issue [here](https://github.com/wintercooled/wintercooled.github.io/issues) and use the "suggested content change" label.
+If you are not comfortable doing this then please raise any changes you would like to propose as an issue [here](https://github.com/elementsproject/elementsproject.github.io/issues) and use the "suggested content change" label.
 
 ## Running elementsproject.org locally
 
@@ -18,7 +18,7 @@ If you are using Linux you can follow the steps below. If you are not using Linu
 
 Clone the repository:
 ~~~~
-git clone https://github.com/wintercooled/wintercooled.github.io.git
+git clone https://github.com/elementsproject/elementsproject.github.io.git
 ~~~~
 
 Install ruby, ruby-dev and build-essential packages: 
@@ -41,7 +41,7 @@ gem install jekyll bundler
 
 Move into the site's directory:
 ~~~~
-cd wintercooled.github.io
+cd elementsproject.github.io
 ~~~~
 
 Install the dependencies required by the website's Gemfile:
