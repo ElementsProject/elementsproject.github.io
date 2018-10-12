@@ -26,15 +26,15 @@ bitcoind -datadir=$HOME/bitcoindir
 ./elementsd -datadir=$HOME/elementsdir1
 ~~~~
 
-If you get an error saying they are already running that's fine.
+If you get an error saying they are already running, that is fine.
 
-##### NOTE: If you get an error connecting to the elements client when you run the code below it may be because your node has been left in an altered state after quitting the tutorial code at an early stage. To refresh and reset the daemon’s blockchain and config files re-run the first section of the tutorial code up to and including the lines where the 3 config files are copied into the new directories then run the commands above to start the required daemons.
+##### Note: If you get an error connecting to the elements client when you run the code below it may be because your node has been left in an altered state after quitting the tutorial code at an early stage. To refresh and reset the daemon’s blockchain and config files re-run the first section of the tutorial code up to and including the lines where the 3 config files are copied into the new directories, then run the commands above to start the required daemons.
 
-Now create a new directory in home named elements-django and within that a file named elementstutorial.py into which you should paste the following code, most of which you will be familiar with from the last exercise. 
+Now create a new directory in home named **elements-django** and within that create a file named **elementstutorial.py**, into which you should paste the following code, most of which you will be familiar with from the last section. 
 
 * * * 
 
-##### Note: Python requires that lines are indented correctly. Make sure the code below is copied correctly and is using 4 spaces for each new indentation level. Also note that some of the lines below wrap when viewed in a browser.
+##### Note: Python requires that lines are indented correctly. Make sure the code below is copied correctly and is using 4 spaces for indenting lines. Also note that some of the lines below wrap when viewed in a browser.
 
 ~~~~
 #!/usr/bin/env python
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 * * * 
 
-Navigate to the right directory and start the web server and our code:
+Navigate to the right directory, start the web server and execute our code:
 
 ~~~~
 cd
@@ -98,7 +98,7 @@ Which simply writes the result of the "balance" call to the page:
 
 <img class="" alt="" src="{{ site.url }}/images/django.png" />
 
-As in the previous exercise, this is intended to get you up and running. The rest is up to you!
+As in the previous exercise, this is intended to get you up and running. You now have a functioning setup which you can use as a building block for further development.
 
 
 [Next: Desktop application example in C# using .NET Core]({{ site.url }}/elements-code-tutorial/desktop-application-dotnetcore)
