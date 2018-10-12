@@ -6,13 +6,13 @@ permalink: /elements-code-tutorial/easy-run-code
 
 # Elements code tutorial
 
-## An easy way to run the main tutorial code
+## An easy way to run the main tutorial's code
 
-Rather than have to copy and paste or type in each line of code in the tutorial you can use the code below.
+Rather than have to copy and paste or type in each line of code in the tutorial, you can use the code below.
 
-Save the code in a file named "runtutorial.sh" and place it in your home directory.
+Save the code in a file named **runtutorial.sh** and place it in your home directory.
 
-To run this code just open a terminal in your home directory and run:
+To run this code just open a terminal in your $HOME directory and run:
 
 ~~~~
 bash runtutorial.sh
@@ -22,15 +22,14 @@ Then press the return key to execute each line in turn.
 
 * * *
 
-##### NOTE: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time just move the 'trap read debug' statement near the top of the code so that it is above the line you want to stop at. Execution will then switch to one line at a time and wait for you to press return before executing the next command.<br/><br/>You will see that occasionally we will use the 'sleep' command to pause execution to allow the daemons to do things like stop, start and sync mempools etc.<br/><br/>It is perhaps a good idea to have the tutorial open as you run through this code as it explains what each step does and why.
-
+##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>It is perhaps a good idea to have the relevant tutorial pages open as you run through this code for reference, as it is not itself annotated in any meaningful way.<br/><br/>There is a chance that the " and ' characters may not paste into your **runtutorial.sh** file correctly, so type over them yourself if you come across any issues executing the code.
  
 ~~~~
 #!/bin/bash
 set -x
 trap read debug
 
-# This code is based upon: https://github.com/ElementsProject/elements/tree/elements-0.14.1/contrib/assets_tutorial
+# This code was originally based upon and expands the example found here: https://github.com/ElementsProject/elements/tree/elements-0.14.1/contrib/assets_tutorial
 
 ################################
 #
@@ -41,20 +40,24 @@ trap read debug
 #
 # Then press the return key to execute each line in turn.
 #
-# If you want to run some of the steps automatically and then have execution stop 
-# and wait for you to press enter before continuing one line at a time just move the 
-# 'trap read debug' statement above so that it is above the line you want to stop at. 
-# Execution will then switch to one line at a time and wait for you to press return
-# before executing the next command.
+# If you want to run some of the steps automatically and then have execution stop
+# and wait for you to press enter before continuing one line at a time: move 
+# the **trap read debug** statement down so that it is above the line you want to 
+# stop at. Execution will run each line automatically and stop when that line is 
+# reached. It will then switch to executing one line at a time, waiting for you 
+# to press return before executing the next command.
 # 
-# You will see that occasionally we will use the 'sleep' command to pause execution 
-# to allow the daemons to do things like stop, start and sync mempools etc.
+# You will see that occasionally we will use the **sleep** command to pause execution.
+# This allows the daemons time to do things like stop, start and sync mempools.
+# 
+# It is perhaps a good idea to have the relevant tutorial pages open as you run 
+# through this code for reference, as it is not itself annotated in any meaningful way.
+#
+# There is a chance that the " and ' characters may not paste into your 
+# **runtutorial.sh** file correctly, so type over them yourself if you come 
+# across any issues executing the code.
 #
 #################################
-
-# It is perhaps a good idea to have the tutorial open as you run through this code 
-# as it explains what each step does and why.
-# The code is based upon: https://github.com/ElementsProject/elements/tree/elements-0.14.1/contrib/assets_tutorial 
 
 cd
 cd elements
@@ -416,7 +419,7 @@ e1-cli stop
 e2-cli stop
 b-cli stop
 sleep 5
-echo “Completed with no errors”
+echo "Completed"
 ~~~~
 
 * * *
