@@ -22,8 +22,6 @@ Elements theme color ref:
 
 */
 
-//todo: font stuff:
-//////// trying to style fonts (not sure diff between font-family and font)
 .html, html, .body, body {
   font-family: Open Sans, sans-serif !important;
   //letter-spacing: 0.4px !important;
@@ -128,8 +126,6 @@ Elements theme color ref:
 .li, li {
   margin-bottom: 12px;
 }
-
-//////// not sure if the above do much
 
 // Override page-content
 .page-content {
@@ -336,14 +332,7 @@ code {
   margin-right: 0px !important;
 }
 
-
-// Override link color NB: don't, it changes menu items etc.
-/*
-a {
-  color: #1756a9 !important;
+strong {
+  font-weight: 700 !important;
+  letter-spacing: 0.4px;
 }
-
-a:visited {
-  color: #1756a9 !important;
-}
-*/
