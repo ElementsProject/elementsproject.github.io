@@ -34,7 +34,7 @@ Now create a new directory in home named elements-django and within that a file 
 
 * * * 
 
-##### NOTE Python requires that lines are indented correctly - make sure the code below is copied correctly with 4 spaces as indentations. Also note that some of the lines below wrap when viewed in a browser.
+##### Note: Python requires that lines are indented correctly. Make sure the code below is copied correctly and is using 4 spaces for each new indentation level. Also note that some of the lines below wrap when viewed in a browser.
 
 ~~~~
 #!/usr/bin/env python
