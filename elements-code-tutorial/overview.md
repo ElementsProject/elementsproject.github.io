@@ -6,31 +6,31 @@ permalink: /elements-code-tutorial/overview
 
 # A simple guide to setting up an Elements Blockchain or Sidechain solution.
 
-## This guide will take you through the process of installing and running Elements step-by-step. 
+## This guide will take you step-by-step through the process of installing and using Elements. 
 
 ### The code examples will show you how to:
 
-* Configure two Elements instances that can send transactions between each other.
+* Configure two nodes that can send transactions between one another.
 
-* Use some basic wallet functionality to send assets between instances, query balances etc.
+* Use some basic wallet functionality to send assets between nodes, query balances, view transactions etc.
 
-* Understand how Confidential Transactions work and how to view amounts and asset types sent between two participants using "unblinding".
+* Understand how Confidential Transactions work and how to view amounts and asset types sent between two participants by unblinding them.
 
 * Issue your own native blockchain assets.
 
-* Send the new asset between network participants.
+* Send the new assets between network participants.
 
-* Reissue more of the asset.
+* Reissue more of the assets.
 
-* Destroy an amount of the asset.
+* Destroy an amount of the assets.
 
-* Sign blocks using the Strong Federation ’n of m’ model of block creation.
+* Create blocks using the Strong Federation block signing process.
 
 ### ...and if you choose to run Elements as a sidechain:
 
-* Send assets from a main chain (Bitcoin in this example) to our Elements blockchain using the Federated Peg feature.
+* Send assets from a main chain (Bitcoin) to an Elements blockchain using the Federated 2-Way Peg feature.
 
-* Send assets from our Elements blockchain back to the Bitcoin main chain.
+* Send assets from an Elements blockchain back to the Bitcoin main chain.
 
 * * * 
 
