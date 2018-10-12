@@ -14,7 +14,7 @@ Built upon and extending Bitcoin’s codebase, it lets developers familiar with 
 
 An example of an Elements based sidechain in production use is Blockstream's Liquid.
 
-#### If you are developer, you might find it easier to start with the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial), which explains the key features of Elements and shows how to use them.
+#### If you are developer, you might find it easier to start with the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/overview), which explains the key features of Elements and shows how to use them.
  
 * * * 
 
