@@ -6,15 +6,15 @@ title: Elements
 
 ## Designing, building and operating your own blockchain is easy with Elements.
 
-Elements is an open source, sidechain-capable blockchain platform. Elements provides access to powerful features developed by members of the community, reducing internal development and research costs and enabling you to explore new applications of Blockchain and Sidechain technology.
+Elements is an open source, sidechain-capable blockchain platform, providing access to powerful features developed by members of the community, such as **Confidential Transactions** and **Issued Assets**.
 
-Launched in June of 2015, Elements allows you to issue multiple different types of assets on a single blockchain, opening up many new use cases for implementation. An Elements based blockchain can operate as either a standalone Blockchain or be pegged to another and run as a Sidechain. Running Elements as a Sidechain enables assets to be verifiably transferred between two different blockchains. 
+Launched in June of 2015, Elements reduces internal development and research costs and harnesses the very latest blockchain technology, opening up many new use cases for implementation. An Elements based blockchain can operate as either a standalone Blockchain or be pegged to another and run as a Sidechain. Running Elements as a Sidechain enables assets to be verifiably transferred between different blockchains.
 
-Built upon and extending Bitcoin's codebase, it lets developers familiar with the bitcoind API to quickly and cost-effectively create working blockchains and test proof-of-concept projects. This also allows Elements to function as a testbed for changes to the Bitcoin protocol itself. 
+Built upon and extending Bitcoin’s codebase, it lets developers familiar with the bitcoind API to quickly and cost-effectively create working blockchains and test proof-of-concept projects. Being built on the Bitcoin codebase also allows Elements to function as a testbed for changes to the Bitcoin protocol itself.
 
 An example of an Elements based sidechain in production use is Blockstream's Liquid.
 
-#### If you are developer, you might find it easier to start with the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial), which will explain the key features of Elements and show you how to use them.
+#### If you are developer, you might find it easier to start with the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial), which explains the key features of Elements and shows how to use them.
  
 * * * 
 
@@ -35,8 +35,7 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
 |    Asset Issuance - multiple types of asset can be issued and transferred between network participants.|    Secured by a federation of parties with aligned incentives.|
 |    Confidential Transactions - transaction amount and asset type are private, known only to sender and receiver.|    Leverages the stability of the Bitcoin codebase, extending it with innovative new features.|
 |    Flexible Configuration - Elements can operate as a standalone blockchain or as a sidechain, where assets are pegged to those on another blockchain.|    No risk of blockchain reorganisations - federated blocksigning provides rapid transaction finality.|
-|    Schnorr Signatures - improved efficiency of transaction validation. New, compact multi-signature transactions.|    Advanced transaction privacy for both value and asset type transacted.|
-|     Federated, two-way peg - allows assets to be transacted across different blockchains.|    Issue multiple different types of assets on a single blockchain, opening up many new use cases.|
+|     Federated, two-way peg - allows assets to be transacted across different blockchains.|    Issue multiple different types of privately transferable assets on a single blockchain, opening up many new use cases.|
 |    Signed Blocks - block creation through multi-party signature retains decentralized properties while decreasing transaction confirmation times and preventing reorganisations.|    Public testnet and open source codebase lets you experiment with different security models and features created by other members of the community.|
 
 * * * 
