@@ -8,7 +8,7 @@ permalink: /elements-code-tutorial/installing-elements
 
 ## Installing Elements
 
-As we will be building Elements from the source code we first need to pull the code from the GitHub repository where it is kept. We'll use "git" for this which we will now install:
+As we will be building Elements from the source code, we first need to pull the code from the [GitHub repository](https://github.com/elementsproject/elements) where it is maintained. We'll use "git" for this, which we will now install. You can ignore installation steps within this tutorial for software that you already have.
 
 ~~~~
 sudo apt install git
@@ -23,9 +23,11 @@ git clone https://github.com/ElementsProject/elements.git
 
 That's pulled all the code from the Elements repository into a newly created directory in Home called "elements". 
 
-##### NOTE: To update the code with any changes made to it in the future you can move into the home/elements folder and run "git pull origin elements-0.14.1" then "make" and then "make install". If you get a permissions error when updating then run "sudo make install". You may need to change the branch from "-0.14.1" in the above command if this changes in the future. 
+##### Note: To update the code with any changes made to it in the future you can move into your home/elements folder and run "git pull origin elements-0.14.1" and then "make" and "sudo make install". You may need to amend the branch to something other than "-0.14.1" if this changes in the future, so please check on [GitHub](https://github.com/elementsproject/elements) before you update. 
 
-Before we can compile and install Elements we need to install software that the build is dependant on. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands: (note some lines wrap in the text below - each entry starting "sudo apt-get" should be executed in its entirety.
+Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands.
+
+##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety.
 
 ~~~~
 sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
@@ -43,9 +45,9 @@ Move into the Elements directory:
 cd elements
 ~~~~
 
-Now let's configure, compile and install Elements. If you get a permission denied error when running the final command use the 'sudo make install' command instead.
+Now let's configure, compile and install Elements. If you get a permission denied error when running the final command use "sudo make install" instead.
 
-##### NOTE: The "make" command may take a while to complete!
+##### Note: The "make" command may take a while to complete as it will also run the Elements test-suite as part of the build process.
 
 ~~~~
 ./autogen.sh
@@ -60,12 +62,11 @@ Check that the install worked:
 which elementsd
 ~~~~
 
-This should return:
+Which should return:
 
 <div class="console-output">/usr/local/bin/elementsd</div>
 
-If you are using a Virtual Machine, now would be a good point to snapshot the machine as we have now set up Bitcoin and Elements and will begin the code walkthrough. If you would like to run Elements as a standalone blockchain please see the [Elements as a standalone Blockchain]({{ site.url }}/elements-code-tutorial/blockchain) section for instructions, after following through the [Setting up your working environment]({{ site.url }}/elements-code-tutorial/working-environment) section.
-
+If you are using a Virtual Machine, now would be a good point to take a snapshot of the machine's state as we have set up Bitcoin and Elements ready for use. 
 
 [Next: Setting up your working environment]({{ site.url }}/elements-code-tutorial/working-environment)
 
