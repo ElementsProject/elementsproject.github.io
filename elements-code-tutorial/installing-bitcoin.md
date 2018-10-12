@@ -8,9 +8,9 @@ permalink: /elements-code-tutorial/installing-bitcoin
 
 ## Installing Bitcoin
 
-First we will install Bitcoin on the machine. This will allow us to demonstrate how the Federated Peg works in Elements later on in this tutorial. It is not required if you intend to use Elements as a standalone blockchain but to fully understand the features available in Elements it is a good idea to follow along anyway. It doesn’t take long to set up using the commands below and we will be running in "regtest" mode so there is no blockchain to sync.
+First we will install Bitcoin on the machine. This will allow us to demonstrate how the Federated 2-Way Peg works in Elements later on in the tutorial. It is not required if you intend to use Elements as a standalone blockchain, but to fully understand the features available in Elements it is a good idea to follow along anyway. It doesn’t take long to install Bitcoin using the commands below and we will be running in "regtest" mode, so there is no blockchain to sync.
 
-Open a new terminal window and run the following `terminal commands` one after the other:
+We will be using the [Bitcoin PPA for ubuntu](https://launchpad.net/~bitcoin/+archive/ubuntu/bitcoin) but you can also compile it from source by following instructions on the [Bitcoin Core repository](https://github.com/bitcoin/bitcoin). Open a new terminal window and run the following `terminal commands` one after the other:
 
 ~~~~
 sudo apt-add-repository ppa:bitcoin/bitcoin
@@ -24,7 +24,7 @@ Check that the install worked:
 which bitcoind
 ~~~~
 
-This should return:
+Which should return:
 
 <div class="console-output">/usr/bin/bitcoind</div>
 
