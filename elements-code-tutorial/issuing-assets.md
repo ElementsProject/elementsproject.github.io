@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Issuing assets
 permalink: /elements-code-tutorial/issuing-assets
 ---
 

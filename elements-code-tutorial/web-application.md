@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Elements Web app
 permalink: /elements-code-tutorial/web-application
 ---
 

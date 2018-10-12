@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Elements Python app
 permalink: /elements-code-tutorial/desktop-application-python
 ---
 

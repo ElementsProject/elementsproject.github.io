@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Elements easy-run code
 permalink: /elements-code-tutorial/easy-run-code
 ---
 

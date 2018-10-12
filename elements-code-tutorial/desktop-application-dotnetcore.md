@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Elements .NET Core
 permalink: /elements-code-tutorial/desktop-application-dotnetcore
 ---
 

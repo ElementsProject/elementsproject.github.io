@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Elements Blockchain
 permalink: /elements-code-tutorial/blockchain
 ---
 

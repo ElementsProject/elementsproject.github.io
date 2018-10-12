@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Bitcoin
+title: Reissuing assets
 permalink: /elements-code-tutorial/reissuing-assets
 ---
 
