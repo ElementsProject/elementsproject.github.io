@@ -6,7 +6,7 @@ title: Elements
 
 ## Designing, building and operating your own blockchain is easy with Elements.
 
-Elements is an open source, sidechain-capable blockchain platform, providing access to powerful features developed by members of the community, such as **Confidential Transactions** and **Issued Assets**.
+Elements is an open source, sidechain-capable blockchain platform, providing access to powerful features developed by members of the community, such as Confidential Transactions and Issued Assets.
 
 Launched in June of 2015, Elements reduces internal development and research costs and harnesses the very latest blockchain technology, opening up many new use cases for implementation. An Elements based blockchain can operate as either a standalone Blockchain or be pegged to another and run as a Sidechain. Running Elements as a Sidechain enables assets to be verifiably transferred between different blockchains.
 
