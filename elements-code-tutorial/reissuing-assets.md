@@ -8,14 +8,14 @@ permalink: /elements-code-tutorial/reissuing-assets
 
 ## Reissuing assets
 
-Now we'll look at reissuing an amount of the asset. Reissuing just means "creating some more of" in this context. We have already created and labelled the new asset so the command to issue some more is quite simple. We'll store the result of the "reissueasset" command in a variable ("RTRANS") and strip out the transaction ID from that, storing it in another variable ("RTXID") for future use:
+In this section we'll look at reissuing an amount of the asset we previously issued. Reissuing just means "creating some more of" in this context. For future use, we'll store the result of the "reissueasset" command in a variable named "RTRANS" and from that, strip out the transaction ID, storing it in another variable named "RTXID":
 
 ~~~~
 RTRANS=$(e1-cli reissueasset $ASSET 99)
 RTXID=$(echo $RTRANS | jq '.txid' | tr -d '"')
 ~~~~
 
-We've just created 99 more units of the asset! As an aside: because we have labelled the asset we could have also passed "demoasset" in as the first parameter instead of the hex identifier and this would have worked exactly the same.
+We've just created 99 more units of our new asset. As an aside, because we have already labelled the asset we could have also passed "demoasset" in as the first parameter instead of the hex identifier and it would have worked exactly the same.
 
 To check this issuance history of our asset (and ignore the "bitcoin" issuance) we can run the "listissuances" command and specify the asset we are interested in:
 
@@ -23,12 +23,14 @@ To check this issuance history of our asset (and ignore the "bitcoin" issuance) 
 e1-cli listissuances $ASSET
 ~~~~
 
-For the above command it is worth noting that only the hex value can be passed in and not the label. Along with the original issuance you should see a new entry with the following property:
+For the above command you may also pass the asset label in instead of the hex value. As has been noted before, be aware that labels are stored locally and are not network-wide. 
+
+Along with the original issuance you should see a new entry with the following property:
 
 <div class="console-output">"isreissuance": true,
 </div>
 
-This property allows us to differentiate between initial issuances and reissuances. Note that the transaction ID where amounts of the asset were created is also included in the returned data.
+This property allows us to differentiate between initial issuances and reissuances. Note that the Transaction ID where amounts of the asset were created is also included in the returned data.
 
 Let's look at the details of the transaction where we reissued our asset: 
 
@@ -46,9 +48,11 @@ Scroll to the top of the returned transaction data as there are a few things wor
 
 This information suggests that an Elements transaction can transact more than one type of asset within the same transaction, which is indeed the case. 
 
-##### NOTE: To send different types of asset in the same transaction, the 'sendmany" command is used. The syntax is the same as in bitcoin.
+##### NOTE: To send different types of asset in the same transaction, the "sendmany" command is used. The syntax is the same as in bitcoin.
 
-The "amount" section shows the net effect of the transaction as: 0 "bitcoin", 99 "demoasset" and also another asset that is 0. That unlabelled asset is our issuance token (the hex for which will differ from that above but the results are otherwise the same). What this shows is that once the sent and received amounts are totalled we have created 99 "demoasset". We'll see how the values in the "amount" section are derived now by scrolling down the returned data and looking within the "details" section. You will see that amounts of 99 "demoasset" and 1 reissuance token sere sent:
+The "amount" section shows the net effect of the transaction as: 0 "bitcoin", 99 "demoasset" and also another asset that is 0. That unlabelled asset is our reissuance token (the hex for which will differ from that above but the results are otherwise the same). What this shows is that once the sent and received amounts are totalled we have created 99 "demoasset". You can see how the values in the "amount" section are derived by scrolling down the returned data and looking within the "details" section. 
+
+You will see that amounts of 99 "demoasset" and 1 reissuance token were sent:
 
 <div class="console-output">"category": 'send",
 "amount": -99.00000000,
@@ -66,7 +70,7 @@ And that further on the same amounts were received:
 "amount": 1.00000000,
 </div>
 
-We can see how the "amount" section above therefore lists the net transfer of 0 (-1 +1) tokens. The reason why the net of this is the creation of 99 new "demoasset" is that the "reissueasset" command essentially spends from a zero balance address and so the received amount has the effect of creating 99 new "demoasset". The 99 new "demoasset" are basically spent into existence. It is worth highlighting again that in order to reissue an asset you must hold a related reissuance token. They must therefore be allocated wisely.
+We can see how the "amount" section above therefore lists the net transfer of 0 (-1 +1) tokens. The reason why the net of this is the creation of 99 new "demoasset" is that the "reissueasset" command essentially spends from a zero balance address, and so the received amount has the effect of creating 99 new "demoasset". The 99 new "demoasset" are basically spent into existence. It is worth highlighting again that in order to reissue an asset you must hold a related reissuance token. They must therefore be allocated wisely.
 
 To check that the blinding works the same for a reissuance transaction as it does for a normal transaction we can check Bob's view of Alice's reissuance transaction. Wait a few seconds after running the "generate" command to let Bob's node sync, then run the second and third lines:
 
@@ -84,9 +88,9 @@ We can see that the amounts and asset types are indeed blinded with results like
 
 You could unblind these using the techniques we used for the initial issuance should you want to.
 
-So we have seen that reissuance is just a special kind of spending transaction whereby you can create more of the original asset so long as you hold a valid reissuance token in your wallet. Next we will look at how to transfer the reissuance tokens.
+We have seen that reissuance is just a special kind of spending transaction whereby you can create more of the original asset, so long as you hold a valid reissuance token in your wallet. Next we will look at how to transfer the reissuance tokens.
 
-Let's send the reissuance token from Alice to Bob so that he can reissue our "demoasset". Note that if there was always going to be a need for them both to reissue the asset at the same time then we could have just created two reissuance tokens and sent one to Bob, leaving Alice still holding the other. Either way we would need to send from one wallet to the other so let's begin. First we'll double check that Alice's wallet currently holds the reissuance token and Bob's does not:
+Let's send the reissuance token from Alice to Bob so that Bob can reissue some "demoasset" himself. Note that if there was always going to be a need for them both to reissue the asset at the same time, we could have just created two reissuance tokens and initially sent one to Bob, leaving Alice still holding the other. Either way, we would need to send from one wallet to the other, so let's begin. First we'll double check that Alice's wallet currently holds the reissuance token and Bob's does not:
 
 ~~~~
 e1-cli getwalletinfo
@@ -112,7 +116,7 @@ So let's send the reissuance token to Bob so that he can reissue some of our "de
 RITRECADD=$(e2-cli getnewaddress)
 ~~~~
 
-Send the token from Alice's wallet to Bob's new address as if it were any other asset: (we'll use the hex of the token to say what type of asset we are sending and generate a block so the transaction confirms)
+Send the token from Alice's wallet to Bob's new address as if it were any other asset. We'll use the hex of the token to say what type of asset we are sending and also generate a block so the transaction confirms:
 
 ~~~~
 e1-cli sendtoaddress $RITRECADD 1 "" "" false $TOKEN
@@ -128,16 +132,16 @@ e1-cli getwalletinfo
 
 The token and right to reissue it provides is now Bob's! 
 
-##### NOTE: Remember from an earlier note that we can divide a reissuance token like any other asset in Elements. Our send of "1" token in this instance actually transferred 100,000,000 of the smallest possible amount of the token. You can try sending something like "0.1" of the token back to Alice and check if she is again able to reissue (she will and so will Bob - who will still hold "0.9").
+##### NOTE: Remember from an earlier note that we can divide a reissuance token like any other asset in Elements. Our send of "1" token in this instance actually transferred 100,000,000 of the smallest possible amount of the token. You can try sending something like "0.1" of the token back to Alice and check if she is again able to reissue (she will and so will Bob, who will still hold "0.9").
 
-Bob still doesn't have any of the "demoasset" itself of course but now that his wallet holds the reissuance token we can reissue any amount of "demoasset" and it will show in his wallet:
+Bob still doesn't have any of the "demoasset" itself yet but, now that his wallet holds the reissuance token, he can reissue any amount of "demoasset" and it will show in his wallet:
 
 ~~~~
 RISSUE=$(e2-cli reissueasset $ASSET 10)
 e2-cli getwalletinfo
 ~~~~
 
-Bob's wallet now has "bitcoin", the reissuance token for our new asset and an amount of the new asset itself:
+Bob's wallet now has "bitcoin", the reissuance token for our new asset, and an amount of the new asset itself:
 
 <div class="console-output">"balance": {
     "bitcoin": 10499998.99841940,
@@ -221,7 +225,7 @@ It will show the amount as 50, proving that an amount of 5 were indeed destroyed
     "4021bf6faac59d7ec593859a741318752f72e637e7d5ecfa54725dba1508771b": 50.00000000,
 </div>
 
-Creating, reissuing and destroying assets is a key feature of Elements that can help you reflect the real world movement of assets represented on your blockchain.
+Creating, reissuing and destroying assets is a key feature of Elements that can help you reflect the real world movement of assets represented on your blockchain or the flow of assets in and out from another blockchain.
 
 
 [Next: Block creation in a Strong Federation]({{ site.url }}/elements-code-tutorial/block-creation)
