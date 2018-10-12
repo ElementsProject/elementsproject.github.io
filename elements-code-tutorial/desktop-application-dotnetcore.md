@@ -10,7 +10,7 @@ permalink: /elements-code-tutorial/desktop-application-dotnetcore
 
 Microsoft have created an open source version of their .NET platform called .NET Core that runs on a variety of operating systems. We will use C# (the most popular .NET language) for this example.
 
-Before installing .NET Core, you'll need to register the Microsoft key, register the product repository, and install required dependencies.
+Before installing .NET Core, you'll need to register the Microsoft key used to validate the required repository, register the product repository itself, and then install the required dependencies.
 
 Open a command prompt and run the following two commands.
 
@@ -29,7 +29,7 @@ sudo apt-get update
 sudo apt-get install dotnet-sdk-2.1.4
 ~~~~
 
-Check it is set up correctly and create a simple console application:
+Check it is set up correctly by creating and executing a simple console application:
 
 ~~~~
 dotnet new console -o dotnetelements
@@ -37,7 +37,7 @@ cd dotnetelements
 dotnet run
 ~~~~
 
-Which will output:
+That will create a file in $HOME/dotnetelements called **Program.cs**, execute the code within and output the following:
 
 <div class="console-output">Hello World!
 </div>
@@ -54,9 +54,9 @@ bitcoind -datadir=$HOME/bitcoindir
 
 If you get an error saying they are already running that's fine.
 
-##### NOTE: If you get an error connecting to the elements client when you run the code below it may be because your node has been left in an altered state after quitting the tutorial code at an early stage. To refresh and reset the daemon's blockchain and config files re-run the first section of the tutorial code up to and including the lines where the 3 config files are copied into the new directories then run the commands above to start the required daemons.
+##### Note: If you get an error connecting to the elements client when you run the code below it may be because your node has been left in an altered state after quitting the tutorial code at an early stage. To refresh and reset the daemon’s blockchain and config files re-run the first section of the tutorial code up to and including the lines where the 3 config files are copied into the new directories, then run the commands above to start the required daemons.
 
-Edit the "Program.cs" file in $HOME/dotnetelements using a text editor and change the contents to the following and save the file:
+Edit the **Program.cs** file in $HOME/dotnetelements using a text editor, change the contents to the following and then save the file:
 
 * * * 
 
@@ -111,7 +111,9 @@ Which outputs:
 
 <img class="" alt="" src="{{ site.url }}/images/dotnet.png" />
 
-As an application would be making multiple calls to the elementsd daemon via RPC you will probably want to move the code that actually does the request and response work into its own function. Again, the code above is a starting point to get you up and running.
+As an application would be making multiple calls to the elementsd daemon via RPC you will probably want to move the code that actually does the request and response work into its own function.
+
+Again, the code above is a starting point to get you up and running and you now have a functioning setup which you can use as a building block for further development.
 
 
 [Next: An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code)
