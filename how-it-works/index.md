@@ -40,7 +40,7 @@ We will look at how Block Signers create blocks later and will begin by finding 
 
 In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses a **Federated Peg** to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers.
  
-At a high level, transfers into the sidechain occur when someone sends main chain assets to an address controlled by a multi-signature Watchmen wallet. This effectively freezes the assets on the main chain. Watchmen then validate the transaction and releases the same amount of the associated asset within the sidechain. The released assets are sent to a sidechain wallet that can cryptographically prove ownership of original main chain assets. This process effectively moves assets from the parent chain to the sidechain. 
+At a high level, transfers into the sidechain occur when someone sends main chain assets to an address controlled by a multi-signature Watchmen wallet. This effectively freezes the assets on the main chain. Watchmen then validate the transaction and releases the same amount of the associated asset within the sidechain. The released assets are sent to a sidechain wallet that can prove claim to the original main chain assets. This process effectively moves assets from the parent chain to the sidechain. 
 
 
 **Diagram showing how Watchmen enable the transfer of assets into an Elements sidechain:**
@@ -49,7 +49,7 @@ At a high level, transfers into the sidechain occur when someone sends main chai
 
 <br/>
 
-In order to transfer assets back to the main chain, a transaction is made from a multi-signature wallet controlled by the Watchmen. A threshold number of participants in the federation must sign before the transaction is considered valid. Sending an asset back to the main chain releases funds on the main chain and destroys the corresponding amount on the sidechain, effectively transferring the assets back to the main chain.
+In order to transfer assets back to the main chain, a transaction is made from the multi-signature wallet controlled by the Watchmen. A threshold number of participants in the federation must sign before the transaction is considered valid. Sending an asset back to the main chain releases funds on the main chain and destroys the corresponding amount on the sidechain, effectively transferring the assets back to the main chain.
 
 
 **Diagram showing how Watchmen enable the transfer of assets out of an Elements sidechain:**
