@@ -24,9 +24,9 @@ The role of a Functionary is to propose, sign and verify the validity of actions
  
 The two roles a Functionary can fulfill within a Strong Federation are...
  
-* **Watchmen** - responsible for moving assets in and out of a Sidechain by signing transactions on the main chain.
+* **Watchmen** - participate in moving assets in and out of a Sidechain by signing multi-signature transactions.
  
-* **Block Signers** - create and approve blocks by adding their signature, defining the consensus history of transactions.
+* **Block Signers** - participate in creating blocks by adding their signature to count towards a threshold needed to validate proposed blocks, thereby defining the consensus history of transactions.
 
 These actions are split between two distinct roles in order to enhance security and limit the damage an attacker can cause.
 
@@ -40,7 +40,7 @@ We will look at how Block Signers create blocks later and will begin by finding 
 
 In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses a **Federated Peg** to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers.
  
-At a high level, these transfers work by freezing assets on the main chain and then creating a transaction on the sidechain that releases the same amount of a new asset. This process effectively moves assets from the parent chain to the sidechain. 
+At a high level, transfers into the sidechain occur when someone sends main chain assets to an address controlled by a multi-signature Watchmen wallet. This effectively freezes the assets on the main chain. Watchmen then validate the transaction and releases the same amount of the associated asset within the sidechain. The released assets are sent to a sidechain wallet that can cryptographically prove ownership of original main chain assets. This process effectively moves assets from the parent chain to the sidechain. 
 
 
 **Diagram showing how Watchmen enable the transfer of assets into an Elements sidechain:**
@@ -49,9 +49,7 @@ At a high level, these transfers work by freezing assets on the main chain and t
 
 <br/>
 
-To move assets back to the main chain a similar process occurs, whereby a transaction is created which releases an amount of the asset on the mainchain and destroys the same amount on the sidechain.
- 
-In order to transfer bitcoin between chains a multi-signature mechanism is used, whereby a threshold number of participants in the federation must sign before the transaction is considered valid and the assets transferred between chains.
+In order to transfer assets back to the main chain, a transaction is made from a multi-signature wallet controlled by the Watchmen. A threshold number of participants in the federation must sign before the transaction is considered valid. Sending an asset back to the main chain releases funds on the main chain and destroys the corresponding amount on the sidechain, effectively transferring the assets back to the main chain.
 
 
 **Diagram showing how Watchmen enable the transfer of assets out of an Elements sidechain:**
