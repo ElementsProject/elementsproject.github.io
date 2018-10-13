@@ -34,9 +34,9 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
 |--------|--------|
 |    Asset Issuance - multiple types of asset can be issued and transferred between network participants.|    Secured by a federation of parties with aligned incentives.|
 |    Confidential Transactions - transaction amount and asset type are private, known only to sender and receiver.|    Leverages the stability of the Bitcoin codebase, extending it with innovative new features.|
-|    Flexible Configuration - Elements can operate as a standalone blockchain or as a sidechain, where assets are pegged to those on another blockchain.|    No risk of blockchain reorganisations - federated blocksigning provides rapid transaction finality.|
+|    Flexible Configuration - Elements can operate as a standalone blockchain or as a sidechain, where assets are pegged to those on another blockchain.|    No risk of multi-block reorganizations - federated blocksigning provides rapid transaction finality.|
 |     Federated, two-way peg - allows assets to be transacted across different blockchains.|    Issue multiple different types of privately transferable assets on a single blockchain, opening up many new use cases.|
-|    Signed Blocks - block creation through multi-party signature retains decentralized properties while decreasing transaction confirmation times and preventing reorganisations.|    Public testnet and open source codebase lets you experiment with different security models and features created by other members of the community.|
+|    Signed Blocks - block creation through multi-party signature retains decentralized properties while decreasing transaction confirmation times and preventing multi-block reorganizations.|    Public testnet and open source codebase lets you experiment with different security models and features created by other members of the community.|
 
 * * * 
 

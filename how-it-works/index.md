@@ -10,7 +10,7 @@ permalink: /how-it-works
 
 Elements overcomes these problems through its use of Federated Block Signing and Confidential Transactions.
 
-Unlike the Bitcoin network, the process of block signing within Elements is not reliant on Dynamic Membership Multiparty Signatures (DMMS) and Proof of Work (PoW). Instead, Elements uses a **Strong Federation** of signatories, called **Block Signers**, who sign and create blocks every minute or so. This removes the transaction latency of the PoW mining process and does not introduce the need for third party trust.
+Unlike the Bitcoin network, the process of block signing within Elements is not reliant on Dynamic Membership Multiparty Signatures (DMMS) and Proof of Work (PoW). Instead, Elements uses a **Strong Federation** of signatories, called **Block Signers**, who sign and create blocks every minute or so. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distrubution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
  
 The Strong Federation also contains members who enable the secure and controlled transfer of assets between a main chain and an Elements sidechain. Members who perform this role are called **Watchmen**. Next, we will look at the different roles played by members of the Strong Federation.
 
@@ -18,7 +18,7 @@ The Strong Federation also contains members who enable the secure and controlled
  
 ### Strong Federations
  
-Elements uses a consensus model proposed by Blockstream, called [Strong Federations](https://blockstream.com/strong-federations.pdf). A Strong Federation removes the need for costly PoW and replaces it with the collective actions of a group of mutually-distrusting participants, called Functionaries.
+Elements uses a consensus model proposed by Blockstream, called [Strong Federations](https://blockstream.com/strong-federations.pdf). A Strong Federation does not need Proof of Work and instead relies on the collective actions of a group of mutually-distrusting participants, called Functionaries.
  
 The role of a Functionary is to propose, sign and verify the validity of actions on the network. Once a threshold of signatories have signed their acceptance of an action, consensus is said to have been reached and the action is given finality within the network.
  
@@ -32,7 +32,7 @@ These actions are split between two distinct roles in order to enhance security 
 
 When combined, the roles of these participants allows Elements to deliver both rapid block creation (faster and final transaction confirmation) and assured, transferable assets (pegged assets directly linkable to another blockchain).
  
-We will look at how Block Signers create blocks later and will begin by finding out how Watchmen enforce something called a Federated Peg, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain.
+We will look at how Block Signers create blocks later and will begin by finding out how Watchmen enforce something called a Federated Peg, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain, typically Bitcoin.
 
 * * * 
 
@@ -49,8 +49,7 @@ At a high level, transfers into the sidechain occur when someone sends main chai
 
 <br/>
 
-In order to transfer assets back to the main chain, a transaction is made from the multi-signature wallet controlled by the Watchmen. A threshold number of participants in the federation must sign before the transaction is considered valid. Sending an asset back to the main chain releases funds on the main chain and destroys the corresponding amount on the sidechain, effectively transferring the assets back to the main chain.
-
+In order to transfer assets back to the main chain, a user makes a special peg-out transaction on the sidechain. This transaction is checked by Watchmen who then sign a transaction spending from the multi-signature wallet they control on the main chain. A threshold number of participants in the federation must sign before the main chain transaction becomes valid. When the Watchmen send an asset back to the main chain they also destroy the corresponding amount on the sidechain, effectively transferring the assets between blockchains.
 
 **Diagram showing how Watchmen enable the transfer of assets out of an Elements sidechain:**
 
@@ -84,7 +83,7 @@ Federated block signing consists of several phases:
  
 **Step 5** - The next block is then proposed by the next Block Signer in the round-robin and the process repeats.
 
-Because a Strong Federation’s block generation is not probabilistic and is based on a fixed set of signers, it can be made to never reorganize. This allows for a significant reduction in the wait time associated with confirming transactions. It also removes the incentive to mine for profit (i.e. the block rewards) and replaces it with an incentive to productively participate in a network where all participants have the same shared goal; ensuring the network continues to function in a manner that is beneficial to all. It does this without introducing a single point of failure or higher trust requirements.
+Because a Strong Federation’s block generation is not probabilistic and is based on a fixed set of signers, it will never be subject to multi-block reorganizations. This allows for a significant reduction in the wait time associated with confirming transactions. It also removes the incentive to mine for profit (i.e. the block rewards) and replaces it with an incentive to productively participate in a network where all participants have the same shared goal; ensuring the network continues to function in a manner that is beneficial to all. It does this without introducing a single point of failure or higher trust requirements.
  
 * * * 
  
