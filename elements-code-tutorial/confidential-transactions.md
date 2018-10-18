@@ -167,9 +167,11 @@ e1-cli listunspent 1 1
 
 Which simply returns nothing.
 
-All that shows that without knowledge of the blinding key the amount, and also the type, of asset being transacted is indeed hidden.
+<a id="blindingkey"></a>
 
-In order for anyone to view the amount and type of assets being transacted they need to know the blinding key that was used to generate the blinded address. To show this, we can export the blinding key Bob's wallet used, import it into Alice's wallet and try to view the transaction again. Let's export the key for that particular address from Bob's wallet and import it into Alice's in one step:
+Without knowledge of the **Blinding Key**, the amount and type of asset being transacted is hidden.
+
+In order for anyone else (such as an auditor) to view the amount and type of assets being transacted, they need to know the blinding key that was used to generate the blinded address. To show this, we can export the blinding key Bob's wallet used, import it into Alice's wallet and try to view the transaction again. Let's export the key for that particular address from Bob's wallet and import it into Alice's in one step:
 
 ~~~~
 e1-cli importblindingkey $ADDR $(e2-cli dumpblindingkey $ADDR)
