@@ -40,16 +40,21 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
 
 * * * 
 
-### Elements extends Bitcoin's code and features
+## Elements provides the following enhanced features
 
-Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a testbed for changes to the Bitcoin protocol itself. 
+Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a testbed for changes to the Bitcoin protocol itself.
 
-### Elements provides the following enhanced features
+### **Issued Assets**
+Read the Issued Assets [overview]({{ site.url }}/features/issued-assets) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/issuing-assets).
 
-* [Issued Assets]({{ site.url }}/elements-code-tutorial/issuing-assets)
-* [Confidential Transactions]({{ site.url }}/elements-code-tutorial/confidential-transactions)
-* [Federated Two-Way Peg]({{ site.url }}/elements-code-tutorial/sidechain)
-* [Signed Blocks]({{ site.url }}/elements-code-tutorial/block-creation)
+### **Confidential Transactions**
+Read the Confidential Transactions [overview]({{ site.url }}/features/confidential-transactions) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/confidential-transactions).
+
+### **Federated Two-Way Peg**
+Read the Federated 2-Way Peg [overview]({{ site.url }}/features/federated-peg) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/sidechain).
+
+### **Signed Blocks**
+Read the Signed Blocks [overview]({{ site.url }}/features/signed-blocks) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/block-creation).
 
 * * * 
 
@@ -60,6 +65,8 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 [Running Elements as a Blockchain or Sidechain]({{ site.url }}/blockchain-or-sidechain)
 
 [Learn Elements by following the code tutorial]({{ site.url }}/elements-code-tutorial/overview)
+
+[Learn more about the features of Elements]({{ site.url }}/elements-code-tutorial/features)
 
 [Join the Elements community]({{ site.url }}/community)
 
