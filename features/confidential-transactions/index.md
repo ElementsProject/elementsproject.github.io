@@ -97,6 +97,6 @@ For example, if the maximum is 500k, then all outputs under that amount will loo
 
 Gregory Maxwell's [original investigation]({{ site.url }}/features/confidential-transactions/investigation) into Confidential Transactions.
 
-Try it for yourself by following the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
+Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
 
 More details on [Confidential Addresses]({{ site.url }}/features/confidential-transactions/addresses).

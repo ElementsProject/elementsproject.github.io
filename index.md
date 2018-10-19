@@ -44,13 +44,13 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
 
 Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a testbed for changes to the Bitcoin protocol itself.
 
-#### **Issued Assets**: Read the Issued Assets [overview]({{ site.url }}/features/issued-assets) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/issuing-assets).
+* [Confidential Transactions]({{ site.url }}/features#confidentialtransactions)
 
-#### **Confidential Transactions**: Read the Confidential Transactions [overview]({{ site.url }}/features/confidential-transactions) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/confidential-transactions).
+* [Issued Assets]({{ site.url }}/features#issuedassets)
 
-#### **Federated Two-Way Peg**: Read the Federated 2-Way Peg [overview]({{ site.url }}/features/federated-peg) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/sidechain).
+* [Federated 2-Way Peg]({{ site.url }}/features#federatedpeg)
 
-#### **Signed Blocks**: Read the Signed Blocks [overview]({{ site.url }}/features/signed-blocks) or view the [tutorial code]({{ site.url }}/elements-code-tutorial/block-creation).
+* [Signed Blocks]({{ site.url }}/features#signedblocks)
 
 * * * 
 
@@ -62,7 +62,7 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 [Learn Elements by following the code tutorial]({{ site.url }}/elements-code-tutorial/overview)
 
-[Learn more about the features of Elements]({{ site.url }}/elements-code-tutorial/features)
+[Learn more about the features of Elements]({{ site.url }}/features)
 
 [Join the Elements community]({{ site.url }}/community)
 

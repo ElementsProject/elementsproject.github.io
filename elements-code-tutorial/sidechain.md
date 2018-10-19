@@ -6,7 +6,7 @@ permalink: /elements-code-tutorial/sidechain
 
 # Elements code tutorial
 
-## Elements as a Sidechain
+## Elements as a Sidechain - Federated Two-Way Peg
 
 Elements is a general purpose blockchain platform that can also be "pegged" to an existing blockchain (such as Bitcoin) in order to enable the two way transfer of assets from one chain to the other. Implementing Elements as a sidechain allows you to work around some of the inherent properties of the main chain, while retaining a good degree of the security provided by assets secured on the main chain.
 

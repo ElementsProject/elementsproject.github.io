@@ -49,6 +49,6 @@ You **must** use the confidential address in ``sendtoaddress``, ``sendfrom``, ``
 
 Gregory Maxwell's [original investigation]({{ site.url }}/features/confidential-transactions/investigation) into Confidential Transactions.
 
-Try it for yourself by following the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
+Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
 
 

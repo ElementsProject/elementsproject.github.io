@@ -24,11 +24,12 @@
     <div class="collapse navbar-collapse" id="collapsing-nav-bar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/how-it-works">How it works</a></li> 
-	<li><a href="/features">Features</a></li>     
+	<li><a href="/features">Features</a></li>
         <li><a href="/blockchain-or-sidechain">Blockchain / Sidechain</a></li>        
         <li><a href="/community">Community</a></li>
-        <li class="dropdown">
-          <a data-toggle="dropdown" role="button">Code Tutorial <span class="caret"></span></a>
+        
+	<li class="dropdown">
+          <a data-toggle="dropdown" role="button">Code Tutorial<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/elements-code-tutorial/overview">Tutorial Overview</a></li>
             <li role="separator" class="divider"></li>
@@ -63,15 +64,27 @@
 <script>
 $(document).ready(function() {
   // Assign the 'active' class for currently viewed page 
+
   var pathname = window.location.pathname;
   // Remove trailng '/'
   if (pathname.charAt(pathname.length - 1) == '/') {
     pathname = pathname.substr(0, pathname.length - 1);
   }
+
+  // Sub pages not in sub menu (e.g. features/confidential-transactions)
+  var secondForwardSlashIndex = pathname.indexOf("/", 1);
+  if (-1 != secondForwardSlashIndex)
+  {
+    mainpathname = pathname.substr(0, secondForwardSlashIndex);
+    $('.nav > li > a[href="'+mainpathname+'"]').parent().addClass('active');
+  }
+  
   // Top level nav bar item
   $('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
+
   // Nav bar drop down item - must be linked to with the "/" prefix (e.g. /elements-code-tutorial/) in the menu html above
   $('.nav > li > ul> li > a[href="'+pathname+'"]').parent().parent().parent().addClass('active');  
+
   // Nav bar drop down sub item
   $('.nav > li > ul> li > a[href="'+pathname+'"]').parent().addClass('active');
 })

@@ -157,6 +157,15 @@ Elements theme color ref:
   color: white !important;
 }
 
+.dropdown-sub-header{
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.dropdown-menu-wide{
+  min-width: 220px !important;
+}
+
 // Override the site header to remove border-bottom
 .site-header {
   border-top: 5px solid #424242;

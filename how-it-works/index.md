@@ -35,7 +35,7 @@ When combined, the roles of these participants allows Elements to deliver both r
 We will look at how Block Signers create blocks later and will begin by finding out how Watchmen enforce something called a Federated Peg, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain, typically Bitcoin.
 
 * * * 
-
+<a id="federatedpeg"></a>
 ### The role of Watchmen in a Strong Federation
 
 In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses a **Federated Peg** to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers.
@@ -62,7 +62,7 @@ The Watchmen observe both the main blockchain and the Elements sidechain in orde
 This network retains a number of the beneficial properties of a fully decentralized security model without introducing the need for a trusted 3rd party or single point of failure.
 
 * * * 
- 
+<a id="signedblocks"></a>
 ### The role of Block Signers in a Strong Federation
 
 We have already mentioned how a federation of Watchmen control the transfer of assets between blockchains and we will now look at how Block Signers perform their role within the Strong Federation.

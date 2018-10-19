@@ -364,6 +364,6 @@ all ordinary transactions.
 
 ### Find out more about Confidential Transactions
 
-Try it for yourself by following the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
+Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
 
 More details on [Confidential Addresses]({{ site.url }}/features/confidential-transactions/addresses).
