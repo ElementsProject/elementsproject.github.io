@@ -8,21 +8,21 @@ permalink: features/issued-assets
 
 ## You can issue your own Confidential Assets on Elements.
 
-Assets issued on Elements can represent fungible ownership of the underlying asset type of the newly created units. These could theoretically represent any asset including vouchers, coupons, currencies, deposits, bonds, shares, etc.
+Assets issued on Elements can represent fungible ownership of any asset including vouchers, coupons, currencies, deposits, bonds, shares, etc.
 
-These assets are, by default, covered by the Confidential Transactions feature, which hides both the amount and type of asset being transacted from all but the participating parties. The parties may choose to [reveal the blinding key]({{ site.url }}/elements-code-tutorial/confidential-transactions#blindingkey) for a transaction by sharing a "blinding key", which grants visibility into the transaction.
+By default, these assets are covered by the Confidential Transactions feature, which hides both the amount and type of asset being transacted. The transacting parties may choose to reveal the details for a transaction to a third party by sharing the ["blinding key"]({{ site.url }}/elements-code-tutorial/confidential-transactions#blindingkey), which grants visibility into the transaction, otherwise it remains private between them.
 
 Issued Assets on Elements opens the door for building trustless exchanges, options, and other advanced smart contracts involving self-issued assets.
 
-You can read the [original investigation]({{ site.url }}/features/issued-assets/investigation) by Andrew Poelstra for the cryptographic breakdown of how Confidential Assets work or look at a [detailed example]({{ site.url }}/elements-code-tutorial/issuing-assets) in the code tutorial.
+You can read the [original investigation]({{ site.url }}/features/issued-assets/investigation) by Andrew Poelstra for the cryptographic breakdown of how Confidential Assets work.
 
 ### Issuing, reissuing and destroying assets
 
-In Elements you can not only issue your own asset but also reissue more of that asset and also destroy amounts of the asset using something called a reissuance token.
+In Elements you can not only issue your own asset but also reissue and destroy amounts of it, using something called a reissuance token.
 
-You can also change the default asset that is created upon chain initialization and also the default asset used to pay fees on the network.
+You can also change the name of the default asset that is created upon chain initialization and the default asset used to pay fees on the network.
 
-Details of how to [issue your own assets]({{ site.url }}/elements-code-tutorial/issuing-assets), [reissue and destroy assets]({{ site.url }}/elements-code-tutorial/reissuing-assets) and change the [default asset and fee asset]({{ site.url }}/elements-code-tutorial/blockchain) are given in the code tutorial.
+Details of how to [issue your own assets]({{ site.url }}/elements-code-tutorial/issuing-assets), [reissue and destroy assets]({{ site.url }}/elements-code-tutorial/reissuing-assets) and change the [default and fee asset]({{ site.url }}/elements-code-tutorial/blockchain) are provided in the code tutorial.
 
 ### How it works
 

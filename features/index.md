@@ -11,7 +11,7 @@ permalink: /features
 <a id="confidentialtransactions"></a>
 ### Confidential Transactions.
 
-All addresses in Elements are, by default, blinded using Confidential Transactions. Blinding is the process by which the amount and type of asset being transferred is cryptographically hidden from everyone except the participants and those they choose to reveal the blinding key to.
+By default, all addresses in Elements are blinded using Confidential Transactions. Blinding is the process by which the amount and type of asset being transferred is cryptographically hidden from everyone, except the participants and those they choose to reveal the blinding key to.
 
 Find our more about [Confidential Transactions]({{ site.url }}/features/confidential-transactions).
 
@@ -36,7 +36,7 @@ Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tut
 
 <a id="signedblocks"></a>
 ### Signed Blocks.
-Elements uses a Strong Federation of signatories, called Block Signers, who sign and create blocks every minute or so. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distrubution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
+Elements uses a Strong Federation of signatories, called Block Signers, who sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distrubution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
 
 Find out more about [Signed Blocks]({{ site.url }}/how-it-works#signedblocks).
 

@@ -6,7 +6,7 @@ permalink: features/confidential-transactions/addresses
 
 # Confidential Transactions - Confidential Addresses
 
-## The most visible implication of Confidential Transactions is the introduction of a new default address type, the Confidential Address.
+## The most visible property of Confidential Transactions is the introduction of a new default address type, the Confidential Address.
 
 An example of a Confidential Address is shown below:
 
@@ -41,7 +41,7 @@ CTEwQjyErENrxo8dSQ6pq5atss7Ym9S7P6GGK4PiGAgQRgoh1iPUkLQ168Kqptfnwmpxr2Bf7ipQsagi
 }
 </div>
 
-As you can see the unconfidential P2PKH address starts with a `Q`. P2SH start with `H`. Most RPC calls outside of ``getnewaddress`` (e.g., ``listunspent``) will return the unblinded version of addresses. If you provide an unconfidential address to ``validateaddress`` it will show the confidential address.
+As you can see the unconfidential P2PKH address starts with a `Q`. P2SH start with `H`. Most RPC calls outside of ``getnewaddress`` (e.g. ``listunspent``) will return the unblinded version of addresses. If you provide an unconfidential address to ``validateaddress`` it will show the confidential address.
 
 You **must** use the confidential address in ``sendtoaddress``, ``sendfrom``, ``sendmany`` and ``createrawtransaction`` if you want to create confidential transactions. Therefore, when you want to receive confidential transactions you must give the *confidential* address to the sender. For all other RPC's except ``dumpblindingkey`` it does not matter whether the confidential or unconfidential address is provided.
 

@@ -167,7 +167,7 @@ Because algebraically, Confidential Assets is such a straightforward
 extension of Confidential Transactions, many of the tools developed for
 use with CT can be used with few modifications with CA, giving them the
 power to confidently and confidentially handle multi-asset transactions.
-Examples of such technologies are 
+Examples of such technologies are:
 
 - [MimbleWimble](http://diyhpl.us/~bryan/papers2/bitcoin/mimblewimble.txt)
 - [Scriptless Scripts](https://download.wpsoftware.net/bitcoin/wizardry/mw-slides/2017-03-mit-bitcoin-expo/slides.pdf)
