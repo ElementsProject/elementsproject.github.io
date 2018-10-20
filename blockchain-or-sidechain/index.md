@@ -3,9 +3,9 @@ layout: page
 title: Blockchain or Sidechain?
 permalink: /blockchain-or-sidechain
 ---
-# The correct approach to deploying a solution built on Elements.
+# The correct approach to deploying a solution built on Elements
 
-## Elements can operate as a general purpose, standalone Blockchain or as a pegged Sidechain.
+## Elements can operate as a general purpose, standalone Blockchain or as a pegged Sidechain
 
 A general purpose blockchain built on Elements acts as a standalone blockchain which has no dependency on another blockchain for its asset issuance.
 

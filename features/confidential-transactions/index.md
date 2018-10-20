@@ -6,7 +6,7 @@ permalink: features/confidential-transactions
 
 # Confidential Transactions
 
-## One of the most powerful features of Elements is Confidential Transactions.
+## One of the most powerful features of Elements is Confidential Transactions
 
 Confidential Transactions keep the amount and type of assets transferred visible only to participants in the transaction (and those they choose to [reveal the blinding key]({{ site.url }}/elements-code-tutorial/confidential-transactions#blindingkey) to), while still cryptographically guaranteeing that no more coins can be spent than are available.
 

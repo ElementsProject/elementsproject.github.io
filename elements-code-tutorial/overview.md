@@ -4,11 +4,11 @@ title: Elements Tutorial
 permalink: /elements-code-tutorial/overview
 ---
 
-# A simple guide to setting up an Elements Blockchain or Sidechain solution.
+# A simple guide to setting up an Elements Blockchain or Sidechain solution
 
-## This guide will take you step-by-step through the process of installing and using Elements. 
+## This guide will take you step-by-step through the process of installing and using Elements
 
-### The code examples will show you how to:
+### The code examples will show you how to
 
 * Configure two nodes that can send transactions between one another.
 
@@ -26,7 +26,7 @@ permalink: /elements-code-tutorial/overview
 
 * Create blocks using the Strong Federation block signing process.
 
-### ...and if you choose to run Elements as a sidechain:
+### If you choose to run Elements as a sidechain
 
 * Send assets from a main chain (Bitcoin) to an Elements blockchain using the Federated 2-Way Peg feature.
 
@@ -36,7 +36,7 @@ permalink: /elements-code-tutorial/overview
 
 #### Note: Once you have followed the code tutorial through, you can run all the code within it again without having to type/copy and paste it in line-by-line by following the instructions in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run) section. That contains the same code as the tutorial, grouped into one code block, that can be executed one line at a time.
 
-### The tutorial is divided up into logical parts:
+### The tutorial is divided up into logical parts
 
 [Installing Bitcoin]({{ site.url }}/elements-code-tutorial/installing-bitcoin)
 
