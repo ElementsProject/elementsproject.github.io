@@ -111,6 +111,7 @@ Elements theme color ref:
   font-weight: bold;
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
   padding-left: 17px;
+  word-break: break-all !important;
 }
 
 
@@ -155,6 +156,15 @@ Elements theme color ref:
 .dropdown-menu>.active>a {
   background-color: #5caadd !important;
   color: white !important;
+}
+
+.dropdown-sub-header{
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.dropdown-menu-wide{
+  min-width: 220px !important;
 }
 
 // Override the site header to remove border-bottom

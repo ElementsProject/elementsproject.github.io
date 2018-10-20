@@ -6,7 +6,7 @@ permalink: /elements-code-tutorial/block-creation
 
 # Elements code tutorial
 
-## Block creation in a Strong Federation
+## Block creation in a Strong Federation - Block Signing
 
 So far, in order to create blocks we have been calling the "generate" command from either node. That's worked so far because by default block signing is OP_TRUE.
 

@@ -40,16 +40,17 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
 
 * * * 
 
-### Elements extends Bitcoin's code and features
-
-Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a testbed for changes to the Bitcoin protocol itself. 
-
 ### Elements provides the following enhanced features
 
-* [Issued Assets]({{ site.url }}/elements-code-tutorial/issuing-assets)
-* [Confidential Transactions]({{ site.url }}/elements-code-tutorial/confidential-transactions)
-* [Federated Two-Way Peg]({{ site.url }}/elements-code-tutorial/sidechain)
-* [Signed Blocks]({{ site.url }}/elements-code-tutorial/block-creation)
+Extending and building upon Bitcoin's code allows developers familiar with the bitcoind API to quickly and cost effectively create working blockchains and test proof-of-concept projects. It also allows Elements to function as a testbed for changes to the Bitcoin protocol itself.
+
+* [Confidential Transactions]({{ site.url }}/features#confidentialtransactions)
+
+* [Issued Assets]({{ site.url }}/features#issuedassets)
+
+* [Federated 2-Way Peg]({{ site.url }}/features#federatedpeg)
+
+* [Signed Blocks]({{ site.url }}/features#signedblocks)
 
 * * * 
 
@@ -60,6 +61,8 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 [Running Elements as a Blockchain or Sidechain]({{ site.url }}/blockchain-or-sidechain)
 
 [Learn Elements by following the code tutorial]({{ site.url }}/elements-code-tutorial/overview)
+
+[Learn more about the features of Elements]({{ site.url }}/features)
 
 [Join the Elements community]({{ site.url }}/community)
 
