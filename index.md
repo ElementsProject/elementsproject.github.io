@@ -52,6 +52,8 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 * [Signed Blocks]({{ site.url }}/features#signedblocks)
 
+* [Additional opcodes]({{ site.url }}/features#opcodes)
+
 * * * 
 
 ### Find out more about Elements

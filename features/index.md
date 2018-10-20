@@ -38,6 +38,9 @@ Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tut
 ### Signed Blocks
 Elements uses a Strong Federation of signatories, called Block Signers, who sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distrubution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
 
-Find out more about [Signed Blocks]({{ site.url }}/how-it-works#signedblocks).
+<a id="opcodes"></a>
+### Additional opcodes
+Elements introduces several new script opcodes, in addition to the ones already supported by Bitcoin.
 
-Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/block-creation).
+Find out more about the [Additional opcodes]({{ site.url }}/features/opcodes).
+
