@@ -4,9 +4,9 @@ title: How it works
 permalink: /how-it-works
 ---
 
-# How Elements works and the roles of network participants.
+# How Elements works and the roles of network participants
 
-## Elements provides a technical solution to problems blockchain users face daily; transaction latency, lack of privacy, and risk to fungibility.
+## Elements provides a technical solution to problems blockchain users face daily; transaction latency, lack of privacy, and risk to fungibility
 
 Elements overcomes these problems through its use of Federated Block Signing and Confidential Transactions.
 

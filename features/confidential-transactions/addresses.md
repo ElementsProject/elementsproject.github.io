@@ -6,7 +6,7 @@ permalink: features/confidential-transactions/addresses
 
 # Confidential Transactions - Confidential Addresses
 
-## The most visible property of Confidential Transactions is the introduction of a new default address type, the Confidential Address.
+## The most visible property of Confidential Transactions is the introduction of a new default address type, the Confidential Address
 
 An example of a Confidential Address is shown below:
 

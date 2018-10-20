@@ -2,9 +2,9 @@
 layout: home
 title: Elements
 ---
-# An open source, sidechain-capable blockchain platform.
+# An open source, sidechain-capable blockchain platform
 
-## Designing, building and operating your own blockchain is easy with Elements.
+## Designing, building and operating your own blockchain is easy with Elements
 
 Elements is an open source, sidechain-capable blockchain platform, providing access to powerful features developed by members of the community, such as Confidential Transactions and Issued Assets.
 
@@ -18,7 +18,7 @@ An example of an Elements based sidechain in production use is Blockstream's Liq
  
 * * * 
 
-### This site will guide you through...
+### This site will guide you through the following
 
 * Understanding what Elements is and what features and benefits it offers.
 * Understanding how blockchains built with Elements work and the roles of network participants.
@@ -54,7 +54,7 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 * * * 
 
-### Find out more about Elements...
+### Find out more about Elements
 
 [How blockchains built with Elements work]({{ site.url }}/how-it-works)
 

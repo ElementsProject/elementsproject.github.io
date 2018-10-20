@@ -3,9 +3,9 @@ layout: page
 title: Join the Elements commnity
 permalink: /community
 ---
-# Join the Elements community and contribute to the project.
+# Join the Elements community and contribute to the project
 
-## Elements is a community-driven, open source project.
+## Elements is a community-driven, open source project
     
 The source code for Elements and this website:
 
