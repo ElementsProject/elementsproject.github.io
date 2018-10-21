@@ -2,6 +2,7 @@
 layout: page
 title: Confidential Transactions
 permalink: features/confidential-transactions
+redirect_from: elements/confidential-transactions
 ---
 
 # Confidential Transactions

@@ -21,6 +21,8 @@ title: elementsproject.org
 description: >- # this means to ignore newlines
   Elements - an open source, sidechain-capable blockchain platform.
 
+plugins:
+  - jekyll-redirect-from
 
 web_github_link: https://github.com/ElementsProject/elementsproject.github.io
 elements_github_link: https://github.com/ElementsProject/elements

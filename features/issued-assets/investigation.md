@@ -2,6 +2,7 @@
 layout: page
 title: Issued Assets - Investigation
 permalink: features/issued-assets/investigation
+redirect_from: /elements/issued-assets/investigation
 ---
 
 #  Issued Assets - Investigation
