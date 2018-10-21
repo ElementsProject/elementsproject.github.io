@@ -2,6 +2,9 @@
 layout: page
 title: How it works
 permalink: /how-it-works
+redirect_from: 
+  - /elements/deterministic-pegs
+  - /elements/signed-blocks
 ---
 
 # How Elements works and the roles of network participants

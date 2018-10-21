@@ -2,6 +2,7 @@
 layout: page
 title: Blockchain or Sidechain?
 permalink: /blockchain-or-sidechain
+redirect_from: /sidechains
 ---
 # The correct approach to deploying a solution built on Elements
 
@@ -41,4 +42,8 @@ When should you use a blockchain as a solution?
 
 **Deciding if a blockchain is an appropriate way to deliver your project is a very important process as Blockchains only provide solutions to very specific types of problem.**
 
-[Next: Learn Elements by following the code tutorial]({{ site.url }}/elements-code-tutorial/overview)
+### In the Code Tutorial
+
+Learn how to run Elements as a [standalone blockchain]({{ site.url }}/elements-code-tutorial/blockchain)
+
+Learn how to run Elements as a [sidechain]({{ site.url }}/elements-code-tutorial/sidechain)

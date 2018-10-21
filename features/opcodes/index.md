@@ -2,6 +2,7 @@
 layout: page
 title: Additional opcodes
 permalink: features/opcodes
+redirect_from: /elements/opcodes
 ---
 
 #  Additional opcodes
