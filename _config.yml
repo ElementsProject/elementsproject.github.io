@@ -12,7 +12,7 @@ kramdown:
 #    you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 #    You can create any custom variable you like, and they will be accessible
 #    in the templates via {{ site.myvariable }} for example.
-url: "https://elementsproject.github.io" 
+url: "https://elementsproject.org" 
 baseurl: "" # the subpath of your site if neded, e.g. /sitecontent
 
 #email: elements@blockstream.io
