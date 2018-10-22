@@ -54,6 +54,8 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 * [Additional opcodes]({{ site.url }}/features#opcodes)
 
+* [Schnorr Signatures]({{ site.url }}/features#schnorr) (research phase)
+
 * * * 
 
 ### Find out more about Elements
