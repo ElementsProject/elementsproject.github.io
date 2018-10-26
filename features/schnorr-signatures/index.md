@@ -2,7 +2,9 @@
 layout: page
 title: Schnorr Signatures (research)
 permalink: features/schnorr-signatures
-redirect_from: /elements/schnorr-signatures
+redirect_from:
+  - /elements/schnorr-signatures/
+  - /elements/schnorr-signatures
 ---
 
 #  Schnorr Signatures (research)

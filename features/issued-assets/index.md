@@ -2,7 +2,9 @@
 layout: page
 title: Issued Assets
 permalink: features/issued-assets
-redirect_from: /elements/asset-issuance
+redirect_from:
+  - /elements/asset-issuance/
+  - /elements/asset-issuance
 ---
 
 #  Issued Assets

@@ -2,7 +2,9 @@
 layout: page
 title: Confidential Transactions - Investigation
 permalink: features/confidential-transactions/investigation
-redirect_from: /elements/confidential-transactions/investigation
+redirect_from:
+  - /elements/confidential-transactions/investigation/
+  - /elements/confidential-transactions/investigation
 ---
 
 # Confidential Transactions - Investigation

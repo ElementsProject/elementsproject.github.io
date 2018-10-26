@@ -2,7 +2,9 @@
 layout: page
 title: Join the Elements commnity
 permalink: /community
-redirect_from: /contributing
+redirect_from:
+  - /contributing/
+  - /contributing
 ---
 # Join the Elements community and contribute to the project
 
