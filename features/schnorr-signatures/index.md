@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Schnorr Signatures (research phase)
+title: Schnorr Signatures (research)
 permalink: features/schnorr-signatures
 redirect_from: /elements/schnorr-signatures
 ---
 
-#  Schnorr Signatures (research phase)
+#  Schnorr Signatures (research)
 
 ## Principal Investigator: Patrick Strateman
 

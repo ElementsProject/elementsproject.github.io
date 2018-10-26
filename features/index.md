@@ -49,8 +49,10 @@ Elements introduces several new script opcodes, in addition to the ones already 
 Find out more about the [Additional opcodes]({{ site.url }}/features/opcodes).
 
 <a id="schnorr"></a>
-### Schnorr Signatures (research phase)
+### Schnorr Signatures (research)
 
 A new way of constructing signatures for transactions, both improving efficiency of validating a transaction and offering new modes of multi-signature. Schnorr Signatures are currently being researched and are not enabled within Elements at present.
+
+#### Note: Schnorr Signatures are not yet available for use in Elements
 
 Find out more about [Schnorr Signatures]({{ site.url }}/features/schnorr-signatures).
