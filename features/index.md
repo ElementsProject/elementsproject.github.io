@@ -53,6 +53,6 @@ Find out more about the [Additional opcodes]({{ site.url }}/features/opcodes).
 
 A new way of constructing signatures for transactions, both improving efficiency of validating a transaction and offering new modes of multi-signature. Schnorr Signatures are currently being researched and are not enabled within Elements at present.
 
-#### Note: Schnorr Signatures are not yet available for use in Elements
+#### Note: Schnorr Signatures are not yet available for use in Elements.
 
 Find out more about [Schnorr Signatures]({{ site.url }}/features/schnorr-signatures).
