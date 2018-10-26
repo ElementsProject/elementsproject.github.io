@@ -58,9 +58,8 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 Features that are not yet available for use in Elements.
 
-* [Schnorr Signatures]({{ site.url }}/features#schnorr)
+* <p>[Schnorr Signatures]({{ site.url }}/features#schnorr)</p>
 
-<br/>
 * * * 
 
 ### Find out more about Elements
