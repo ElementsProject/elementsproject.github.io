@@ -56,9 +56,7 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 ### Research
 
-Features that are not yet available for use in Elements.
-
-* <p>[Schnorr Signatures]({{ site.url }}/features#schnorr)</p>
+The use of [Schnorr Signatures]({{ site.url }}/features#schnorr) within Elements can be considered when investigations are completed.
 
 * * * 
 
