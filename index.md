@@ -56,6 +56,8 @@ Extending and building upon Bitcoin's code allows developers familiar with the b
 
 ### Research
 
+Features that are not yet available for use in Elements.
+
 * [Schnorr Signatures]({{ site.url }}/features#schnorr)
 
 * * * 
