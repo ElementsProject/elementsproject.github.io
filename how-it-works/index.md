@@ -3,6 +3,8 @@ layout: page
 title: How it works
 permalink: /how-it-works
 redirect_from: 
+  - /elements/deterministic-pegs/
+  - /elements/signed-blocks/
   - /elements/deterministic-pegs
   - /elements/signed-blocks
 ---

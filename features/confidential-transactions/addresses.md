@@ -2,7 +2,9 @@
 layout: page
 title: Confidential Transactions - Addresses
 permalink: features/confidential-transactions/addresses
-redirect_from: /elements/confidential-transactions/addresses
+redirect_from:
+  - /elements/confidential-transactions/addresses/
+  - /elements/confidential-transactions/addresses
 ---
 
 # Confidential Transactions - Confidential Addresses

@@ -2,7 +2,9 @@
 layout: page
 title: Elements Sidechain
 permalink: /elements-code-tutorial/sidechain
-redirect_from: /sidechains/creating-your-own
+redirect_from:
+  - /sidechains/creating-your-own/
+  - /sidechains/creating-your-own
 ---
 
 # Elements code tutorial

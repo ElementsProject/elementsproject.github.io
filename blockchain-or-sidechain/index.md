@@ -2,7 +2,9 @@
 layout: page
 title: Blockchain or Sidechain?
 permalink: /blockchain-or-sidechain
-redirect_from: /sidechains
+redirect_from:
+  - /sidechains/
+  - /sidechains
 ---
 # The correct approach to deploying a solution built on Elements
 
