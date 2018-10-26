@@ -60,6 +60,7 @@ Features that are not yet available for use in Elements.
 
 * [Schnorr Signatures]({{ site.url }}/features#schnorr)
 
+<br/>
 * * * 
 
 ### Find out more about Elements
