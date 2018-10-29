@@ -1,6 +1,13 @@
 ---
 layout: home
 title: Elements
+redirect_from: 
+  - /case-studies/
+  - /case-studies
+  - /case-studies/gem/
+  - /case-studies/gem
+  - /case-studies/rootstock/
+  - /case-studies/rootstock
 ---
 # An open source, sidechain-capable blockchain platform
 
