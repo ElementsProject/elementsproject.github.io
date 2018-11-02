@@ -24,8 +24,6 @@ rpcport=18884
 daemon=1
 </div>
 
-#### Note: If you are using bitcoin core v0.17 please see the note [here]({{ site.url }}/elements-code-tutorial/working-environment#bitcoindconfig) about the bitcoin.conf file.
-
 We can use the same authentication details and port number to send requests to the Elements daemon ourselves by using a programming language to make the RPC calls and process the returned results instead of the terminal. We'll use Python for our first example, but any language that can make and receive http requests could be used. 
 
 
