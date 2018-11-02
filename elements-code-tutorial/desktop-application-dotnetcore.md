@@ -111,6 +111,8 @@ Which outputs:
 
 <img class="" alt="" src="{{ site.url }}/images/dotnet.png" />
 
+#### Note: If you are using bitcoin core v0.17 and get an error, please see the note [here]({{ site.url }}/elements-code-tutorial/working-environment#bitcoindconfig) about the bitcoin.conf file.
+
 As an application would be making multiple calls to the elementsd daemon via RPC you will probably want to move the code that actually does the request and response work into its own function.
 
 Again, the code above is a starting point to get you up and running and you now have a functioning setup which you can use as a building block for further development.

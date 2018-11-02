@@ -35,6 +35,7 @@ cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.con
 
 If you take a quick look in each of the 3 config files you will see that they contain a flag to tell the nodes to operate in "regtest" mode. They also contain RPC information such as port, username and password. The Elements config files also contain details of the Bitcoin node's RPC authentication data. They need access to this information in order to authenticate and make calls to the Bitcoin node later.
 
+<a id="bitcoindconfig"></a>
 To see what version of bitcoind you are running execute the command:
 
 ~~~~

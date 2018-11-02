@@ -76,6 +76,8 @@ The result of which should be:
 
 <img class="" alt="" src="{{ site.url }}/images/python.png" />
 
+#### Note: If you are using bitcoin core v0.17 and get an error, please see the note [here]({{ site.url }}/elements-code-tutorial/working-environment#bitcoindconfig) about the bitcoin.conf file.
+
 Obviously that's a very basic example but you now have a functioning setup which you can use as a building block for further development.
 
 As an application would be making multiple calls to the elementsd daemon via RPC, you will probably want to move the code that actually does the request and response work into its own function, or use one of the existing Python interfaces to the Bitcoin JSON-RPC API and adapt it for your own project. 
