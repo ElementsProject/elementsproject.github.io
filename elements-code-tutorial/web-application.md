@@ -98,8 +98,6 @@ Which simply writes the result of the "balance" call to the page:
 
 <img class="" alt="" src="{{ site.url }}/images/django.png" />
 
-#### Note: If you are using bitcoin core v0.17 and get an error, please see the note [here]({{ site.url }}/elements-code-tutorial/working-environment#bitcoindconfig) about the bitcoin.conf file.
-
 As in the previous exercise, this is intended to get you up and running. You now have a functioning setup which you can use as a building block for further development.
 
 
