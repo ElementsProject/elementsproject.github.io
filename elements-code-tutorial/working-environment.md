@@ -35,28 +35,6 @@ cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.con
 
 If you take a quick look in each of the 3 config files you will see that they contain a flag to tell the nodes to operate in "regtest" mode. They also contain RPC information such as port, username and password. The Elements config files also contain details of the Bitcoin node's RPC authentication data. They need access to this information in order to authenticate and make calls to the Bitcoin node later.
 
-To see what version of bitcoind you are running execute the command:
-
-~~~~
-bitcoind --version
-~~~~
-
-#### Note: If you are using bitcoind v0.17 please make sure the bitcoin.conf file in bitcoindir/bitcoin.conf contains the following settings in the order shown, or else the Elements nodes will not be able to connect to it. This is due to a config file format change in Bitcoin v0.17. The file within the elements repository will be updated in time to reflect this. The following will also work with versions of bitcoind prior to v0.17. 
-
-<div class="console-output">
-regtest=1
-daemon=1
-txindex=1
-
-regtest.rpcport=18888
-regtest.port=18889
-
-rpcuser=user3
-rpcpassword=password3
-rpcport=18888
-port=18889
-</div>
-
 By using a different port for each Element daemon we can run more than one node at a time on a single machine. This is useful for the purposes of our tutorial.
 
 Before we start running our nodes we'll take the time to configure some terminal aliases. These will let us pass commands to each node's client in a much simpler way. 
