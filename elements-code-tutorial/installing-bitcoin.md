@@ -14,6 +14,7 @@ We will be using the [Bitcoin PPA for ubuntu](https://launchpad.net/~bitcoin/+ar
 
 ~~~~
 sudo apt-add-repository ppa:bitcoin/bitcoin
+sudo add-apt-repository universe
 sudo apt-get update
 sudo apt-get install bitcoind
 ~~~~
