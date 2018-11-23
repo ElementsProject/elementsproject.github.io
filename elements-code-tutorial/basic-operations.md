@@ -28,7 +28,7 @@ e1-cli sendtoaddress $(e2-cli getnewaddress) 10500000 "" "" false
 e1-cli generate 101
 ~~~~
 
-The "true" and "false" refer to fee deductions and can be ignored for now. 
+As you run each step above you will see the results of executing the command written to the terminal as output. These will differ depending on the command you run (for example, the sendtoaddress command returns a transaction ID if successful). The "true" and "false" refer to fee deductions and can be ignored for now.
 
 Check that the funds have been evenly split:
 
