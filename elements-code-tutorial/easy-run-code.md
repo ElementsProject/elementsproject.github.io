@@ -173,7 +173,7 @@ e1-cli getwalletinfo bitcoin
 
 e1-cli dumpassetlabels
 
-e1-cli getwalletinfo b2e15d0d7a0c94e4e2ce0fe6e8691b9e451377f6e46e8045a86f7c4b5d4f0f23
+e1-cli getwalletinfo $(e1-cli dumpassetlabels | jq '.bitcoin' | tr -d '"')
 
 ISSUE=$(e1-cli issueasset 100 1)
 
