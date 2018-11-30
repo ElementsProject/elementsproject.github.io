@@ -25,7 +25,7 @@ You can also read Gregory Maxwell's [initial investigation]({{ site.url }}/featu
 
 ### Using Confidential Transactions in Elements
 
-For a detailed look at using Confidential Transactions please refer to the Confidential Transactions section of the [code tutorial]({{ site.url }}/features/confidential-transactions). 
+For a detailed look at using Confidential Transactions please refer to the Confidential Transactions section of the [code tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions). 
 
 At a high-level, the transaction flow is very similar to Bitcoin's on the surface. 
 
