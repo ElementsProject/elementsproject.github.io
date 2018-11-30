@@ -17,7 +17,7 @@ An example of a Confidential Address is shown below:
 CTEwQjyErENrxo8dSQ6pq5atss7Ym9S7P6GGK4PiGAgQRgoh1iPUkLQ168Kqptfnwmpxr2Bf7ipQsagi
 ~~~~
 
-The most obvious differences are that it starts with ``CT`` and is longer than usual. This is due to the inclusion of a public blinding key prepended to the base address. In the Elements Wallet, the blinding key is derived by using the wallet's master blinding key and unblinded P2PKH address. Therefore the receiver alone can decrypt the sent amount, and can hand it to auditors if needed. On the sender's side, ``sendtoaddress`` will use this pubkey to transmit the necessary info to the receiver, encrypted, and inside the transaction itself. The sender's wallet will also record the amount and hold this in the ``wallet.dat`` metadata as well as the ``audit.log`` file.
+The most obvious differences are that it starts with ``CTE`` and is longer than usual. This is due to the inclusion of a public blinding key prepended to the base address. In the Elements Wallet, the blinding key is derived by using the wallet's master blinding key and unblinded P2PKH address. Therefore the receiver alone can decrypt the sent amount, and can hand it to auditors if needed. On the sender's side, ``sendtoaddress`` will use this pubkey to transmit the necessary info to the receiver, encrypted, and inside the transaction itself. The sender's wallet will also record the amount and hold this in the ``wallet.dat`` metadata as well as the ``audit.log`` file.
 
 You can use the validateaddress command to show details of a Confidential Address:
 
