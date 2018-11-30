@@ -37,7 +37,7 @@ A new address is created:
 elements-cli getnewaddress
 ~~~~
 
-By default this returns a new [Confidential Address]({{ site.url }}/features/confidential-transactions/addresses). The prefix 'CT' is used to denote the address is confidential. An example address is shown below:
+By default this returns a new [Confidential Address]({{ site.url }}/features/confidential-transactions/addresses). The prefix 'CTE' is used to denote the address is confidential. An example address is shown below:
 
 <div class="console-output">CTEwQjyErENrxo8dSQ6pq5atss7Ym9S7P6GGK4PiGAgQRgoh1iPUkLQ168Kqptfnwmpxr2Bf7ipQsagi
 </div>
