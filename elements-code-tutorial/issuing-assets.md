@@ -51,6 +51,12 @@ We can also use the asset's hex value as a command parameter instead of its labe
 e1-cli getwalletinfo b2e15d0d7a0c94e4e2ce0fe6e8691b9e451377f6e46e8045a86f7c4b5d4f0f23
 ~~~~
 
+The asset hex above is set on chain creation. A 'belt-and-braces' approach to getting the bitcoin asset hex is to use the 'dumpassetlabels' command and jq to pull out the hex for the bitcoin asset like this:
+
+~~~~
+e1-cli getwalletinfo $(e1-cli dumpassetlabels | jq '.bitcoin' | tr -d '"')
+~~~~
+
 One of the main features of Elements is the ability to issue your own assets. We'll do this next and then look at the details using some of the commands we've already used. 
 
 #### Note: There is nothing inherently different between assets in the way they are handled within the Elements protocol.
