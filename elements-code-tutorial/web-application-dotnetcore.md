@@ -78,7 +78,7 @@ Create a new file named **ExampleNodeInfo.cs** in ElementsMVC/Models and paste t
 ~~~~
 using System;
 
-namespace ExampleMVC.Models
+namespace ElementsMVC.Models
 {
     public class ExampleNodeInfo
     {
