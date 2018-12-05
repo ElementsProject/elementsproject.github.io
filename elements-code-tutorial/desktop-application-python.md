@@ -8,46 +8,41 @@ permalink: /elements-code-tutorial/desktop-application-python
 
 ## Desktop application example in Python
 
-In this example we will be using Python to make an RPC (Remote Procedure Call) to the Elements daemon (elementsd). This was what the Elements client (elements-cli) application was doing when we executed commands in the main section of the tutorial. Any language that can make and receive http requests could be used. 
+In this example we will be using Python to make an RPC (Remote Procedure Call) to the Elements daemon (elementsd). This was what the Elements client (elements-cli) application was doing when we executed commands in the main section of the tutorial. Any language that supports making http requests could be used. 
 
-Our aim is to simply make a call to elementsd using RPC by executing some basic Python code.
+Our aim is simply to make a call to elementsd using RPC by executing some basic Python code. We will be using the popular [AuthServiceProxy](https://github.com/jgarzik/python-bitcoinrpc) Python JSON-RPC interface to handle the connection, authentication and data typing for us as we communicate with our node.
 
 First we will need to install a few prerequisites. From the terminal run the following commands one after another:
 
 ~~~~
 sudo apt-get install python-pip python-dev
 sudo pip install --upgrade pip 
-sudo pip install requests
+sudo pip install python-bitcoinrpc
 ~~~~
 
 That will have set up all we need to run our Python tutorial code.
 
 Create a new file named **elementstutorial.py** in your home directory and paste the code below into it.
 
-* * *
-
 ~~~~
 from __future__ import print_function
-import requests, json
+from bitcoinrpc.authproxy import AuthServiceProxy, JSONRPCException
 
-rpcPort = 18884
-rpcUser = 'user1'
-rpcPassword = 'password1'
+rpc_port = 18884
+rpc_user = 'user1'
+rpc_password = 'password1'
 
-serverURL = 'http://' + rpcUser + ':' + rpcPassword + '@localhost:' + str(rpcPort)
-
-headers = {'content-type': 'application/json'}
-payload = json.dumps({"method": 'getwalletinfo', "params": ["bitcoin"], "jsonrpc": "2.0"})
-
-response = requests.post(serverURL, headers=headers, data=payload)
-
-responseJSON = response.json()
-responseResult = responseJSON['result']
-
-print(responseResult['balance'])
+try:
+    rpc_connection = AuthServiceProxy("http://%s:%s@127.0.0.1:%s"%(rpc_user, rpc_password, rpc_port))
+    
+    result = rpc_connection.getwalletinfo("bitcoin")
+    
+    print(result["balance"])
+except JSONRPCException as json_exception:
+    print("A JSON RPC Exception occured: " + str(json_exception))
+except Exception as general_exception:
+    print("An Exception occured: " + str(general_exception))
 ~~~~
-
-* * * 
 
 The code defines the details needed to connect to the elementsd node using RPC commands, sets up the method we want to execute and the parameter we want to pass in, executes the call and prints out the "balance" value from the results.
 
@@ -76,12 +71,7 @@ The result of which should be:
 
 <img class="" alt="" src="{{ site.url }}/images/python.png" />
 
-Obviously that's a very basic example but you now have a functioning setup which you can use as a building block for further development.
+Obviously that's a very basic example but you now have a functioning setup which you can use as a building block for further development. The next tutorial section takes the code above and implements it within a web application using two popular Python web frameworks; Django and Flask.
 
-As an application would be making multiple calls to the elementsd daemon via RPC, you will probably want to move the code that actually does the request and response work into its own function, or use one of the existing Python interfaces to the Bitcoin JSON-RPC API and adapt it for your own project. 
-
-An example of this approach that uses the **AuthServiceProxy** Python interface to Bitcoin's JSON-RPC API can be found in the elements/contrib/assets_tutorial/assets_tutorial.py file on [Github](https://github.com/ElementsProject/elements).
-
-
-[Next: Web application example]({{ site.url }}/elements-code-tutorial/web-application)
+[Next: Python web application example]({{ site.url }}/elements-code-tutorial/web-application)
 

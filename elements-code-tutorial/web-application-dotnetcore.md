@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Elements .NET Core MVC
+title: Elements .NET Core MVC app
 permalink: /elements-code-tutorial/web-application-dotnetcore
 ---
 
