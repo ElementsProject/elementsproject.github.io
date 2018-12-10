@@ -208,7 +208,7 @@ b-cli stop
 
 Now that we have run through the code step-by-step you should have a good understanding of how Elements works. 
 
-If you would like to run through the code again there is a much easier way to do this rather than typing out or copying/pasting the code from the tutorial pages each time. How to do this is detailed in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run) section. This lets you run the code line by line or automatically execute it up until a point you are interested in looking at in more detail.
+If you would like to run through the code again there is a much easier way to do this rather than typing out or copying/pasting the code from the tutorial pages each time. How to do this is detailed in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code) section. This lets you run the code line by line or automatically execute it up until a point you are interested in looking at in more detail.
 
 
 [Next: Elements as a standalone Blockchain]({{ site.url }}/elements-code-tutorial/blockchain)
