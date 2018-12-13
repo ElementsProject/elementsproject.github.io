@@ -341,15 +341,15 @@ e1-cli getblockcount
 SIGN1=$(e1-cli signblock $HEX)
 SIGN2=$(e2-cli signblock $HEX)
 
-BLOCKRESULT=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
+COMBINED=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
 
-COMPLETE=$(echo $BLOCKRESULT | jq '.complete' | tr -d '"')
+COMPLETE=$(echo $COMBINED | jq '.complete' | tr -d '"')
 
-SIGNBLOCK=$(echo $BLOCKRESULT | jq '.hex' | tr -d '"')
+SIGNEDBLOCK=$(echo $COMBINED | jq '.hex' | tr -d '"')
 
 echo $COMPLETE
 
-e2-cli submitblock $SIGNBLOCK
+e2-cli submitblock $SIGNEDBLOCK
 
 e1-cli getblockcount
 e2-cli getblockcount

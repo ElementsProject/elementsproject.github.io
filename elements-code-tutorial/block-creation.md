@@ -158,22 +158,22 @@ SIGN2=$(e2-cli signblock $HEX)
 We now can gather signatures and combine them into a fully signed block:
 
 ~~~~
-BLOCKRESULT=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
+COMBINED=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
 ~~~~
 
 Checking the output of that:
 
 ~~~~
-COMPLETE=$(echo $BLOCKRESULT | jq '.complete' | tr -d '"')
-SIGNBLOCK=$(echo $BLOCKRESULT | jq '.hex' | tr -d '"')
+COMPLETE=$(echo $COMBINED | jq '.complete' | tr -d '"')
 ~~~~
 
 We see a result of "True" for the "complete" property as we have signatures from enough keys to satisfy the 2 of 2 requirement. So "complete" in this context means "has enough signatures for the 'n of m' multi-sig to be valid".
 
-Now submit the block, it doesn't matter who does this as long as they have a signed and valid block hex (which we have stored in the 'SIGNBLOCK" variable from the results of calling "combineblocksigs"):
+Now we will extract the signed block hex from the results of the combineblocksig command and submit the block. It doesn’t matter who does this as long as they have a signed and valid block hex:
 
 ~~~~
-e2-cli submitblock $SIGNBLOCK
+SIGNEDBLOCK=$(echo $COMBINED | jq '.hex' | tr -d '"')
+e2-cli submitblock $SIGNEDBLOCK
 ~~~~
 
 Check that worked:
