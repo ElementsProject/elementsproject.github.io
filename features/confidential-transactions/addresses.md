@@ -48,7 +48,48 @@ CTEoaMTWgfUKoST1fkitVWuHHueqiL4EcUjrwJXuZW9RWKbSzYNq8ttd8KzJr3KBMzxh6HC83CgroNLR
 
 </div>
 
-As you can see, the unconfidential (unblinded) address starts with a `2`.
+As you can see, the unconfidential (unblinded) P2PKH address starts with a `2`.
+
+Confidential P2SH addresses start with `Azp`, and unconfidential (unblinded) P2SH addresses start with `X`.
+
+We can check this by first creating a 2-of-2 multisignature address:
+~~~~
+elements-cli createmultisig 2 '["0222c31615e457119c2cb33821c150585c8b6a571a511d3cd07d27e7571e02c76e", "039bac374a8cd040ed137d0ce837708864e70012ad5766030aee1eb2f067b43d7f"]'
+~~~~
+
+Which gives us the unconfidential address:
+
+<div class="console-output">
+{
+  "address": "XCSVzf6jD4p3GUg1XLxTYkzZvH1CHrjvDA",
+  "redeemScript": "52210222c31615e457119c2cb33821c150585c8b6a571a511d3cd07d27e7571e02c76e21039bac374a8cd040ed137d0ce837708864e70012ad5766030aee1eb2f067b43d7f52ae"
+}
+
+</div>
+
+And then creating a confidential address by adding a blinding pubkey to it
+(Note that the pubkey here is arbitrarily chosen for illustration purpose,
+wou will need to use your own unique pubkey corresponding to your blinding private key in practice)
+
+~~~~
+elements-cli createblindedaddress XCSVzf6jD4p3GUg1XLxTYkzZvH1CHrjvDA 02b0d67f275cc93ca2ac507375a1112982e8b50a627c3becb66a2ff27bc4fad0ac
+~~~~
+
+We get confidential P2SH address as a result:
+
+<div class="console-output">
+Azpom1jJ3mGZzLwiB1bqkvAiRn1givCZ8WhWuY2BmUQMqqjq4uzbF9SNWy5icEq2yqsQCUd8u2epStKL
+
+</div>
+
+If we convert these addresses from base58 encoding to hexadecimal,
+
+`XCSVzf6jD4p3GUg1XLxTYkzZvH1CHrjvDA` --> 4b**0bf6d977a489e1ebb4b7963c8a28a08bd70b85ed**
+`Azpom1jJ3mGZzLwiB1bqkvAiRn1givCZ8WhWuY2BmUQMqqjq4uzbF9SNWy5icEq2yqsQCUd8u2epStKL` --> 04**4b**02b0d67f275cc93ca2ac507375a1112982e8b50a627c3becb66a2ff27bc4fad0ac**0bf6d977a489e1ebb4b7963c8a28a08bd70b85ed**
+
+We can see that confidential address is comprized of confidential address prefix `04`,
+followed by unblinded address prefix `4b`, then follows the blinding pubkey, and then the
+rest of bytes of confidential address.
 
 You **must** use the confidential address in ``sendtoaddress``, ``sendfrom``, ``sendmany`` and ``createrawtransaction`` if you want to create confidential transactions. Therefore, when you want to receive confidential transactions you must give the *confidential* address to the sender. For all other RPC's except ``dumpblindingkey`` it does not matter whether the confidential or unconfidential address is provided.
 
