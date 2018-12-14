@@ -88,8 +88,8 @@ If we convert these addresses from base58 encoding to hexadecimal,
 `Azpom1jJ3mGZzLwiB1bqkvAiRn1givCZ8WhWuY2BmUQMqqjq4uzbF9SNWy5icEq2yqsQCUd8u2epStKL` --> 04**4b**02b0d67f275cc93ca2ac507375a1112982e8b50a627c3becb66a2ff27bc4fad0ac**0bf6d977a489e1ebb4b7963c8a28a08bd70b85ed**
 
 We can see that confidential address is comprized of confidential address prefix `04`,
-followed by unblinded address prefix `4b`, then follows the blinding pubkey, and then the
-rest of bytes of confidential address.
+followed by unblinded P2SH address prefix `4b`, then follows the blinding pubkey, and then the
+rest of the bytes of confidential address.
 
 You **must** use the confidential address in ``sendtoaddress``, ``sendfrom``, ``sendmany`` and ``createrawtransaction`` if you want to create confidential transactions. Therefore, when you want to receive confidential transactions you must give the *confidential* address to the sender. For all other RPC's except ``dumpblindingkey`` it does not matter whether the confidential or unconfidential address is provided.
 
