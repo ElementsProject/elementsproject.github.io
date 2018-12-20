@@ -62,9 +62,11 @@ permalink: /elements-code-tutorial/overview
 
 [Desktop application example in Python]({{ site.url }}/elements-code-tutorial/desktop-application-python)
 
-[Web application example]({{ site.url }}/elements-code-tutorial/web-application)
+[Web application example in Python using Django or Flask]({{ site.url }}/elements-code-tutorial/web-application)
 
 [Desktop application example in C# using .NET Core]({{ site.url }}/elements-code-tutorial/desktop-application-dotnetcore)
+
+[MVC Web application example in C# using .NET Core]({{ site.url }}/elements-code-tutorial/web-application-dotnetcore)
 
 [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code)
 
