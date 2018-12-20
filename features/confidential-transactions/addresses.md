@@ -68,14 +68,14 @@ Which gives us the unconfidential address:
 </div>
 
 And then creating a confidential address by adding a blinding pubkey to it
-(Note that the pubkey here is arbitrarily chosen for illustration purpose,
-wou will need to use your own unique pubkey corresponding to your blinding private key in practice)
+(Note that the pubkey here is arbitrarily chosen for the purpose of illustration,
+you will need to use your own unique pubkey corresponding to your blinding private key in practice)
 
 ~~~~
 elements-cli createblindedaddress XCSVzf6jD4p3GUg1XLxTYkzZvH1CHrjvDA 02b0d67f275cc93ca2ac507375a1112982e8b50a627c3becb66a2ff27bc4fad0ac
 ~~~~
 
-We get confidential P2SH address as a result:
+We get a confidential P2SH address as a result:
 
 <div class="console-output">
 Azpom1jJ3mGZzLwiB1bqkvAiRn1givCZ8WhWuY2BmUQMqqjq4uzbF9SNWy5icEq2yqsQCUd8u2epStKL
@@ -87,9 +87,9 @@ If we convert these addresses from base58 encoding to hexadecimal,
 `XCSVzf6jD4p3GUg1XLxTYkzZvH1CHrjvDA` --> 4b**0bf6d977a489e1ebb4b7963c8a28a08bd70b85ed**
 `Azpom1jJ3mGZzLwiB1bqkvAiRn1givCZ8WhWuY2BmUQMqqjq4uzbF9SNWy5icEq2yqsQCUd8u2epStKL` --> 04**4b**02b0d67f275cc93ca2ac507375a1112982e8b50a627c3becb66a2ff27bc4fad0ac**0bf6d977a489e1ebb4b7963c8a28a08bd70b85ed**
 
-We can see that confidential address is comprized of confidential address prefix `04`,
-followed by unblinded P2SH address prefix `4b`, then follows the blinding pubkey, and then the
-rest of the bytes from unblinded address.
+We can see that the confidential address is comprised of confidential address prefix `04`,
+followed by unblinded P2SH address prefix `4b`, then followed by the blinding pubkey, and then the
+rest of the bytes from the unblinded address.
 
 You **must** use the confidential address in ``sendtoaddress``, ``sendfrom``, ``sendmany`` and ``createrawtransaction`` if you want to create confidential transactions. Therefore, when you want to receive confidential transactions you must give the *confidential* address to the sender. For all other RPC's except ``dumpblindingkey`` it does not matter whether the confidential or unconfidential address is provided.
 
