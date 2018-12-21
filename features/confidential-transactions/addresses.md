@@ -67,9 +67,8 @@ Which gives us the unconfidential address:
 
 </div>
 
-And then creating a confidential address by adding a blinding pubkey to it
-(Note that the pubkey here is arbitrarily chosen for the purpose of illustration,
-you will need to use your own unique pubkey corresponding to your blinding private key in practice)
+And then creating a confidential address by adding a blinding pubkey to it.
+(Note that each confidential address should use a unique blinding pubkey, for the same reason that address reuse is discouraged)
 
 ~~~~
 elements-cli createblindedaddress XCSVzf6jD4p3GUg1XLxTYkzZvH1CHrjvDA 02b0d67f275cc93ca2ac507375a1112982e8b50a627c3becb66a2ff27bc4fad0ac
