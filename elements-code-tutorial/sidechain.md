@@ -23,7 +23,7 @@ By extending the functionality of Bitcoin and leveraging its underlying security
 
 Liquid was designed to address the needs of exchanges, brokers and traders and enables the rapid, confidential and secure transfer of funds between participants and providing a solution to the inherent problem of delayed transaction finality on the Bitcoin network.
 
-Every Liquid bitcoin held within the sidechain is pegged to bitcoin on the main chain using a Federated 2-Way Peg. This allows bitcoin to be deposited in the sidechain whilst retaining the ability to withdraw assets back to the main Bitcoin blockchain.
+Every Liquid bitcoin held within the sidechain is pegged to bitcoin on the main chain using a Federated 2-Way Peg. This allows bitcoin to be deposited in the sidechain whilst retaining the ability to withdraw assets back to the main Bitcoin blockchain. Apart from peg-out, everything related to running Elements as a sidechain can be done using the Elements daemon and client. This is because peg-out requires the actions of 'Watchmen' to control the multisignature release of funds on the Bitcoin blockchain, the use of which is not covered in this tutorial.
 
 In this section we will look at how to send bitcoin from our bitcoin regtest chain into our Elements blockchain, which will be operating as a sidechain.
 
