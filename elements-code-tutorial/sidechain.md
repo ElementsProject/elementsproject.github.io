@@ -48,6 +48,8 @@ e1-dae $FEDPEGARG
 e2-dae $FEDPEGARG
 ~~~~
 
+##### NOTE: The characters outside the public keys are delimiters that indicate public key and ‘n of m’ requirements. For example, the template for a 1-of-1 fedpegscript would be '5121<pubkey>51ae'.
+
 Mature some outputs on each chain:
 
 ~~~~
@@ -73,9 +75,9 @@ If we execute the command again you'll notice that the returned data changes:
 e1-cli getpeginaddress
 ~~~~
 
-The reason is that  each time we generate a new peg-in address we are asking the daemon to create a new sidechain address as well as a new script that will need satisfying in order to spend the peg-in input.
+The reason is that  each time we generate a new peg-in address we are asking the daemon to create a new mainchain address, as well as a new script that will need satisfying in order to claim the peg-in.
 
-A user would send coins from their Bitcoin wallet to the "mainchain_address" value returned from the command as shown below. Like getaddress, getpeginaddress adds new secrets to wallet.dat, necessitating backup on a regular basis.
+A user would send coins from their Bitcoin wallet to the "mainchain_address" value returned from the command as shown below. Like getnewaddress, getpeginaddress adds new secrets to wallet.dat, necessitating backup on a regular basis.
 
 With that established, let's store the data returned in some variables for use later:
 
