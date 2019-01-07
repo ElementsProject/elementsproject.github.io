@@ -9,7 +9,7 @@ redirect_from:
 
 #  Issued Assets
 
-## You can issue your own Confidential Assets on Elements
+## You can create your own Issued Assets on Elements
 
 Assets issued on Elements can represent fungible ownership of any asset including vouchers, coupons, currencies, deposits, bonds, shares, etc.
 
