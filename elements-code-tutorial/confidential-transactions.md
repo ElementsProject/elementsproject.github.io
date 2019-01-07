@@ -42,7 +42,7 @@ You should see a long value for the "confidential_key" property. It will look so
 
 <div class="console-output">"confidential_key": "025030f91c82297493e5dbe64aa63eef4a087a79f563d50c25c8ad0122f7547212"</div>
 
-The confidential_key is the public blinding key, which has been added to the address and is the reason why a confdential address is so long.
+The confidential_key is the public blinding key, which has been added to the address and is the reason why a confdential address is so long. You will also see that the ‘validateaddress’ command shows an associated 'unconfidential' address, which can be used to receive assets if you don't want to make use of the Confidential Transaction feature for some reason.
 
 We'll now send an amount of 1 "bitcoin" from Bob's wallet to the new address we generated for him:
 
