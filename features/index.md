@@ -36,7 +36,7 @@ Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tut
 
 <a id="signedblocks"></a>
 ### Signed Blocks
-Elements uses a Strong Federation of signatories, called Block Signers, who sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distrubution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
+Elements uses a Strong Federation of signatories, called Block Signers, who sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distribution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
 
 Find out more about [Signed Blocks]({{ site.url }}/how-it-works#signedblocks).
 
