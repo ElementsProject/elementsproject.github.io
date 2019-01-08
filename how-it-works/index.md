@@ -15,7 +15,7 @@ redirect_from:
 
 Elements overcomes these problems through its use of Federated Block Signing and Confidential Transactions.
 
-Unlike the Bitcoin network, the process of block signing within Elements is not reliant on Dynamic Membership Multiparty Signatures (DMMS) and Proof of Work (PoW). Instead, Elements uses a **Strong Federation** of signatories, called **Block Signers**, who can sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distrubution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
+Unlike the Bitcoin network, the process of block signing within Elements is not reliant on Dynamic Membership Multiparty Signatures (DMMS) and Proof of Work (PoW). Instead, Elements uses a **Strong Federation** of signatories, called **Block Signers**, who can sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distribution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
  
 The Strong Federation also contains members who enable the secure and controlled transfer of assets between a main chain and an Elements sidechain. Members who perform this role are called **Watchmen**. Next, we will look at the different roles played by members of the Strong Federation.
 
