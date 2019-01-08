@@ -15,35 +15,33 @@ redirect_from:
 
 Elements overcomes these problems through its use of Federated Block Signing and Confidential Transactions.
 
-Unlike the Bitcoin network, the process of block signing within Elements is not reliant on Dynamic Membership Multiparty Signatures (DMMS) and Proof of Work (PoW). Instead, Elements uses a **Strong Federation** of signatories, called **Block Signers**, who can sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distribution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
+Unlike the Bitcoin network, the process of block signing within Elements is not reliant on Dynamic Membership Multiparty Signatures (DMMS) and Proof of Work (PoW). Instead, Elements uses a **Strong Federation** of signatories, called **Block Signers**, who sign and create blocks in a reliable and timely manner. This removes the transaction latency of the PoW mining process, which is subject to large block time variance due to its random poisson distribution. The Federated Block Signing process achieves reliable block creation without introducing the need for third party trust.
  
-The Strong Federation also contains members who enable the secure and controlled transfer of assets between a main chain and an Elements sidechain. Members who perform this role are called **Watchmen**. Next, we will look at the different roles played by members of the Strong Federation.
+When Elements is being run as a sidechain, the Strong Federation will also contain members who enable the secure and controlled transfer of assets between a main chain an Elements sidechain. Members who perform this role are called **Watchmen**. Next, we will look at the different roles played by members of the Strong Federation.
 
 * * * 
  
 ### Strong Federations
  
 Elements uses a consensus model proposed by Blockstream, called [Strong Federations](https://blockstream.com/strong-federations.pdf). A Strong Federation does not need Proof of Work and instead relies on the collective actions of a group of mutually-distrusting participants, called Functionaries.
+  
+The roles a Functionary can fulfill within a Strong Federation are...
  
-The role of a Functionary is to propose, sign and verify the validity of actions on the network. Once a threshold of signatories have signed their acceptance of an action, consensus is said to have been reached and the action is given finality within the network.
- 
-The two roles a Functionary can fulfill within a Strong Federation are...
- 
-* **Watchmen** - participate in moving assets in and out of a Sidechain by signing multi-signature transactions.
- 
-* **Block Signers** - participate in creating blocks by adding their signature to count towards a threshold needed to validate proposed blocks, thereby defining the consensus history of transactions.
+* **Block Signers** - required in either setup, Block Signers participate in creating blocks by adding their signature to count towards a threshold needed to validate proposed blocks, thereby defining the consensus history of transactions.
 
-These actions are split between two distinct roles in order to enhance security and limit the damage an attacker can cause.
+* **Watchmen** - in a sidechain setup, Watchmen participate in moving assets in and out of the sidechain by signing multi-signature transactions.
+ 
+These actions are split between two distinct roles in order to enhance security and limit the damage an attacker can cause. The Watchmen role is only required if Elements is running as a sidechain, the Block Signer role is required in either sidechain or standalone blockchain setups.
 
 When combined, the roles of these participants allows Elements to deliver both rapid block creation (faster and final transaction confirmation) and assured, transferable assets (pegged assets directly linkable to another blockchain).
  
-We will look at how Block Signers create blocks later and will begin by finding out how Watchmen enforce something called a Federated Peg, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain, typically Bitcoin.
+We'll begin by seeing how Watchmen enforce something called a Federated Peg, which allows the 1-to-1 transfer of assets between an Elements sidechain and another blockchain, typically Bitcoin.
 
 * * * 
 <a id="federatedpeg"></a>
 ### The role of Watchmen in a Strong Federation
 
-In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses a **Federated Peg** to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers.
+In order for a sidechain to operate in a trustworthy manner it must allow participants to verify that the supply of assets is controlled and verifiable. An Elements sidechain uses a **2-Way Federated Peg** to enable the two way transfer of assets in and out of an Elements blockchain. This satisfies the requirements of provable issuance and inter-chain transfers. The Federated 2-way Peg feature allows an asset to be interoperable with other blockchains and representative of another blockchain’s native asset. By pegging your blockchain to another, you can extend the capabilities of the main chain and overcome some of its inherent limitations.
  
 At a high level, transfers into the sidechain occur when someone sends main chain assets to an address controlled by a multi-signature Watchmen wallet. This effectively freezes the assets on the main chain. Watchmen then validate the transaction and releases the same amount of the associated asset within the sidechain. The released assets are sent to a sidechain wallet that can prove claim to the original main chain assets. This process effectively moves assets from the parent chain to the sidechain. 
 
@@ -94,13 +92,13 @@ Because a Strong Federation’s block generation is not probabilistic and is bas
  
 ### Asset Issuance, Asset Reissuance and destroying Assets
 
-Initial asset issuance, the re-issuance of additional amounts of existing assets and the destroying of assets are controlled by reissuance tokens. These tokens act as a verifiable right to adjust the circulating amounts of an asset and are exchangeable and verifiable amongst participants in the network. 
+When run in either sidechain or standalone blockchain mode, Elements allows for the issuance or new asset types. The issuance of new asset types is open to all network nodes. Anyone can destroy an asset if they hold at least the amount they are destroying in their wallet.
+
+The re-issuance of additional amounts of existing assets are controlled by reissuance tokens. These tokens act as a verifiable right to increase the circulating amount of an asset and are exchangeable and verifiable amongst participants in the network. Reissuance tokens can only be created with the initial issuance of an asset.
  
 Elements allows for use-cases such as token issuance, digitizable collectables, reward points, and attested assets (for example gold coins) to be realized on a blockchain. With Elements, you can issue and transact as many different asset types as you like. 
  
 Every asset type optionally benefits from features such as Confidential Transactions, which provides privacy over the amount and type of asset being transferred. This allows different assets to be given different privacy properties depending on the requirements of the asset use-case.
- 
-The **Federated 2-way Peg** feature allows such assets to be interoperable with other blockchains and representative of another blockchain’s native asset. By pegging your blockchain to another, you can extend the capabilities of the main chain and overcome some of its inherent limitations.
 
 #### Whether your Elements project is set up to operate as a standalone blockchain or as a sidechain, Strong Federations technology provides compelling features, while retaining the properties of a trust-minimized system.
 
