@@ -93,48 +93,45 @@ e1-cli getwalletinfo
 e2-cli getwalletinfo
 ~~~~
 
-Having initialized our new blockchain with 1,000,000 assets named "newasset" and 2 reissueance tokens for "newasset", we can now progress through steps 4 to 7. Start by having the e1 node claim the anyone-can-spend balances and generate some blocks so they become spendable:
-
-~~~~
-e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
-e1-cli generate 101
-~~~~
-
-Note that we did not need to specify the asset being sent as "newasset" will be used by default. In order to claim the reissuance token, we first need to find what hex it has been assigned upon creation:
-
-~~~~
-e1-cli getwalletinfo
-~~~~
-
-The results of which will look something like this:
+The results of which will look something like the following. Note that we can see the asset and its reissuance token as already being present in both wallet balances because they are currently in 'anyone-can-spend' addresses. 
 
 <div class="console-output">"balance": {
     "mynewasset": 1000000.00000000,
     "a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61": 2.00000000
 </div>
 
-We'll store the reissuance hex in a variable for later use:
+In order to claim the reissuance token, we need to store the hex it was assigned upon creation and store it in a variable for later use. The default asset has been labelled as 'newasset', as our chain initialization parameters specified, and so can easily be referred to later.
 
-##### NOTE: The exact hex of your reissuance token may differ from that above, so you may need to change the following line to represent the hex you have.
+##### NOTE: The exact hex of your reissuance token may differ from that above, so you may need to change the following line of code to represent the hex you have.
 
-<div class="console-output">DEFAULTRIT=a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61
-</div>
+~~~~
+DEFAULTRIT=a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61
+~~~~
 
-Now claim the anyone-can-spend reissuance token:
+Having initialized our new blockchain with 1,000,000 assets named "newasset" and 2 reissueance tokens for "newasset", we can now progress through steps 4 to 7. Start by having the e1 node claim the anyone-can-spend balances:
+
+~~~~
+e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
+~~~~
+
+Note that we did not need to specify the asset being sent as "newasset" will be used by default.
+
+Now claim the anyone-can-spend reissuance token and generate some blocks to confirm the transactions:
 
 ~~~~
 e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false $DEFAULTRIT
 e1-cli generate 101
 ~~~~
 
+It is worth noting that addresses in Elements can receive different types of asset, so we could have sent both 'newasset' and its reissuance token to the same address.
+
 Send some of the "newasset" to e2, who currently holds none of our default asset or its reissuance tokens. Note that we do not have to specify the type of asset to be sent as the default asset is "newasset":
 
 ~~~~
 e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false 
-e1-cli generate 101
 ~~~~
 
-Send some of the reissuance tokens to e2:
+Send some of the reissuance tokens to e2 and confirm the two transactions:
 
 ~~~~
 e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false $DEFAULTRIT
