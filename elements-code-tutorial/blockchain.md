@@ -100,7 +100,7 @@ The results of which will look something like the following. Note that we can se
     "a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61": 2.00000000
 </div>
 
-In order to claim the reissuance token, we need to store the hex it was assigned upon creation and store it in a variable for later use. The default asset has been labelled as 'newasset', as our chain initialization parameters specified, and so can easily be referred to later.
+In order to claim the reissuance token, we need to take the hex it was assigned upon creation and store it in a variable for later use. The default asset has been labelled as 'newasset', as our chain initialization parameters specified, and so can easily be referred to later.
 
 ##### NOTE: The exact hex of your reissuance token may differ from that above, so you may need to change the following line of code to represent the hex you have.
 
@@ -114,7 +114,7 @@ Having initialized our new blockchain with 1,000,000 assets named "newasset" and
 e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
 ~~~~
 
-Note that we did not need to specify the asset being sent as "newasset" will be used by default.
+Note that we did not need to specify the asset being sent, as "newasset" will be used by default.
 
 Now claim the anyone-can-spend reissuance token and generate some blocks to confirm the transactions:
 
