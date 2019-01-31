@@ -29,7 +29,7 @@ Then press the return key to execute each line in turn.
 set -x
 trap read debug
 
-# This code was originally based upon and expands the example found here: https://github.com/ElementsProject/elements/tree/elements-0.14.1/contrib/assets_tutorial
+# This code is based upon and expands the example found here: https://github.com/ElementsProject/elements/tree/elements-0.14.1/contrib/assets_tutorial
 
 ################################
 #
@@ -109,7 +109,7 @@ sleep 5
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
-######## WALLET ###########
+### Basic Operations ###
 
 e1-cli sendtoaddress $(e1-cli getnewaddress) 21000000 "" "" true
 e1-cli generate 101
@@ -155,8 +155,6 @@ e1-cli importprivkey $(e2-cli dumpprivkey $ADDR)
 
 e1-cli gettransaction $TXID
 
-e1-cli getwalletinfo
-
 e1-cli listunspent 1 1
 
 e1-cli importblindingkey $ADDR $(e2-cli dumpblindingkey $ADDR)
@@ -165,7 +163,7 @@ e1-cli getwalletinfo
 e1-cli listunspent 1 1
 e1-cli gettransaction $TXID
 
-###### ASSETS #######
+### Issued Assets ###
 
 e1-cli getwalletinfo
 
@@ -226,6 +224,8 @@ sleep 2
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
+### Reissuing Assets ###
+
 RTRANS=$(e1-cli reissueasset $ASSET 99)
 RTXID=$(echo $RTRANS | jq '.txid' | tr -d '"')
 
@@ -273,6 +273,9 @@ e2-cli getwalletinfo
 
 e2-cli generate 1
 sleep 2
+
+e1-cli listissuances
+
 UBRITXID=$(echo $UBRISSUE | jq '.txid' | tr -d '"')
 
 UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq '.details[0].address' | tr -d '"')
@@ -284,7 +287,7 @@ e1-cli listissuances
 e2-cli destroyamount $UBASSET 5
 e2-cli getwalletinfo
 
-###### BLOCKSIGNING #######
+### Block Signing ###
 
 e1-cli generate 1
 sleep 2
@@ -358,7 +361,7 @@ e1-cli stop
 e2-cli stop
 sleep 5
 
-######## Pegging #######
+### Sidechain - Peg-In ###
 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
@@ -406,8 +409,7 @@ e1-cli getrawtransaction $CLAIMTXID 1
 
 e1-cli getwalletinfo
 
-
-#### Pegging Out ####
+### Sidechain - Peg-Out ###
 
 e1-cli sendtomainchain $(b-cli getnewaddress) 10
 
@@ -419,7 +421,67 @@ e1-cli stop
 e2-cli stop
 b-cli stop
 sleep 5
-echo "Completed"
+
+### Standalone Blockchain ###
+
+cd 
+rm -r ~/elementsdir1/elementsregtest/blocks
+rm -r ~/elementsdir1/elementsregtest/chainstate
+rm ~/elementsdir1/elementsregtest/wallet.dat
+rm -r ~/elementsdir2/elementsregtest/blocks
+rm -r ~/elementsdir2/elementsregtest/chainstate
+rm ~/elementsdir2/elementsregtest/wallet.dat
+
+STANDALONEARGS="-validatepegin=0 -defaultpeggedassetname=newasset -initialfreecoins=100000000000000 -initialreissuancetokens=200000000"
+
+e1-dae $STANDALONEARGS
+e2-dae $STANDALONEARGS
+sleep 5
+
+e1-cli getwalletinfo
+e2-cli getwalletinfo
+
+DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[0]' | tr -d '"')
+
+if [ $DEFAULTRIT = "newasset" ]; then
+  DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[1]' | tr -d '"')
+fi
+
+echo $DEFAULTRIT
+
+e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
+
+e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false $DEFAULTRIT
+e1-cli generate 101
+sleep 2
+
+e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false 
+
+e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false $DEFAULTRIT
+e1-cli generate 101
+sleep 2
+
+e1-cli getwalletinfo
+e2-cli getwalletinfo
+
+e1-cli reissueasset newasset 100
+e1-cli generate 101
+sleep 2
+
+e1-cli getwalletinfo
+
+e2-cli reissueasset newasset 100
+e2-cli generate 101
+sleep 2
+
+e1-cli getwalletinfo
+e2-cli getwalletinfo
+
+e1-cli stop
+e2-cli stop
+sleep 5
+
+echo "Completed" 
 ~~~~
 
 * * *
