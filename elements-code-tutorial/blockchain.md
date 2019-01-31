@@ -96,7 +96,7 @@ e2-cli getwalletinfo
 The results of which will look something like the following. Note that we can see the asset and its reissuance token as already being present in both wallet balances because they are currently in 'anyone-can-spend' addresses. 
 
 <div class="console-output">"balance": {
-    "mynewasset": 1000000.00000000,
+    "newasset": 1000000.00000000,
     "a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61": 2.00000000
 </div>
 
@@ -106,6 +106,16 @@ In order to claim the reissuance token, we need to take the hex it was assigned 
 
 ~~~~
 DEFAULTRIT=a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61
+~~~~
+
+When implementing code in an application, you'll need to execute something similar to the code below in order to extract the hex id from the wallet balance list at runtime. It should be noted that the example code is limited in scope to our ‘two assets, one of which has a known label’ setup. You can ignore the following example code block for now and just use the line above and replace the actual hex id with the one your reissuance token was assigned.
+
+~~~~
+DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[0]' | tr -d '"')
+
+if [ $DEFAULTRIT = "newasset" ]; then
+  DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[1]' | tr -d '"')
+fi
 ~~~~
 
 Having initialized our new blockchain with 1,000,000 assets named "newasset" and 2 reissueance tokens for "newasset", we can now progress through steps 4 to 7. Start by having the e1 node claim the anyone-can-spend balances:
