@@ -117,7 +117,9 @@ Which now shows a balance of:
 
 Note that the reason the balance is not now 49 is because fees were also deducted from the wallet in order to send the transaction.
 
-In order to claim the peg-in amount in our sidechain we need to first mature the funding transaction. This rule ensures that the funds being created in our sidechain are not prone to a reorganisation on the main chain:
+In order to claim the peg-in amount in our sidechain we need to first mature the funding transaction. This rule ensures that the funds being created in our sidechain are not prone to a reorganisation on the main chain.
+
+##### NOTE: The 'peginconfirmationdepth' parameter can be used to override the default confirmation depth, which is 10 blocks (8 plus 2 for the wallet to avoid race conditions between nodes). This forms part of the network's consensus rules and so it must be set on chain initialization. As a guide, Liquid is a production implementation of Elements that is pegged to Bitcoin and uses 102 (100 plus 2 for the wallet).
 
 ~~~~
 b-cli generate 101
