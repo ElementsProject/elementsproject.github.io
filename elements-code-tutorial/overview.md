@@ -34,7 +34,7 @@ permalink: /elements-code-tutorial/overview
 
 * * * 
 
-#### Note: Once you have followed the code tutorial through, you can run all the code within it again without having to type/copy and paste it in line-by-line by following the instructions in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run) section. That contains the same code as the tutorial, grouped into one code block, that can be executed one line at a time.
+#### Note: Once you have followed the code tutorial through, you can run all the code within it again without having to type/copy and paste it in line-by-line by following the instructions in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code) section. That contains the same code as the tutorial, grouped into one code block, that can be executed one line at a time.
 
 ### The tutorial is divided up into logical parts
 
