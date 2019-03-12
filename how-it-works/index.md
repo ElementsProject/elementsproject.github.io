@@ -92,7 +92,7 @@ Because a Strong Federation’s block generation is not probabilistic and is bas
  
 ### Asset Issuance, Asset Reissuance and destroying Assets
 
-When run in either sidechain or standalone blockchain mode, Elements allows for the issuance or new asset types. The issuance of new asset types is open to all network nodes. Anyone can destroy an asset if they hold at least the amount they are destroying in their wallet.
+When run in either sidechain or standalone blockchain mode, Elements allows for the issuance of new asset types. The issuance of new asset types is open to all network nodes. Anyone can destroy an asset if they hold at least the amount they are destroying in their wallet.
 
 The re-issuance of additional amounts of existing assets are controlled by reissuance tokens. These tokens act as a verifiable right to increase the circulating amount of an asset and are exchangeable and verifiable amongst participants in the network. Reissuance tokens can only be created with the initial issuance of an asset.
  
