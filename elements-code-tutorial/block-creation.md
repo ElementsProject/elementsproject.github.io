@@ -164,7 +164,7 @@ COMBINED=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
 Checking the output of that:
 
 ~~~~
-COMPLETE=$(echo $COMBINED | jq '.complete' | tr -d '"')
+echo $COMBINED | jq '.complete' | tr -d '"'
 ~~~~
 
 We see a result of "True" for the "complete" property as we have signatures from enough keys to satisfy the 2 of 2 requirement. So "complete" in this context means "has enough signatures for the 'n of m' multi-sig to be valid".
