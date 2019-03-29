@@ -153,9 +153,11 @@ SIGN1=$(e1-cli signblock $HEX)
 SIGN2=$(e2-cli signblock $HEX)
 ~~~~
 
-##### NOTE: Signblock tests validity except from block signatures. This signing step can be outsourced to a Hardware Security Module (HSM) to enforce a greater level of security.
+##### NOTE: Signblock tests validity before signing. This signing step can be outsourced to a Hardware Security Module (HSM) to enforce a greater level of security.
 
-We now can gather signatures and combine them into a fully signed block:
+We can have each node sign the proposed block hex easily as we are running our code on a single machine with access to the output from each node's call to 'signblock'. In a production environment you will likely require remote nodes to exchange signed blocks between each other so that the requirements of the block signing script can be met. An example of how to do this can be found here: [https://github.com/nkostoulas/block-signing-federation](https://github.com/nkostoulas/block-signing-federation). The demo code uses Kafka as a communication protocol between 3 signing nodes running locally, implementing a 2-of-3 federation and can be extended for nodes running in remote locations by changing the demo's configuration.
+
+As we are running our nodes on the same machine with easy access to the output from each node's execution of 'signblock', we can simply gather signatures and combine them into a fully signed block like this:
 
 ~~~~
 COMBINED=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
