@@ -15,9 +15,9 @@ Confidential Transactions keep the amount and type of assets transferred visible
 
 This goes a step beyond the usual privacy offered by Bitcoin's blockchain, which relies purely on pseudonymous (but public) identities. This matters, because insufficient financial privacy can have serious security and privacy implications for both commercial and personal transactions. Without adequate protection, thieves can focus their efforts on high-value targets, competitors can learn business details, and negotiating positions can be undermined.
 
-Watch <a href="https://www.youtube.com/watch?v=LHPYNZ8i1cU">Gregory Maxwell explaining Confidential Transactions</a>:
+Watch <a href="https://www.youtube.com/watch?v=ZIugzFygviw">Gregory Maxwell explaining Confidential Transactions</a>:
 
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/LHPYNZ8i1cU" frameborder="0" allowfullscreen></iframe></center>
+<center><iframe width="560" height="315" src="https://www.youtube.com/watch?v=ZIugzFygviw" frameborder="0" allowfullscreen></iframe></center>
 
 * * * 
 
