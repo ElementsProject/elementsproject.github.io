@@ -54,10 +54,10 @@ Next we'll need to clear out any existing blockchain and wallet data as we will 
 cd 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallet.dat
+rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
 rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallet.dat
+rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 ~~~~
 
 Now we will perform steps 1 to 3 above. Start our two nodes with a few parameters which are used to configure the initialization of our blockchain:
@@ -129,7 +129,7 @@ Note that we did not need to specify the asset being sent, as "newasset" will be
 Now claim the anyone-can-spend reissuance token and generate some blocks to confirm the transactions:
 
 ~~~~
-e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false $DEFAULTRIT
+e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET $DEFAULTRIT
 e1-cli generate 101
 ~~~~
 
@@ -144,7 +144,7 @@ e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false
 Send some of the reissuance tokens to e2 and confirm the two transactions:
 
 ~~~~
-e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false $DEFAULTRIT
+e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET $DEFAULTRIT
 e1-cli generate 101
 ~~~~
 

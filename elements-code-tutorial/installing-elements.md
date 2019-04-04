@@ -23,8 +23,6 @@ git clone https://github.com/ElementsProject/elements.git
 
 That's pulled all the code from the Elements repository into a newly created directory in Home called "elements". 
 
-##### Note: To update the code with any changes made to it in the future you can move into your home/elements folder and run "git pull origin elements-0.14.1" and then "make" and "sudo make install". You may need to amend the branch to something other than "-0.14.1" if this changes in the future, so please check on [GitHub](https://github.com/elementsproject/elements) before you update. 
-
 Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands.
 
 ##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety.

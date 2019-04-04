@@ -29,7 +29,7 @@ Then press the return key to execute each line in turn.
 set -x
 trap read debug
 
-# This code is based upon and expands the example found here: https://github.com/ElementsProject/elements/tree/elements-0.14.1/contrib/assets_tutorial
+# This code is based upon the Python example at https://github.com/ElementsProject/elements found within the contrib/assets_tutorial folder
 
 ################################
 #
@@ -99,8 +99,6 @@ b-dae
 
 sleep 5
 
-b-cli -getinfo
-
 e1-dae
 e2-dae
 
@@ -125,24 +123,24 @@ ADDR=$(e2-cli getnewaddress)
 
 echo $ADDR
 
-e2-cli validateaddress $ADDR
+e2-cli getaddressinfo $ADDR
 
 TXID=$(e2-cli sendtoaddress $ADDR 1)
 
-sleep 2
+sleep 5
 
 e1-cli getrawmempool
 e2-cli getrawmempool
-e1-cli getinfo
-e2-cli getinfo
+e1-cli getblockcount
+e2-cli getblockcount
 
 e2-cli generate 1
 sleep 2
 
 e1-cli getrawmempool
 e2-cli getrawmempool
-e1-cli getinfo
-e2-cli getinfo
+e1-cli getblockcount
+e2-cli getblockcount
 
 e2-cli gettransaction $TXID
 
@@ -167,11 +165,7 @@ e1-cli gettransaction $TXID
 
 e1-cli getwalletinfo
 
-e1-cli getwalletinfo bitcoin
-
 e1-cli dumpassetlabels
-
-e1-cli getwalletinfo $(e1-cli dumpassetlabels | jq '.bitcoin' | tr -d '"')
 
 ISSUE=$(e1-cli issueasset 100 1)
 
@@ -208,7 +202,7 @@ e2-cli importissuanceblindingkey $ITXID $IVIN $ISSUEKEY
 e2-cli listissuances
 
 E2DEMOADD=$(e2-cli getnewaddress)
-e1-cli sendtoaddress $E2DEMOADD 10 "" "" false demoasset
+e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET demoasset
 sleep 2
 e1-cli generate 1
 sleep 2
@@ -217,7 +211,7 @@ e2-cli getwalletinfo
 e1-cli getwalletinfo
 
 E1DEMOADD=$(e1-cli getnewaddress)
-e2-cli sendtoaddress $E1DEMOADD 10 "" "" false $ASSET
+e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET $ASSET
 sleep 2
 e2-cli generate 1
 sleep 2
@@ -245,7 +239,7 @@ echo "This will error and that is expected:"
 e2-cli reissueasset $ASSET 10
 
 RITRECADD=$(e2-cli getnewaddress)
-e1-cli sendtoaddress $RITRECADD 1 "" "" false $TOKEN
+e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET $TOKEN
 e1-cli generate 1
 sleep 2
 e1-cli getwalletinfo
@@ -295,10 +289,10 @@ sleep 2
 ADDR1=$(e1-cli getnewaddress)
 ADDR2=$(e2-cli getnewaddress)
 
-VALID1=$(e1-cli validateaddress $ADDR1)
+VALID1=$(e1-cli getaddressinfo $ADDR1)
 PUBKEY1=$(echo $VALID1 | jq '.pubkey' | tr -d '"')
 
-VALID2=$(e2-cli validateaddress $ADDR2)
+VALID2=$(e2-cli getaddressinfo $ADDR2)
 PUBKEY2=$(echo $VALID2 | jq '.pubkey' | tr -d '"')
 
 KEY1=$(e1-cli dumpprivkey $ADDR1)
@@ -312,14 +306,14 @@ e1-cli stop
 e2-cli stop
 sleep 5
 
-SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT)"
+SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150"
 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallet.dat
+rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
 rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallet.dat
+rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 
 e1-dae $SIGNBLOCKARG
 e2-dae $SIGNBLOCKARG
@@ -344,13 +338,12 @@ e1-cli getblockcount
 SIGN1=$(e1-cli signblock $HEX)
 SIGN2=$(e2-cli signblock $HEX)
 
-COMBINED=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
+SIGN1DATA=$(echo $SIGN1 | jq '.[0]')
+SIGN2DATA=$(echo $SIGN2 | jq '.[0]')
 
-COMPLETE=$(echo $COMBINED | jq '.complete' | tr -d '"')
+COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]")
 
 SIGNEDBLOCK=$(echo $COMBINED | jq '.hex' | tr -d '"')
-
-echo $COMPLETE
 
 e2-cli submitblock $SIGNEDBLOCK
 
@@ -365,10 +358,10 @@ sleep 5
 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallet.dat
+rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
 rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallet.dat
+rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 
 FEDPEGARG="-fedpegscript=5221$(echo $PUBKEY1)21$(echo $PUBKEY2)52ae"
 
@@ -427,10 +420,10 @@ sleep 5
 cd 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallet.dat
+rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
 rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallet.dat
+rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 
 STANDALONEARGS="-validatepegin=0 -defaultpeggedassetname=newasset -initialfreecoins=100000000000000 -initialreissuancetokens=200000000"
 
@@ -451,13 +444,13 @@ echo $DEFAULTRIT
 
 e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
 
-e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false $DEFAULTRIT
+e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET $DEFAULTRIT
 e1-cli generate 101
 sleep 2
 
 e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false 
 
-e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false $DEFAULTRIT
+e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET $DEFAULTRIT
 e1-cli generate 101
 sleep 2
 
@@ -481,7 +474,7 @@ e1-cli stop
 e2-cli stop
 sleep 5
 
-echo "Completed" 
+echo "Completed"
 ~~~~
 
 * * *

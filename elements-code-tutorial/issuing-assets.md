@@ -26,14 +26,6 @@ We see that Alice holds a lot of the "bitcoin" asset and nothing else:
     "bitcoin": 10500001.00000000
 </div>
 
-Running the command again with a parameter of "bitcoin" should therefore show the same thing:
-
-~~~~
-e1-cli getwalletinfo bitcoin
-~~~~
-
-Which it does, albeit in a slightly different format.
-
 Every asset you issue within Elements (including the "bitcoin" default) will be assigned its own hex value. This is used to uniquely identify it on the network. Notice how "bitcoin" is displayed with a readable asset name however. This is because Elements automatically associates the label "bitcoin" with the asset hex for that default asset. To find out its hex value we can run: 
 
 ~~~~
@@ -45,17 +37,7 @@ Which returns:
 <div class="console-output">"bitcoin": "b2e15d0d7a0c94e4e2ce0fe6e8691b9e451377f6e46e8045a86f7c4b5d4f0f23"
 </div>
 
-We can also use the asset's hex value as a command parameter instead of its label:
-
-~~~~
-e1-cli getwalletinfo b2e15d0d7a0c94e4e2ce0fe6e8691b9e451377f6e46e8045a86f7c4b5d4f0f23
-~~~~
-
-The asset hex above is set on chain creation. A 'belt-and-braces' approach to getting the bitcoin asset hex is to use the 'dumpassetlabels' command and jq to pull out the hex for the bitcoin asset like this:
-
-~~~~
-e1-cli getwalletinfo $(e1-cli dumpassetlabels | jq '.bitcoin' | tr -d '"')
-~~~~
+The asset hex above is set on chain creation.
 
 One of the main features of Elements is the ability to issue your own assets. We'll do this next and then look at the details using some of the commands we've already used. 
 
@@ -196,7 +178,7 @@ Just like any other asset in Elements, we can send our "demoasset" from Alice's 
 
 ~~~~
 E2DEMOADD=$(e2-cli getnewaddress)
-e1-cli sendtoaddress $E2DEMOADD 10 "" "" false demoasset
+e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET demoasset
 e1-cli generate 1
 ~~~~
 
@@ -213,7 +195,7 @@ As we didn't assign a label in Bob's node for the asset we created, it will be i
 
 ~~~~
 E1DEMOADD=$(e1-cli getnewaddress)
-e2-cli sendtoaddress $E1DEMOADD 10 "" "" false $ASSET
+e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET $ASSET
 e2-cli generate 1
 ~~~~
 

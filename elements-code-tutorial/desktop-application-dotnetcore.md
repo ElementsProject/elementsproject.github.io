@@ -71,7 +71,7 @@ namespace dotnetelements
         {
             string url = "http://user1:password1@localhost:18884";
 
-            var contentData = new StringContent(@"{""method"": ""getwalletinfo"", ""params"": [""bitcoin""], ""jsonrpc"": ""2.0""}", System.Text.Encoding.UTF8, "application/json");
+            var contentData = new StringContent(@"{""method"": ""getwalletinfo"", ""jsonrpc"": ""2.0""}", System.Text.Encoding.UTF8, "application/json");
             using (HttpResponseMessage response = await client.PostAsync(url, contentData))
             using (HttpContent content = response.Content)
             {
@@ -112,7 +112,7 @@ cd dotnetelements
 dotnet run
 ~~~~
 
-Which outputs:
+Which outputs something similar to:
 
 <img class="" alt="" src="{{ site.url }}/images/dotnet.png" />
 

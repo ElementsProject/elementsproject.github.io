@@ -32,10 +32,10 @@ First we need to wipe out the chain and wallet to get started with a new genesis
 ~~~~
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallet.dat
+rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
 rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallet.dat
+rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 ~~~~
 
 We will not require "n of m" block signing in this section so that we can keep the code brief, instead we will return to using "OP_TRUE" block creation. If you implement your own federated sidechain you can of course use the "n of m" signing method outlined earlier in the tutorial.

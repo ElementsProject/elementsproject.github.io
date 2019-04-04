@@ -30,9 +30,9 @@ ADDR2=$(e2-cli getnewaddress)
 Validate the addresses and then extract the public key for each:
 
 ~~~~
-VALID1=$(e1-cli validateaddress $ADDR1)
+VALID1=$(e1-cli getaddressinfo $ADDR1)
 PUBKEY1=$(echo $VALID1 | jq '.pubkey' | tr -d '"')
-VALID2=$(e2-cli validateaddress $ADDR2)
+VALID2=$(e2-cli getaddressinfo $ADDR2)
 PUBKEY2=$(echo $VALID2 | jq '.pubkey' | tr -d '"')
 ~~~~
 
@@ -61,7 +61,7 @@ e2-cli stop
 Define the requirements of block creation (must be valid against our redeemscript) and store in a variable:
 
 ~~~~
-SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT)"
+SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150"
 ~~~~
 
 We'll have to wipe out the chain we've been using so far and also the wallets and start again with a new genesis block. Note that once created you can't swap blocksigners in and out on a chain for security reasons. This may change in a later Elements release.
@@ -69,10 +69,10 @@ We'll have to wipe out the chain we've been using so far and also the wallets an
 ~~~~
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallet.dat
+rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
 rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallet.dat
+rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 ~~~~
 
 Start the daemons with the "signblockscript" we specified for the 2 of 2 block signing:
@@ -157,16 +157,12 @@ SIGN2=$(e2-cli signblock $HEX)
 
 We can have each node sign the proposed block hex easily as we are running our code on a single machine with access to the output from each node's call to 'signblock'. In a production environment you will likely require remote nodes to exchange signed blocks between each other so that the requirements of the block signing script can be met. An example of how to do this can be found here: [https://github.com/nkostoulas/block-signing-federation](https://github.com/nkostoulas/block-signing-federation). The demo code uses Kafka as a communication protocol between 3 signing nodes running locally, implementing a 2-of-3 federation and can be extended for nodes running in remote locations by changing the demo's configuration.
 
-As we are running our nodes on the same machine with easy access to the output from each node's execution of 'signblock', we can simply gather signatures and combine them into a fully signed block like this:
+As we are running our nodes on the same machine with easy access to the output from each node's execution of 'signblock', we can simply gather signature and pubkey data and combine them into a fully signed block like this:
 
 ~~~~
-COMBINED=$(e1-cli combineblocksigs $HEX '''["'''$SIGN1'''", "'''$SIGN2'''"]''')
-~~~~
-
-Checking the output of that:
-
-~~~~
-echo $COMBINED | jq '.complete' | tr -d '"'
+SIGN1DATA=$(echo $SIGN1 | jq '.[0]')
+SIGN2DATA=$(echo $SIGN2 | jq '.[0]')
+COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]")
 ~~~~
 
 We see a result of "True" for the "complete" property as we have signatures from enough keys to satisfy the 2 of 2 requirement. So "complete" in this context means "has enough signatures for the 'n of m' multi-sig to be valid".
