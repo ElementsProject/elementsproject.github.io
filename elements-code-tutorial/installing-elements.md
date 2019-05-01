@@ -23,13 +23,14 @@ git clone https://github.com/ElementsProject/elements.git
 
 That's pulled all the code from the Elements repository into a newly created directory in Home called "elements". 
 
-Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands.
+Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands. The most up to date set of dependencies for Ubuntu can be found [here](https://github.com/ElementsProject/elements/blob/master/doc/build-unix.md) and others withinin the relevant 'build-*.md' file [here](https://github.com/ElementsProject/elements/tree/master/doc). 
 
 ##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety.
 
 ~~~~
 sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
 sudo apt-get install libboost-all-dev
+sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler imagemagick librsvg2-bin
 sudo apt-get install libqrencode-dev autoconf openssl libssl-dev libevent-dev
 sudo apt-get install libminiupnpc-dev
 sudo apt-get install libdb4.8-dev libdb4.8++-dev
@@ -48,7 +49,7 @@ Now let's configure, compile and install Elements. If you get a permission denie
 
 ~~~~
 ./autogen.sh
-./configure --without-gui
+./configure
 make
 make install
 ~~~~
