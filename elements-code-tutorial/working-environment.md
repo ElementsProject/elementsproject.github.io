@@ -45,7 +45,7 @@ Before we do that it is worth noting how the set up of a daemon and client works
 
 #### Note: Once our Bitcoin and Elements daemons have been started we will only interact with them through the use of the clients, which will use the same config file as their associated daemon, enabling them to pass authentication checks when making RPC calls.
 
-Now let's create the terminal aliases for our Bitcoin and Elements daemons and clients: 
+Now let's create the terminal aliases for our Bitcoin and Elements daemons, clients and the Elements QT front end: 
 
 ~~~~
 cd elements
@@ -57,13 +57,17 @@ alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
 alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1"
 alias e2-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir2"
 alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
+alias e1-qt="$HOME/elements/src/qt/elements-qt -datadir=$HOME/elementsdir1"
+alias e2-qt="$HOME/elements/src/qt/elements-qt -datadir=$HOME/elementsdir2"
 ~~~~
 
-We now have an easy way to call each daemon and client. Instead of having to type "$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1" every time we can just use the "e1-cli" alias for example.
+We now have an easy way to start each daemon and the Elements QT front end and make simple calls to the clients. Instead of having to type "$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1" every time we want to make a call to the Elements client, we can just use the "e1-cli" alias for example.
 
 #### Note: If you want to skip ahead to running a non-sidechain Elements based blockchain you can move to the [Elements as a standalone Blockchain]({{ site.url }}/elements-code-tutorial/blockchain) section now. You can return to the [Using Elements to perform basic operations]({{ site.url }}/elements-code-tutorial/basic-operations) section after that, but you may have to amend the commands used occasionally. 
 
 If you want to run a few examples of your own after following this tutorial you can add the aliases above to your ‘bashrc' file which means that they will be available to you in every new terminal window you open. To do this run "nano ~/.bashrc" and paste the 6 alias lines above into the file, save and exit. The next time you open a new terminal window the aliases will have already been set. 
+
+#### Note: We won't be using the Elements QT front end in this tutorial but you can start it using the alias we created above (e.g. e1-qt) if you want at any point to see a GUI for your wallet. Note that you cannot run the daemon and QT at the same time as they will both be trying to access the same data directory.
 
 **We don't need to do this now** but if at any point you need to exit the tutorial and start again you should run the following commands to shut down the Bitcoin and Elements daemons first before restarting:
 
