@@ -213,5 +213,5 @@ The balance of our Elements node's wallet is displayed on the page!
 
 That should have got you up and running and in order to extend your application, you can look at the examples on the [Dynamic JSON RPC class](https://github.com/wintercooled/dotnetcoreDynamicJSON-RPC) GitHub site.
 
-[Next: An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code)
+[Next: Other language examples]({{ site.url }}/elements-code-tutorial/other-languages)
 
