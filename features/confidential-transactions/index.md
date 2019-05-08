@@ -37,7 +37,7 @@ A new address is created:
 elements-cli getnewaddress
 ~~~~
 
-By default this returns a new [Confidential Address]({{ site.url }}/features/confidential-transactions/addresses). The prefix 'CTE' is used to denote the address is confidential. An example address is shown below:
+By default this returns a new [Confidential Address]({{ site.url }}/features/confidential-transactions/addresses). The prefix 'CTE' is used to denote the address is confidential[1]. An example address is shown below:
 
 <div class="console-output">CTEwQjyErENrxo8dSQ6pq5atss7Ym9S7P6GGK4PiGAgQRgoh1iPUkLQ168Kqptfnwmpxr2Bf7ipQsagi
 </div>
@@ -105,3 +105,5 @@ Gregory Maxwell's [original investigation]({{ site.url }}/features/confidential-
 Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tutorial/confidential-transactions).
 
 More details on [Confidential Addresses]({{ site.url }}/features/confidential-transactions/addresses).
+
+[1] Elements now defaults to creating P2SH-P2WPKH addresses by default, which do not start with 'CTE'. You can create 'CTE' prefixed addresses by using the '-addresstype=legacy' argument on node startup, or by setting it in your config file.
