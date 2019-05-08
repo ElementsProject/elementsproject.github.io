@@ -106,4 +106,4 @@ Try it yourself in the [Elements Code Tutorial]({{ site.url }}/elements-code-tut
 
 More details on [Confidential Addresses]({{ site.url }}/features/confidential-transactions/addresses).
 
-[1] Elements now defaults to creating P2SH-P2WPKH addresses by default, which do not start with 'CTE'. You can create 'CTE' prefixed addresses by using the '-addresstype=legacy' argument on node startup, or by setting it in your config file.
+[1] Elements now defaults to creating P2SH-P2WPKH addresses by default, which do not start with 'CTE'. See the note [here]({{ site.url }}/elements-code-tutorial/confidential-transactions) on how to create 'legacy' addresses starting with 'CTE'.

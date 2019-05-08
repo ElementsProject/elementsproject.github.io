@@ -287,17 +287,7 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     e1-cli generate 101
 
     # We need to get a 'legacy' type (prefix 'CTE') address for this:
-    e1-cli stop
-    sleep 5
-    e1-dae -addresstype=legacy
-    sleep 5
-
-    NEWADDR=$(e1-cli getnewaddress)
-
-    e1-cli stop
-    sleep 5
-    e1-dae 
-    sleep 5
+    NEWADDR=$(e1-cli getnewaddress "" legacy)
     
     VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
 
