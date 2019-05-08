@@ -20,6 +20,8 @@ bash runtutorial.sh
 
 Then press the return key to execute each line in turn.
 
+More advanced examples, like manual 'raw' issuance of an asset, can be found [here]({{ site.url }}/elements-code-tutorial/advanced-examples).
+
 * * *
 
 ##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>It is perhaps a good idea to have the relevant tutorial pages open as you run through this code for reference, as it is not itself annotated in any meaningful way.<br/><br/>There is a chance that the " and ' characters may not paste into your **runtutorial.sh** file correctly, so type over them yourself if you come across any issues executing the code.
@@ -478,4 +480,7 @@ echo "Completed"
 ~~~~
 
 * * *
+
+More advanced examples, like manual 'raw' issuance of an asset, can be found [here]({{ site.url }}/elements-code-tutorial/advanced-examples).
+
 

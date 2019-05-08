@@ -50,6 +50,8 @@ We'll now send an amount of 1 "bitcoin" from Bob's wallet to the new address we 
 TXID=$(e2-cli sendtoaddress $ADDR 1)
 ~~~~
 
+##### NOTE: To manually create a transaction using the createrawtransaction command, please see the [advanced code examples]({{ site.url }}/elements-code-tutorial/advanced-examples).
+
 In order to have the transaction confirm we need to generate a block that will include it. As an aside we can now query the mempool of each of our Elements nodes to see the transaction waiting to be added to a block as well as the current block count of each node's blockchain:
 
 ~~~~
