@@ -28,11 +28,11 @@ echo $ADDR
 
 After running the echo command above you should see something similar to this:
 
-<div class="console-output">CTEmrcu15cikk88srA4Mh4REo3BeHePKNen9nFZJJQbK4f82NjRSGSwiZYkSAS69UwWanRBgQGWwvSer</div>
+<div class="console-output">Azpr7BwzjwdiB1pNZKcLkk6Esn5NWAE7wtrC4UzEsshpKe3eUZzPQBvfJ7q9wzJLbt9yn8hYZmZDayGG</div>
 
-In the Elements protocol blinded addresses start with "CTE" and unblinded addresses start with a "2", so we can see that the address we have just generated for Bob is indeed a blinded, confidential address.
+##### NOTE: As of Elements v0.17, getnewaddress defaults to creating P2SH-P2WPKH addresses. You can create 'CTE' prefixed addresses (the Elements pre-0.17 default) by calling getnewaddress like this: `e1-cli getnewaddress "" legacy`. You can also set the addresstype=legacy argument on node startup, or set it in your config file to always get legacy addresses from 'getnewaddress'. Some commands require a 'legacy' style address in order to work, such as message signing, as shown in the [Advanced examples]({{ site.url }}/elements-code-tutorial/advanced-examples) section.
 
-Rather than just trust the presence of the "CTE" address prefix, let's look at the address in more detail to check that it is indeed a confidential one. To do this we can use the "getaddressinfo" command, passing in the address that we stored in the ADDR variable as a parameter:
+Let's look at the address in more detail to check that it is indeed a confidential one. To do this we can use the "getaddressinfo" command, passing in the address that we stored in the ADDR variable as a parameter:
 
 ~~~~
 e2-cli getaddressinfo $ADDR
@@ -40,7 +40,7 @@ e2-cli getaddressinfo $ADDR
 
 You should see a long value for the "confidential_key" property. It will look something like this:
 
-<div class="console-output">"confidential_key": "025030f91c82297493e5dbe64aa63eef4a087a79f563d50c25c8ad0122f7547212"</div>
+<div class="console-output">"confidential_key": "030788da8d9ca229cbe57e346daaf8d94cba3ed548b41922a8abefaec91ff1abb1"</div>
 
 The confidential_key is the public blinding key, which has been added to the address and is the reason why a confdential address is so long. You will also see that the ‘getaddressinfo’ command shows an associated 'unconfidential' address, which can be used to receive assets if you don't want to make use of the Confidential Transaction feature for some reason.
 
@@ -49,6 +49,8 @@ We'll now send an amount of 1 "bitcoin" from Bob's wallet to the new address we 
 ~~~~
 TXID=$(e2-cli sendtoaddress $ADDR 1)
 ~~~~
+
+##### NOTE: To manually create a transaction using the createrawtransaction command, please see the [advanced code examples]({{ site.url }}/elements-code-tutorial/advanced-examples).
 
 In order to have the transaction confirm we need to generate a block that will include it. As an aside we can now query the mempool of each of our Elements nodes to see the transaction waiting to be added to a block as well as the current block count of each node's blockchain:
 
