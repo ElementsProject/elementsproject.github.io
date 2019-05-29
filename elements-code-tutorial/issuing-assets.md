@@ -12,9 +12,9 @@ Previously, the RPC calls we've made always returned values denominated in "bitc
 
 ##### NOTE: You can use the **defaultpeggedassetname** startup paramater to change the label of the default asset to something other than "bitcoin". You can also change the initial issuance amount of the default asset using the **initialfreecoins** parameter and the **initialreissuancetokens** parameter to allocate reissuance tokens for the default asset.
 
-In this section we'll issue our own assets, label them, re-issue them (basically create some more of them) and learn how to send them to other addresses. We'll also take a look at how to keep track of what assets have been issued and re-issued and also how to destroy assets. This last feature may be something which is required if you implement your own blockchain solution based upon real world assets. More on that later.
+In this section we'll issue our own assets, label them, look at reissuance tokens and learn how to send them to other addresses. We'll also take a look at how to keep track of what assets have been issued and re-issued and, in the next section, reissue and destory them. This last feature may be something which is required if you implement your own blockchain solution based upon real world assets. More on that in the next section.
 
-First, let's take a look at Alice's wallet to remind ourselves what it currently holds. The "getwalletinfo" command accepts an optional asset type parameter and running it without this returns all known assets, as we have been doing previously:
+First, let's take a look at Alice's wallet to remind ourselves what it currently holds.
 
 ~~~~
 e1-cli getwalletinfo
