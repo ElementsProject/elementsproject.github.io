@@ -55,9 +55,9 @@ rpc_password = 'password1'
 try:
     rpc_connection = AuthServiceProxy("http://%s:%s@127.0.0.1:%s"%(rpc_user, rpc_password, rpc_port))
     
-    result = rpc_connection.getwalletinfo("bitcoin")
+    result = rpc_connection.getwalletinfo()
     
-    print(result["balance"])
+    print(result["balance"]["bitcoin"])
 except JSONRPCException as json_exception:
     print("A JSON RPC Exception occured: " + str(json_exception))
 except Exception as general_exception:
