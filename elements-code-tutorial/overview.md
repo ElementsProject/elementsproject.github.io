@@ -34,7 +34,7 @@ permalink: /elements-code-tutorial/overview
 
 * * * 
 
-#### Note: Once you have followed the code tutorial through, you can run all the code within it again without having to type/copy and paste it in line-by-line by following the instructions in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code) section. That contains the same code as the tutorial, grouped into one code block, that can be executed one line at a time.
+#### Note: Once you have followed the code tutorial through, you can run all the code within it again without having to type/copy and paste it in line-by-line by following the instructions in the [An easy way to run the main tutorial code]({{ site.url }}/elements-code-tutorial/easy-run-code) section. That contains the same code as the tutorial, grouped into one code block, that can be executed one line at a time. The [Advanced Examples]({{ site.url }}/elements-code-tutorial/advanced-examples) section shows you how to manually issue an asset using the rawissueasset command, how to prove that you were the one who issued the asset using the contract hash parameter, and how to issue to and spend from a multi-sig address.
 
 ### The tutorial is divided up into logical parts
 

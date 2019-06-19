@@ -12,6 +12,8 @@ All addresses in Elements are, by default, blinded using Confidential Transactio
 
 Imagine that our cryptographic friends Alice and Bob are the owners of the Elements nodes we are running and the contents of the wallets they control. Alice owns the e1 wallet and Bob owns e2. We'll have Bob send some assets to himself using a blinded Elements address as the destination. 
 
+##### NOTE: The [Advanced Examples]({{ site.url }}/elements-code-tutorial/advanced-examples) section shows you how to create and use multi-sig addresses.
+
 First generate a new address and store it in a variable named "ADDR" so we can recall it for use later:
 
 ~~~~
