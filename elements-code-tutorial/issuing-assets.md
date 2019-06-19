@@ -49,7 +49,7 @@ Run the following to issue a quantity of 100 of a new asset.
 ISSUE=$(e1-cli issueasset 100 1)
 ~~~~
 
-##### NOTE: To manually issue an asset using the rawissueasset command, please see the [advanced code examples]({{ site.url }}/elements-code-tutorial/advanced-examples). The example also shows how to prove that you were the one who issued the asset using the 'contract hash' parameter.
+##### NOTE: The [Advanced Examples]({{ site.url }}/elements-code-tutorial/advanced-examples) section shows you how to manually issue an asset using the rawissueasset command, how to prove that you were the one who issued the asset using the contract hash parameter, and how to issue to and spend from a multi-sig address.
 
 That will create a new asset type, an initial supply of 100 and also 1 **reissuance token**. The reissuance token is used to prove authority to reissue more of the asset at a later date. We have issued one such token in the command above. The token is transferable and you can initially create as many as you think you will need based upon how many of the network participants will need to perform this duty. The token is used to provide proof that any transactions that create new amounts of the asset were sent by someone holding the required authority. Each asset has its own reissuance token. We'll look at this in more detail later.
 
