@@ -54,10 +54,10 @@ The "amount" section shows the net effect of the transaction as: 0 "bitcoin", 99
 
 You will see that amounts of 99 "demoasset" and 1 reissuance token were sent:
 
-<div class="console-output">"category": 'send",
+<div class="console-output">"category": "send",
 "amount": -99.00000000,
 
-"category": 'send",
+"category": "send",
 "amount": -1.00000000,
 </div>
 
