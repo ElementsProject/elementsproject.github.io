@@ -50,7 +50,7 @@ If you do not pass an argument in, all examples will run.
 
 The examples work with v0.17 of Elements.
 
-##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command. Remove it to run without stopping.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>There is a chance that the " and ' characters may not paste into your **runtutorial.sh** file correctly, so type over them yourself if you come across any issues executing the code.
+##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command. Remove it to run without stopping.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>There is a chance that the " and ' characters may not paste into your **advancedexamplesraw.sh** file correctly, so type over them yourself if you come across any issues executing the code.
  
 ~~~~
 #!/bin/bash
@@ -104,7 +104,7 @@ cd src
 
 shopt -s expand_aliases
 
-alias b-dae="bitcoind -datadir=$HOME/bitcoindir"
+alias b-dae="bitcoind -datadir=$HOME/bitcoindir -deprecatedrpc=generate"
 alias b-cli="bitcoin-cli -datadir=$HOME/bitcoindir"
 
 alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
@@ -231,25 +231,24 @@ fi
 
 if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
-    # Fund the transaction...
+    # Get an address to issue the asset to...
     ADDR=$(e1-cli getnewaddress)
+    VALIDATEADDR=$(e1-cli validateaddress $ADDR)
+    UNCONADDR=$(echo $VALIDATEADDR | jq '.unconfidential' | tr -d '"')
+  
+    # Get an address to issue the reissuance token to...
+    ADDR_TOKEN=$(e1-cli getnewaddress)
+    VALIDATEADDR_TOKEN=$(e1-cli validateaddress $ADDR_TOKEN)
+    UNCONADDR_TOKEN=$(echo $VALIDATEADDR_TOKEN | jq '.unconfidential' | tr -d '"')
 
-    e1-cli sendtoaddress $ADDR 2
-    e1-cli generate 1
-
-    RAWTX=$(e1-cli createrawtransaction [] '''{"'''$ADDR'''":1.00}''')
-
-    FRT=$(e1-cli fundrawtransaction $RAWTX)
-
+    # Create the raw transaction and fund it
+    RAWTX=$(e1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
+    FEERATE="0.00040000"
+    FRT=$(e1-cli fundrawtransaction $RAWTX '''{"''feeRate''":'$FEERATE'}''')
     HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
 
-    # Get the unconfidential address we will create the asset at...
-    VALIDATEADDR=$(e1-cli validateaddress $ADDR)
-
-    UNCONADDR=$(echo $VALIDATEADDR | jq '.unconfidential' | tr -d '"')
-
     # Create the raw issuance
-    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$UNCONADDR'''", "''blind''":"''false''"}]''')
+    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$UNCONADDR'''", "''token_amount''":7, "''token_address''":"'''$UNCONADDR_TOKEN'''", "''blind''":false}]''')
 
     # The results of which include... 
     HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
@@ -258,7 +257,7 @@ if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     TOKEN==$(echo $RIA | jq '.[0].token' | tr -d '"')
 
     # Blind, sign and send the transaction that creates the asset issuance...
-    BRT=$(e1-cli blindrawtransaction $HEXRIA)
+    BRT=$(e1-cli blindrawtransaction $HEXRIA true '''[]''' false)
 
     SRT=$(e1-cli signrawtransactionwithwallet $BRT)
     
@@ -338,7 +337,7 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     echo $CONTRACTTEXTHASH
 
     # Issue the asset to the address that we signed for earlier and which we included in the signed contract hash...
-    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":"''false''", "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
+    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
 
     # Details of the issuance...
     HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
@@ -384,7 +383,7 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     # If someone else tries to claim they created the asset and we didn't - they will need to prove they can sign for the address it was sent to and explain how come we can sign messages (as found in the asset registry) for that address.
 
-    VERIFYISSUANCE=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":"''false''", "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
+    VERIFYISSUANCE=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
 
     ASSETVERIFY=$(echo $VERIFYISSUANCE | jq '.[0].asset' | tr -d '"')
     ENTROPYVERIFY=$(echo $VERIFYISSUANCE | jq '.[0].entropy' | tr -d '"')
@@ -414,9 +413,11 @@ b-cli stop
 
 The code below shows you how to carry out the following actions within Elements:
 
-* Create a multi-sig address and issue an asset to the multi-sig.
+* Create multi-sig addresses and issue an asset and its reissuance token to them.
 
-* Spend from the multi-sig.
+* Spend the asset from a multi-sig.
+
+* Reissue an asset using a reissuance token in a multi-sig.
 
 Save the code below in a file named **advancedexamplesmulti.sh** and place it in your home directory.
 
@@ -574,7 +575,8 @@ w1-cli getbalance "*" 0 true
 
 ASSET_AMOUNT="0.00000020"
 REISSUANCE_TOKEN_AMOUNT="0.00000005"
-FEERATE="0.00040000"
+# You may need to change the fee rate depending on the environment you run it in:
+FEERATE="0.00003000"
 
 # Create multi-sig address for the asset
 CREATE=$(create_multisig "asset")  
@@ -606,16 +608,16 @@ CONTRACT_TEXT_HASH=$(echo -n $CONTRACT_TEXT | openssl dgst -sha256)
 CONTRACT_TEXT_HASH=$(echo ${CONTRACT_TEXT_HASH#"(stdin)= "})
 
 # Create the raw issuance (will not yet be complete or broadcast)
-RAW_ISSUE=$(w1-cli rawissueasset $FUNDED_HEX '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_ADDRESS'''", "''token_amount''":'$REISSUANCE_TOKEN_AMOUNT', "''token_address''":"'''$MULTISIG_REISSUANCE_ADDRESS'''", "''blind''":"''false''", "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
+RAW_ISSUE=$(w1-cli rawissueasset $FUNDED_HEX '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_ADDRESS'''", "''token_amount''":'$REISSUANCE_TOKEN_AMOUNT', "''token_address''":"'''$MULTISIG_REISSUANCE_ADDRESS'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
 
 # Store details of the issuance for later use
 HEX_RIA=$(echo $RAW_ISSUE | jq '.[0].hex' | tr -d '"')
 ASSET=$(echo $RAW_ISSUE | jq '.[0].asset' | tr -d '"')
 TOKEN=$(echo $RAW_ISSUE | jq '.[0].token' | tr -d '"')
-ENTROPY=$(echo $RAWISSUE | jq '.[0].entropy' | tr -d '"')
+ENTROPY=$(echo $RAW_ISSUE | jq '.[0].entropy' | tr -d '"')
 
 # Blind the issuance transaction
-BLIND=$(w1-cli blindrawtransaction $HEX_RIA)
+BLIND=$(w1-cli blindrawtransaction $HEX_RIA true '''[]''' false)
 
 # Sign the issuance transaction (we only need sign with Wallet 1 - it is subsequent spends that will require multiple signatures)
 SIGNED=$(w1-cli signrawtransactionwithwallet $BLIND)
@@ -701,8 +703,123 @@ w3-cli getbalance
 w1-cli getbalance "*" 0 true
 w2-cli getbalance "*" 0 true
 
-# Stop the daemon
-w-cli stop
-sleep 10
 
+####################    MULTI_SIG REISSUANCE    ####################
+
+# Reissue an asset using a reissunce token held by the multi-sig
+
+# Create a multi-sig address to issue the asset to
+CREATE=$(create_multisig "asset_reissuance")
+MULTISIG_ASSET_REISSUANCE_ADDRESS="$(echo $CREATE | cut -d'|' -f1)"
+
+# Create a multi-sig address for the token
+CREATE=$(create_multisig "token_reissuance")
+REISSUANCE_TOKEN_ADDRESS="$(echo $CREATE | cut -d'|' -f1)"
+
+# Create a multi-sig address for the change
+CREATE=$(create_multisig "token_reissuance_change")
+REISSUANCE_TOKEN_CHANGE_ADDRESS="$(echo $CREATE | cut -d'|' -f1)"
+
+# We'll reissue an amount we can spot easily later when balance checking wallets
+AMOUNT="0.00700000"
+
+REISSUANCE_TOKEN_AMOUNT="0.00000001"
+
+BASE=$(w1-cli createrawtransaction '''[]''' '''{"'''$REISSUANCE_TOKEN_ADDRESS'''":'$REISSUANCE_TOKEN_AMOUNT'}''' 0 false '''{"'''$REISSUANCE_TOKEN_ADDRESS'''":"'''$TOKEN'''"}''')
+
+BITCOIN_CHANGE=$(w1-cli getrawchangeaddress)
+
+FUNDED=$(w1-cli fundrawtransaction $BASE '''{"'''feeRate'''":'$FEERATE', "'''includeWatching'''": true, "'''changeAddress'''": {"'''bitcoin'''": "'''$BITCOIN_CHANGE'''", "'''$TOKEN'''": "'''$REISSUANCE_TOKEN_CHANGE_ADDRESS'''"}}''')
+
+FUNDED_HEX=$(echo $FUNDED | jq '.hex' | tr -d '"')
+
+# Get information about the token's unspent output
+UNSPENTS=$(w1-cli listunspent)
+
+UTXO_COUNTER=0
+UTXO_COUNT=$(echo $UNSPENTS | jq 'length')
+
+while [ $UTXO_COUNTER -lt $UTXO_COUNT ]; do
+  UTXO_ASSET=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].asset' | tr -d '"')
+  if [ $TOKEN = $UTXO_ASSET ] ; then    
+    UTXO_INFO_TXID=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].txid' | tr -d '"')
+    UTXO_INFO_VOUT=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].vout' | tr -d '"')
+    UTXO_INFO_ASSET_BLINDER=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].assetblinder' | tr -d '"')
+    break
+  fi
+  let UTXO_COUNTER=UTXO_COUNTER+1
+done
+
+# Get asset commitments
+DECODED=$(w1-cli decoderawtransaction $FUNDED_HEX)
+DECODED_VIN_COUNT=$(echo $DECODED | jq '.vin' | jq 'length')
+
+REISSUANCE_INDEX=-1
+ASSET_COMMITMENTS=""
+
+VIN_COUNTER=0
+
+while [ $VIN_COUNTER -lt $DECODED_VIN_COUNT ]; do
+  TX_INPUT_TXID=$(echo $DECODED | jq '.vin['$VIN_COUNTER'].txid' | tr -d '"')
+  TX_INPUT_VOUT=$(echo $DECODED | jq '.vin['$VIN_COUNTER'].vout' | tr -d '"')
+
+  if [ $TX_INPUT_TXID = $UTXO_INFO_TXID ] && [ $TX_INPUT_VOUT = $UTXO_INFO_VOUT ]; then    
+    REISSUANCE_INDEX=$VIN_COUNTER
+  fi
+
+  UTXO_COUNTER=0
+  while [ $UTXO_COUNTER -lt $UTXO_COUNT ]; do
+    UNSPENT_TXID=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].txid' | tr -d '"')
+    UNSPENT_VOUT=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].vout' | tr -d '"')
+    UNSPENT_ASSET_COMMITMENT=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].assetcommitment' | tr -d '"')
+
+    if [ $TX_INPUT_TXID = $UNSPENT_TXID ] && [ $TX_INPUT_VOUT = $UNSPENT_VOUT ]; then   
+      if [ "$ASSET_COMMITMENTS" = "" ]; then
+	ASSET_COMMITMENTS="\"$UNSPENT_ASSET_COMMITMENT\""
+      else
+	ASSET_COMMITMENTS="$ASSET_COMMITMENTS,\"$UNSPENT_ASSET_COMMITMENT\""
+      fi 
+      break
+    fi
+    let UTXO_COUNTER=UTXO_COUNTER+1
+  done
+
+  let VIN_COUNTER=VIN_COUNTER+1
+done
+
+# Create the reissuance transaction using the UTXO info
+REISSUANCE=$(w1-cli rawreissueasset $FUNDED_HEX '''[{"''input_index''":'$REISSUANCE_INDEX', "''asset_amount''":'$AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_REISSUANCE_ADDRESS'''", "''asset_blinder''":"'''$UTXO_INFO_ASSET_BLINDER'''", "''entropy''":"'''$ENTROPY'''"}]''')
+
+REISSUANCE_HEX=$(echo $REISSUANCE | jq '.hex' | tr -d '"')
+
+# Blind using the asset commitments we found
+BLINDED_RAW_TX=$(w1-cli blindrawtransaction $REISSUANCE_HEX true [$ASSET_COMMITMENTS] false)
+
+# Have Wallet 1 sign the transaction
+SIGNED_RAW_TX=$(w1-cli signrawtransactionwithwallet $BLINDED_RAW_TX)
+SIGNED_RAW_TX_HEX=$(echo $SIGNED_RAW_TX | jq '.hex' | tr -d '"')
+
+# Have Wallet 2 sign the transaction
+SIGNED_RAW_TX_2=$(w2-cli signrawtransactionwithwallet $SIGNED_RAW_TX_HEX)
+SIGNED_RAW_TX_2_HEX=$(echo $SIGNED_RAW_TX_2 | jq '.hex' | tr -d '"')
+
+# Test the transaction wil be accepted into the mempool
+TEST=$(w1-cli testmempoolaccept '''["'$SIGNED_RAW_TX_2_HEX'"]''')
+ALLOWED=$(echo $TEST | jq '.[0].allowed' | tr -d '"')
+
+# If the transaction is valid
+if [ "true" = $ALLOWED ] ; then
+    # Broadcast the valid transaction
+    TX=$(w1-cli sendrawtransaction $SIGNED_RAW_TX_2_HEX)
+    # Confirm the transaction
+    w-cli generate 1
+fi
+
+# Check that worked as expected:
+w1-cli getbalance "*" 0 true
+w2-cli getbalance "*" 0 true
+
+# Stop our node
+w-cli stop
+sleep 5
 ~~~~
