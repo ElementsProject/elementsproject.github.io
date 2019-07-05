@@ -55,7 +55,6 @@ The examples work with v0.17 of Elements.
 ~~~~
 #!/bin/bash
 set -x
-trap read debug
 
 #
 # Save this code in a file named advancedexamplesraw.sh and place it in your home directory.
@@ -75,12 +74,20 @@ trap read debug
 # Press the return key to execute each line in turn.
 #
 # If you want to run some of the steps automatically and then have execution stop
-# and wait for you to press enter before continuing one line at a time: move 
-# the 'trap read debug' statement down so that it is above the line you want to 
-# stop at. Execution will run each line automatically and stop when that line is 
+# and wait for you to press enter before continuing one line at a time: uncomment 
+# and move the 'trap read debug' statement down so that it is above the line you want
+# to stop at. Execution will run each line automatically and stop when that line is 
 # reached. It will then switch to executing one line at a time, waiting for you 
-# to press return before executing the next command, or just remove it completely
-# to run the code without interuption.
+# to press return before executing the next command.
+#
+# You will see that occasionally we will use the **sleep** command to pause execution.
+# This allows the daemons time to do things like stop, start and sync mempools. You
+# can probably decrease the sleeps without issue. The numbers used below are so a low
+# powered machine like a Raspberry Pi can run without incident.
+#
+
+# Remove to run without stopping:
+# trap read debug
 
 if [ "$1" != "" ]; then
     EXAMPLETYPE=$1
@@ -98,13 +105,9 @@ fi
 
 # RESET CHAIN STATE AND SET UP ENVIRONMENT >>>
 
-cd
-cd elements
-cd src
-
 shopt -s expand_aliases
 
-alias b-dae="bitcoind -datadir=$HOME/bitcoindir -deprecatedrpc=generate"
+alias b-dae="bitcoind -datadir=$HOME/bitcoindir"
 alias b-cli="bitcoin-cli -datadir=$HOME/bitcoindir"
 
 alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
@@ -113,43 +116,60 @@ alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1"
 alias e2-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir2"
 alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
 
+# Ignore error
+set +o errexit
+
 # The following 3 lines may error without issue if the daemons are not already running
 b-cli stop
 e1-cli stop
 e2-cli stop
-sleep 5
-
-cd
+sleep 15
 
 # The following 3 lines may error without issue
 rm -r ~/bitcoindir ; rm -r ~/elementsdir1 ; rm -r ~/elementsdir2
 mkdir ~/bitcoindir ; mkdir ~/elementsdir1 ; mkdir ~/elementsdir2
-
-cd elements
-cd src
 
 cp ~/elements/contrib/assets_tutorial/bitcoin.conf ~/bitcoindir/bitcoin.conf
 cp ~/elements/contrib/assets_tutorial/elements1.conf ~/elementsdir1/elements.conf
 cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.conf
 
 b-dae
+sleep 15
 
-sleep 5
+until b-cli getwalletinfo
+do
+  echo "Waiting for bitcoin node to finish loading..."
+  sleep 2
+done
 
 e1-dae
 e2-dae
 
-sleep 5
+sleep 10
 
-e1-cli getwalletinfo
-e2-cli getwalletinfo
+# Wait for e1 node to finish startup and respond to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Wait for e2 node to finish startup and respond to commands
+until e2-cli getwalletinfo
+do
+  echo "Waiting for e2 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
+
+ADDRGENB=$(b-cli getnewaddress)
+ADDRGEN1=$(e1-cli getnewaddress)
 
 e1-cli sendtoaddress $(e1-cli getnewaddress) 21000000 "" "" true
-e1-cli generate 101
+e1-cli generatetoaddress 101 $ADDRGEN1
 sleep 5
-
-# Turn on 'stop on error':
-set -e
 
 # <<< RESET CHAIN STATE AND SET UP ENVIRONMENT
 
@@ -206,7 +226,8 @@ if [ "RTIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     # Send the raw tx and confirm
     TX=$(e1-cli sendrawtransaction $HEXSRT)
 
-    e1-cli generate 101
+    e1-cli generatetoaddress 101 $ADDRGEN1
+    sleep 5
 
     # Decode the raw transaction so we can see the amount of the asset sent and the address it went to
     GRT=$(e1-cli getrawtransaction $TX)
@@ -265,7 +286,8 @@ if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
 
-    e1-cli generate 101
+    e1-cli generatetoaddress 101 $ADDRGEN1
+    sleep 5
 
     # Check that worked...
     e1-cli getwalletinfo
@@ -289,8 +311,9 @@ fi
 
 if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
-    b-cli generate 101
-    e1-cli generate 101
+    b-cli generatetoaddress 101 $ADDRGENB
+    e1-cli generatetoaddress 101 $ADDRGEN1
+    sleep 5
 
     # We need to get a 'legacy' type (prefix 'CTE') address for this:
     NEWADDR=$(e1-cli getnewaddress "" legacy)
@@ -315,7 +338,7 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     e1-cli sendtoaddress $FUNDINGADDR 2
 
-    e1-cli generate 1
+    e1-cli generatetoaddress 1 $ADDRGEN1
 
     RAWTX=$(e1-cli createrawtransaction [] '''{"'''$FUNDINGADDR'''":1.00}''')
 
@@ -354,7 +377,8 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
 
-    e1-cli generate 101
+    e1-cli generatetoaddress 101 $ADDRGEN1
+    sleep 5
 
     # In the output from decoderawtransaction you will see in the vout section the asset being issued to the address we signed from earlier...
     RT=$(e1-cli getrawtransaction $ISSUETX)
@@ -404,6 +428,9 @@ fi
 e1-cli stop
 e2-cli stop
 b-cli stop
+sleep 10
+
+echo "Completed without error"
 ~~~~
 
 * * *
@@ -433,8 +460,7 @@ bash advancedexamplesmulti.sh
 #!/bin/bash
 set -x
 
-# This script will create a multi-signature address shared between Wallet 1 and Wallet 2 and issue a new asset to the address.
-# The asset can then only be spent and reissued by Wallet 1 and Wallet 2 signing the spending/reissuance transaction.
+# This script will create a multi-signature address shared between Wallet 1 and Wallet 2 and issue a new asset to the address. The asset can then only be spent and reissued by Wallet 1 and Wallet 2 signing the spending/reissuance transaction.
 
 ####################    BEFORE RUNNING THIS SCRIPT    ####################
 
@@ -442,8 +468,8 @@ set -x
 #   1
 # -----
 
-# Before running this script, change the following variables to point to: your local Elements binaries directory, the directory you'll use to store node data.
-# Note that the script will delete the $DATA_DIR/elementsregtest directory when run, so back up anything you might already have in there before running.
+# Before running this script, change the following variables to point to: your local Elements binaries directory, the directory you'll use to store node data (note that the script will delete the $DATA_DIR/elementsregtest directory when run, so back up anything you might already have in there before running).
+
 BINARY_DIR="$HOME/elements/src"
 DATA_DIR="$HOME/elementsdir1"
 
@@ -477,9 +503,14 @@ DATA_DIR="$HOME/elementsdir1"
 # wallet_3 (w3-cli) 
 # Receive assets (single-signature receive)
 
-# -----
-#  Tip
-# -----
+# ------
+#  Tips
+# ------
+
+# You will see that occasionally we will use the **sleep** command to pause execution.
+# This allows the daemons time to do things like stop, start and create the wallets. You
+# can probably decrease the sleeps without issue. The numbers used below are so a low
+# powered machine like a Raspberry Pi can run without incident.
 
 # Uncomment and move the following line to any point in the script to stop execution and then continue execution line-by-line by pressing enter.
 #trap read debug
@@ -551,23 +582,38 @@ create_multisig () {
 
 # First clear the existing chain data and wallets 
 # The following lines may error without issue if the node is not already running or the directory does not already exist
+
+# Ignore error
+set +o errexit
+
 w-cli stop
 echo "Wait for the node to stop if it was running..."
-sleep 10
+sleep 20
+
 echo "Delete the data directory if it exists..."
 rm -r $DATA_DIR/elementsregtest
 
-# Set to stop the rest of the script if there is an error
-set -e
-
-# Start the daemon and wait for it to initialise
+# Start the daemon
 n-dae
-sleep 10
+sleep 10 
+
+# Wait for node to finish loading all wallets and respond to command to get new address
+until ADDRGEN1=$(w-cli getnewaddress)
+do
+  echo "Waiting for node to finish loading wallets..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
+
+# Create an address to generate to
+ADDRGEN1=$(w-cli getnewaddress)
 
 # Move some funds to Wallet 1
 W1_ADDR=$(w1-cli getnewaddress)
 w-cli sendtoaddress $W1_ADDR 1000
-w-cli generate 1
+w-cli generatetoaddress 1 $ADDRGEN1
 w1-cli getbalance "*" 0 true
 
 
@@ -633,7 +679,7 @@ if [ "true" = $ALLOWED ] ; then
     # Broadcast the transaction
     TXID=$(w1-cli sendrawtransaction $HEX_SRT)
     # Confirm the transaction
-    w-cli generate 101
+    w-cli generatetoaddress 101 $ADDRGEN1
     # Check the issuance can be seen by Wallet 1
     w1-cli listissuances
     # Wallet 2 won't be able to see the actual amounts just yet
@@ -693,7 +739,7 @@ if [ "true" = $ALLOWED ] ; then
     # Broadcast the valid transaction
     TX=$(w1-cli sendrawtransaction $SIGNED_RAW_TX_2_HEX)
     # Confirm the transaction
-    w-cli generate 1
+    w-cli generatetoaddress 1 $ADDRGEN1
 fi
 
 # Check that Wallet 3 received the asset
@@ -812,7 +858,7 @@ if [ "true" = $ALLOWED ] ; then
     # Broadcast the valid transaction
     TX=$(w1-cli sendrawtransaction $SIGNED_RAW_TX_2_HEX)
     # Confirm the transaction
-    w-cli generate 1
+    w-cli generatetoaddress 1 $ADDRGEN1
 fi
 
 # Check that worked as expected:
@@ -821,5 +867,7 @@ w2-cli getbalance "*" 0 true
 
 # Stop our node
 w-cli stop
-sleep 5
+sleep 10
+
+echo "Completed without error"
 ~~~~

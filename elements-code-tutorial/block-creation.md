@@ -13,7 +13,7 @@ So far, in order to create blocks we have been calling the "generate" command fr
 Creating a new block has been as simple as executing:
 
 ~~~~
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 ~~~~
 
 Elements supports a federated signing model which allows you to specify the number of signatures required in order to produce a valid block. Let's set up something more interesting next and tell our nodes to require a valid 2-of-2 multi-signature block creation condition. This is done using the **signblockscript** parameter, which can be added to the config file or passed into the node on startup. 
@@ -89,11 +89,13 @@ e1-cli importprivkey $KEY1
 e2-cli importprivkey $KEY2
 ~~~~
 
-The "generate" command no longer works, even if the keys required for signing are imported into a wallet because we have started the daemons with the signblockscript argument. The following will error:
+The "generate" command no longer works, even if the keys required for signing are imported into a wallet because we have started the daemons with the signblockscript argument. To make sure the error is caused by our introduction of signblockscript and not because we removed the wallets containing the generate receiving addresses, we'll create new ones. Because we have introduced the signblockscript, the generatetoaddress commands will error:
 
 ~~~~
-e1-cli generate 1
-e2-cli generate 1
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
+e1-cli generatetoaddress 1 $ADDRGEN1
+e2-cli generatetoaddress 1 $ADDRGEN2
 ~~~~
 
 Both error with the message:

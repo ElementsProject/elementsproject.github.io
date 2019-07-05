@@ -126,11 +126,13 @@ e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
 
 Note that we did not need to specify the asset being sent, as "newasset" will be used by default.
 
-Now claim the anyone-can-spend reissuance token and generate some blocks to confirm the transactions:
+Now claim the anyone-can-spend reissuance token and generate some blocks to confirm the transactions. We also need to recreate the generate receiving addresses, because we deleted the corresponding wallets above.
 
 ~~~~
 e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET $DEFAULTRIT
-e1-cli generate 101
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
+e1-cli generatetoaddress 101 $ADDRGEN1
 ~~~~
 
 It is worth noting that addresses in Elements can receive different types of asset, so we could have sent both 'newasset' and its reissuance token to the same address.
@@ -145,7 +147,7 @@ Send some of the reissuance tokens to e2 and confirm the two transactions:
 
 ~~~~
 e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET $DEFAULTRIT
-e1-cli generate 101
+e1-cli generatetoaddress 101 $ADDRGEN1
 ~~~~
 
 Check that the wallet has updated accordingly:
@@ -159,7 +161,7 @@ Reissue some of the default asset from e1:
 
 ~~~~
 e1-cli reissueasset newasset 100
-e1-cli generate 101
+e1-cli generatetoaddress 101 $ADDRGEN1
 ~~~~
 
 Check that worked:
@@ -172,7 +174,7 @@ Reissue some of the default asset from e2:
 
 ~~~~
 e2-cli reissueasset newasset 100
-e2-cli generate 101
+e2-cli generatetoaddress 101 $ADDRGEN2
 ~~~~
 
 Check that worked:
