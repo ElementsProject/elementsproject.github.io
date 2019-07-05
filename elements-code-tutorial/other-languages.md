@@ -49,8 +49,6 @@ if $0 == __FILE__
   elements = ElementsRPC.new('http://user1:password1@127.0.0.1:18884')
  
   p elements.getblockcount
-  p elements.generate( 1 )
-  p elements.getblockcount
 end
 ~~~~
 
@@ -60,7 +58,7 @@ Execute the code from the command line:
 ruby elementsrpcruby.rb
 ~~~~
 
-The output will show the current block count, generate a new block and check the block count again.
+The output will show the current block count.
 
 * * * 
 

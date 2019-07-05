@@ -75,7 +75,7 @@ We can see how the "amount" section above therefore lists the net transfer of 0 
 To check that the blinding works the same for a reissuance transaction as it does for a normal transaction we can check Bob's view of Alice's reissuance transaction. Wait a few seconds after running the "generate" command to let Bob's node sync, then run the second and third lines:
 
 ~~~~
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 RAWRTRANS=$(e2-cli getrawtransaction $RTXID)
 e2-cli decoderawtransaction $RAWRTRANS
 ~~~~
@@ -120,7 +120,7 @@ Send the token from Alice's wallet to Bob's new address as if it were any other 
 
 ~~~~
 e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET $TOKEN
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 ~~~~
 
 Check that Bob's wallet now has the token and that Alice's no longer does:
@@ -153,7 +153,7 @@ Bob's wallet now has "bitcoin", the reissuance token for our new asset, and an a
 Remember that the new asset we issued will still only display using its hex value in Bob's wallet as we didn't assign it a label like we did in Alice's wallet. In order for Alice to see this reissuance we need to make her wallet aware of it:
 
 ~~~~
-e2-cli generate 1
+e2-cli generatetoaddress 1 $ADDRGEN2
 ~~~~
 
 Show that Alice's wallet can't see it:
@@ -194,7 +194,7 @@ e2-cli getwalletinfo
 And this time if we import the address into Alice's wallet she should be able to see the amount issued, proving it was issued unblinded. Following the same process as before to import the address into Alice's wallet:
 
 ~~~~
-e2-cli generate 1
+e2-cli generatetoaddress 1 $ADDRGEN2
 e1-cli listissuances
 UBRITXID=$(echo $UBRISSUE | jq '.txid' | tr -d '"')
 UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq '.details[0].address' | tr -d '"')

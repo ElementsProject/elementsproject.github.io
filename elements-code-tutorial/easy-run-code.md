@@ -29,7 +29,6 @@ More advanced examples, like manual 'raw' issuance of an asset, can be found [he
 ~~~~
 #!/bin/bash
 set -x
-trap read debug
 
 # This code is based upon the Python example at https://github.com/ElementsProject/elements found within the contrib/assets_tutorial folder
 
@@ -40,17 +39,17 @@ trap read debug
 # To run this code just open a terminal in your home directory and run:
 # bash runtutorial.sh
 #
-# Then press the return key to execute each line in turn.
-#
 # If you want to run some of the steps automatically and then have execution stop
-# and wait for you to press enter before continuing one line at a time: move 
-# the **trap read debug** statement down so that it is above the line you want to 
-# stop at. Execution will run each line automatically and stop when that line is 
+# and wait for you to press enter before continuing one line at a time: uncomment 
+# and move the 'trap read debug' statement down so that it is above the line you want
+# to stop at. Execution will run each line automatically and stop when that line is 
 # reached. It will then switch to executing one line at a time, waiting for you 
 # to press return before executing the next command.
 # 
 # You will see that occasionally we will use the **sleep** command to pause execution.
-# This allows the daemons time to do things like stop, start and sync mempools.
+# This allows the daemons time to do things like stop, start and sync mempools. You
+# can probably decrease the sleeps without issue. The numbers used below are so a low
+# powered machine like a Raspberry Pi can run without incident.
 # 
 # It is perhaps a good idea to have the relevant tutorial pages open as you run 
 # through this code for reference, as it is not itself annotated in any meaningful way.
@@ -61,9 +60,8 @@ trap read debug
 #
 #################################
 
-cd
-cd elements
-cd src
+# Remove to run without stopping:
+# trap read debug
 
 shopt -s expand_aliases
 
@@ -78,20 +76,18 @@ alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
 
 echo "The following 3 lines may error - that is fine."
 
+# Ignore error
+set +o errexit
+
 b-cli stop
 e1-cli stop
 e2-cli stop
-sleep 5
-
-cd
+sleep 15
 
 echo "The following 3 'rm' commands may error - that is fine."
 
 rm -r ~/bitcoindir ; rm -r ~/elementsdir1 ; rm -r ~/elementsdir2
 mkdir ~/bitcoindir ; mkdir ~/elementsdir1 ; mkdir ~/elementsdir2
-
-cd elements
-cd src
 
 cp ~/elements/contrib/assets_tutorial/bitcoin.conf ~/bitcoindir/bitcoin.conf
 cp ~/elements/contrib/assets_tutorial/elements1.conf ~/elementsdir1/elements.conf
@@ -99,24 +95,49 @@ cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.con
 
 b-dae
 
-sleep 5
+sleep 10
+
+# Wait for bitcoin node to finish startup and respond to commands
+until b-cli getwalletinfo
+do
+  echo "Waiting for bitcoin node to finish loading..."
+  sleep 2
+done
 
 e1-dae
 e2-dae
 
-sleep 5
+sleep 10
 
-e1-cli getwalletinfo
-e2-cli getwalletinfo
+# Wait for e1 node to finish startup and respond to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Wait for e2 node to finish startup and respond to commands
+until e2-cli getwalletinfo
+do
+  echo "Waiting for e2 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
 
 ### Basic Operations ###
 
+ADDRGENB=$(b-cli getnewaddress)
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
+
 e1-cli sendtoaddress $(e1-cli getnewaddress) 21000000 "" "" true
-e1-cli generate 101
-sleep 5
+e1-cli generatetoaddress 101 $ADDRGEN1
+sleep 10
 e1-cli sendtoaddress $(e2-cli getnewaddress) 10500000 "" "" false
-e1-cli generate 101
-sleep 5
+e1-cli generatetoaddress 101 $ADDRGEN1
+sleep 10
 
 e1-cli getwalletinfo
 e2-cli getwalletinfo
@@ -129,15 +150,15 @@ e2-cli getaddressinfo $ADDR
 
 TXID=$(e2-cli sendtoaddress $ADDR 1)
 
-sleep 5
+sleep 10
 
 e1-cli getrawmempool
 e2-cli getrawmempool
 e1-cli getblockcount
 e2-cli getblockcount
 
-e2-cli generate 1
-sleep 2
+e2-cli generatetoaddress 1 $ADDRGEN2
+sleep 10
 
 e1-cli getrawmempool
 e2-cli getrawmempool
@@ -146,8 +167,14 @@ e2-cli getblockcount
 
 e2-cli gettransaction $TXID
 
+# Ignore error
+set +o errexit
+
 echo "This may error - that is ok"
 e1-cli gettransaction $TXID
+
+# Exit on error
+set -o errexit
 
 e1-cli getrawtransaction $TXID 1
 
@@ -181,14 +208,28 @@ echo $ASSET
 e1-cli listissuances
 
 e1-cli stop
-sleep 2
+sleep 15
 e1-dae -assetdir=$ASSET:demoasset
-sleep 2
+sleep 10
+
+# Ignore error
+set +o errexit
+
+# Wait for e1 node to finish startup and respond to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
+
 e1-cli listissuances
 
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 
-sleep 2
+sleep 10
 e2-cli listissuances
 
 IADDR=$(e1-cli gettransaction $ITXID | jq '.details[0].address' | tr -d '"')
@@ -205,18 +246,18 @@ e2-cli listissuances
 
 E2DEMOADD=$(e2-cli getnewaddress)
 e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET demoasset
-sleep 2
-e1-cli generate 1
-sleep 2
+sleep 10
+e1-cli generatetoaddress 1 $ADDRGEN1
+sleep 10
 
 e2-cli getwalletinfo
 e1-cli getwalletinfo
 
 E1DEMOADD=$(e1-cli getnewaddress)
 e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET $ASSET
-sleep 2
-e2-cli generate 1
-sleep 2
+sleep 10
+e2-cli generatetoaddress 1 $ADDRGEN2
+sleep 10
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
@@ -229,29 +270,35 @@ e1-cli listissuances $ASSET
 
 e1-cli gettransaction $RTXID
 
-e1-cli generate 1
-sleep 2
+e1-cli generatetoaddress 1 $ADDRGEN1
+sleep 10
 RAWRTRANS=$(e2-cli getrawtransaction $RTXID)
 e2-cli decoderawtransaction $RAWRTRANS
 
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
+# Ignore error
+set +o errexit
+
 echo "This will error and that is expected:"
 e2-cli reissueasset $ASSET 10
 
+# Exit on error
+set -o errexit
+
 RITRECADD=$(e2-cli getnewaddress)
 e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET $TOKEN
-e1-cli generate 1
-sleep 2
+e1-cli generatetoaddress 1 $ADDRGEN1
+sleep 10
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
 RISSUE=$(e2-cli reissueasset $ASSET 10)
 e2-cli getwalletinfo
 
-e2-cli generate 1
-sleep 2
+e2-cli generatetoaddress 1 $ADDRGEN2
+sleep 10
 
 e1-cli listissuances
 
@@ -267,8 +314,8 @@ UBASSET=$(echo $UBRISSUE | jq '.asset' | tr -d '"')
 
 e2-cli getwalletinfo
 
-e2-cli generate 1
-sleep 2
+e2-cli generatetoaddress 1 $ADDRGEN2
+sleep 10
 
 e1-cli listissuances
 
@@ -285,8 +332,8 @@ e2-cli getwalletinfo
 
 ### Block Signing ###
 
-e1-cli generate 1
-sleep 2
+e1-cli generatetoaddress 1 $ADDRGEN1
+sleep 10
 
 ADDR1=$(e1-cli getnewaddress)
 ADDR2=$(e2-cli getnewaddress)
@@ -306,7 +353,7 @@ echo $REDEEMSCRIPT
 
 e1-cli stop
 e2-cli stop
-sleep 5
+sleep 15
 
 SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150"
 
@@ -320,14 +367,43 @@ rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 e1-dae $SIGNBLOCKARG
 e2-dae $SIGNBLOCKARG
 
-sleep 5
+sleep 10
+
+# Ignore error
+set +o errexit
+
+# Wait for e1 node to finish startup and respond to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Wait for e2 node to finish startup and respond to commands
+until e2-cli getwalletinfo
+do
+  echo "Waiting for e2 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
 
 e1-cli importprivkey $KEY1
 e2-cli importprivkey $KEY2
 
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
+
+# Ignore error
+set +o errexit
+
 echo "This will error - that is ok:"
-e1-cli generate 1
-e2-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
+e2-cli generatetoaddress 1 $ADDRGEN2
+
+# Exit on error
+set -o errexit
 
 HEX=$(e1-cli getnewblockhex)
 
@@ -354,7 +430,7 @@ e2-cli getblockcount
 
 e1-cli stop
 e2-cli stop
-sleep 5
+sleep 15
 
 ### Sidechain - Peg-In ###
 
@@ -369,10 +445,33 @@ FEDPEGARG="-fedpegscript=5221$(echo $PUBKEY1)21$(echo $PUBKEY2)52ae"
 
 e1-dae $FEDPEGARG
 e2-dae $FEDPEGARG
-sleep 5
+sleep 10
 
-e1-cli generate 101
-b-cli generate 101
+# Ignore error
+set +o errexit
+
+# Wait for e1 node to finish startup and respond to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Wait for e2 node to finish startup and respond to commands
+until e2-cli getwalletinfo
+do
+  echo "Waiting for e2 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
+
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
+
+e1-cli generatetoaddress 101 $ADDRGEN1
+b-cli generatetoaddress 101 $ADDRGENB
 
 e1-cli getpeginaddress
 e1-cli getpeginaddress
@@ -388,7 +487,7 @@ TXID=$(b-cli sendtoaddress $MAINCHAIN 1)
 
 b-cli getwalletinfo
 
-b-cli generate 101
+b-cli generatetoaddress 101 $ADDRGENB
 
 b-cli getwalletinfo
 
@@ -397,8 +496,8 @@ RAW=$(b-cli getrawtransaction $TXID)
 
 CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF)
 
-e2-cli generate 1
-sleep 2
+e2-cli generatetoaddress 1 $ADDRGEN2
+sleep 10
 
 e1-cli getrawtransaction $CLAIMTXID 1
 
@@ -408,18 +507,17 @@ e1-cli getwalletinfo
 
 e1-cli sendtomainchain $(b-cli getnewaddress) 10
 
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 
 e1-cli getwalletinfo
 
 e1-cli stop
 e2-cli stop
 b-cli stop
-sleep 5
+sleep 15
 
 ### Standalone Blockchain ###
 
-cd 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
 rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
@@ -431,7 +529,30 @@ STANDALONEARGS="-validatepegin=0 -defaultpeggedassetname=newasset -initialfreeco
 
 e1-dae $STANDALONEARGS
 e2-dae $STANDALONEARGS
-sleep 5
+sleep 10
+
+# Ignore error
+set +o errexit
+
+# Wait for e1 node to finish startup and respond to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Wait for e2 node to finish startup and respond to commands
+until e2-cli getwalletinfo
+do
+  echo "Waiting for e2 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
+
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
 
 e1-cli getwalletinfo
 e2-cli getwalletinfo
@@ -447,36 +568,36 @@ echo $DEFAULTRIT
 e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
 
 e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET $DEFAULTRIT
-e1-cli generate 101
-sleep 2
+e1-cli generatetoaddress 101 $ADDRGEN1
+sleep 10
 
 e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false 
 
 e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET $DEFAULTRIT
-e1-cli generate 101
-sleep 2
+e1-cli generatetoaddress 101 $ADDRGEN1
+sleep 10
 
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
 e1-cli reissueasset newasset 100
-e1-cli generate 101
-sleep 2
+e1-cli generatetoaddress 101 $ADDRGEN1
+sleep 10
 
 e1-cli getwalletinfo
 
 e2-cli reissueasset newasset 100
-e2-cli generate 101
-sleep 2
+e2-cli generatetoaddress 101 $ADDRGEN2
+sleep 10
 
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
 e1-cli stop
 e2-cli stop
-sleep 5
+sleep 10
 
-echo "Completed"
+echo "Completed without error"
 ~~~~
 
 * * *

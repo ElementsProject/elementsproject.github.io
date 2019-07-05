@@ -125,7 +125,7 @@ Notice that the default "bitcoin" asset has a token hex but that the token amoun
 Confirm the transaction:
 
 ~~~~
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 ~~~~
 
 Then wait a few seconds before having Bob's wallet list its view of the asset issuances:
@@ -181,7 +181,7 @@ Just like any other asset in Elements, we can send our "demoasset" from Alice's 
 ~~~~
 E2DEMOADD=$(e2-cli getnewaddress)
 e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET demoasset
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 ~~~~
 
 ##### NOTE: The parameters you can pass to "sendtoaddress" are detailed within the elements/src/wallet/rpcwallet.cpp file on [Github](https://github.com/ElementsProject/elements)
@@ -198,7 +198,7 @@ As we didn't assign a label in Bob's node for the asset we created, it will be i
 ~~~~
 E1DEMOADD=$(e1-cli getnewaddress)
 e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET $ASSET
-e2-cli generate 1
+e2-cli generatetoaddress 1 $ADDRGEN2
 ~~~~
 
 We should see that Bob's wallet has no "demoasset" in it anymore and Alice's is back to 100:

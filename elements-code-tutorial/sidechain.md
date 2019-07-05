@@ -50,11 +50,13 @@ e2-dae $FEDPEGARG
 
 ##### NOTE: The characters outside the public keys are delimiters that indicate public key and ‘n of m’ requirements. For example, the template for a 1-of-1 fedpegscript would be '5121<pubkey>51ae'.
 
-Mature some outputs on each chain:
+Create some generate receiving addresses (as we deleted the wallets associated with them above) and mature some outputs on each chain:
 
 ~~~~
-e1-cli generate 101
-b-cli generate 101
+ADDRGEN1=$(e1-cli getnewaddress)
+ADDRGEN2=$(e2-cli getnewaddress)
+e1-cli generatetoaddress 101 $ADDRGEN1
+b-cli generatetoaddress 101 $ADDRGENB
 ~~~~
 
 If we generate a peg-in address from Alice's daemon you'll notice the returned data contains two properties:
@@ -122,7 +124,7 @@ In order to claim the peg-in amount in our sidechain we need to first mature the
 ##### NOTE: The 'peginconfirmationdepth' parameter can be used to override the default confirmation depth, which is 10 blocks (8 plus 2 for the wallet to avoid race conditions between nodes). This forms part of the network's consensus rules and so it must be set on chain initialization. As a guide, Liquid is a production implementation of Elements that is pegged to Bitcoin and uses 102 (100 plus 2 for the wallet).
 
 ~~~~
-b-cli generate 101
+b-cli generatetoaddress 101 $ADDRGENB
 b-cli getwalletinfo
 ~~~~
 
@@ -144,7 +146,7 @@ CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF)
 Bob's node (as well as Alice's of course) should accept the claim transaction as valid and add it to its mempool. Create a block containing the transaction:
 
 ~~~~
-e2-cli generate 1
+e2-cli generatetoaddress 1 $ADDRGEN2
 ~~~~
 
 We should be able to see the confirmation:
@@ -178,7 +180,7 @@ Now that we have sent assets into our sidechain (peg-in) we will now peg-out and
 
 ~~~~
 e1-cli sendtomainchain $(b-cli getnewaddress) 1
-e1-cli generate 1
+e1-cli generatetoaddress 1 $ADDRGEN1
 e1-cli getwalletinfo
 ~~~~
 
