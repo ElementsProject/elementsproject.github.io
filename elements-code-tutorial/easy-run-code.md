@@ -170,7 +170,7 @@ e2-cli gettransaction $TXID
 # Ignore error
 set +o errexit
 
-echo "This may error - that is ok"
+echo "This may error - that is ok, not aware of tx"
 e1-cli gettransaction $TXID
 
 # Exit on error
@@ -178,17 +178,13 @@ set -o errexit
 
 e1-cli getrawtransaction $TXID 1
 
-e1-cli importprivkey $(e2-cli dumpprivkey $ADDR)
+e1-cli importaddress $ADDR
 
-e1-cli gettransaction $TXID
-
-e1-cli listunspent 1 1
+e1-cli gettransaction $TXID true
 
 e1-cli importblindingkey $ADDR $(e2-cli dumpblindingkey $ADDR)
 
-e1-cli getwalletinfo
-e1-cli listunspent 1 1
-e1-cli gettransaction $TXID
+e1-cli gettransaction $TXID true
 
 ### Issued Assets ###
 

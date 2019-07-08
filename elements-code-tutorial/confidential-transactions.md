@@ -121,13 +121,13 @@ Looking in the "details" section near the top, you will see that there are two a
 
 And so we can confirm that Bob's wallet can view the actual amounts being sent and received in this transaction. This is because the blinded transaction was sent from Bob's own wallet and so it has access to the required data to unblind the amount values. You will also see two other properties and their values within the two details sections: "amountblinder" and "assetblinder". These indicate that both the asset amount and the type of asset were blinded. This ensures that wallets without knowledge of the blinding key are prevented from viewing them.
 
-Looking at the transaction from Alice's wallet we would expect both amount and type to be unknown. Checking this using Alice's wallet we may initially get an error:
+Looking at the transaction from Alice's wallet we would expect both amount and type to be unknown. Checking this using Alice's wallet we initially get an error:
 
 ~~~~
 e1-cli gettransaction $TXID
 ~~~~
 
-The reason that we might get an error using this command is that Alice's wallet may not contain details of the transaction yet. We can get the raw transaction data from Alice's node's copy of the blockchain using the getrawtransaction command like this:
+The reason that we get an error using this command is that Alice's wallet will not contain details of the transaction. We can get the raw transaction data from Alice's node's copy of the blockchain using the getrawtransaction command like this:
 
 ~~~~
 e1-cli getrawtransaction $TXID 1
@@ -143,16 +143,13 @@ That returns raw transaction details. If you look within the "vout" section you 
 
 What this shows are the "blinded ranges" of the value amounts and the commitment data that acts as proof of the actual amount and type of asset transacted.
 
-Even if we were to import Bob's private key into Alice's wallet it would still not be able to see the amounts and type of asset because it still has no knowledge of the blinding key used. Let's show this by first importing the private key used by Bob's wallet into Alice's:
+Even if we were to import Bob's private key into Alice's wallet it would still not be able to see the amounts and type of asset because it still has no knowledge of the blinding key used.
+
+If we want to let Alice's wallet view the actual amount details we'll need to import the address so gettransaction will work, and then import the blinding key so we can see the unblinded amounts. First, import and then view the transaction. Note the use of the second argument, set to true. This tells gettransaction to include watch only addresses, such as the one we imported.
 
 ~~~~
-e1-cli importprivkey $(e2-cli dumpprivkey $ADDR)
-~~~~
-
-Now that we have imported the private key the call to "gettransaction" will not error:
-
-~~~~
-e1-cli gettransaction $TXID
+e1-cli importaddress $ADDR
+e1-cli gettransaction $TXID true
 ~~~~
 
 But because Alice still does not know the blinding key, the amount (towards the top of the output) will show as:
@@ -160,16 +157,6 @@ But because Alice still does not know the blinding key, the amount (towards the 
 <div class="console-output">"amount": {
     "bitcoin": 0.00000000
 </div>
-
-As the amount for the transaction is unknown it will also not show up in her Wallet's list of unspent outputs. 
-
-#### Note: The two parameters used below are "minimum confirmations" and "maximum confirmations". Passing 1 in for each means we only search the space the utxo above is in, although we expect not to see it anyway:
-
-~~~~
-e1-cli listunspent 1 1
-~~~~
-
-Which simply returns nothing.
 
 <a id="blindingkey"></a>
 
@@ -184,33 +171,14 @@ e1-cli importblindingkey $ADDR $(e2-cli dumpblindingkey $ADDR)
 Now that Alice's wallet has knowledge of the blinding key used on that address, we can run the checks we did above from Alice's wallet, this time expecting to see the actual amount value:
 
 ~~~~
-e1-cli getwalletinfo
+e1-cli gettransaction $TXID true
 ~~~~
 
-Magic! Alice's wallet now shows:
-
-<div class="console-output">"balance": {
-    "bitcoin": 10500001.00000000
+<div class="console-output">"amount": {
+    "bitcoin": 1.00000000
 </div>
 
-Checking the unspent outputs Alice's wallet is aware of should now also show the output in its list. Remember that we previously imported the private key from Bob's wallet so Alice's now treats it as her own:
-
-~~~~
-e1-cli listunspent 1 1
-~~~~
-
-This shows that both the amount and the type within the unspent output are now visible to Alice's wallet:
-
-<div class="console-output">"amount": 1.00000000,
-"asset": "b2e15d0d7a0c94e4e2ce0fe6e8691b9e451377f6e46e8045a86f7c4b5d4f0f23",
-"assetlabel": "bitcoin",
-</div>
-
-The "asset" value and "assetlabel" properties are things we will look at in more detail in a later section. We can now show that Alice's wallet's view of the transaction is now identical to Bob's. Test this by running the following and comparing it to the result of running the same command through Bob's client.
-
-~~~~
-e1-cli gettransaction $TXID
-~~~~
+Magic! Alice's wallet now shows the actual value sent in the transaction.
 
 We've seen that the use of a blinding key hides the amount and type of assets in an address and that by importing the right blinding key, we can reveal those values. In practical use, a blinding key may be given to an auditor, should there be a need to verify the amounts and types of assets held by a party. The Confidential Transactions feature of Elements also allows for "range proofs" to be performed without the need to expose actual amounts. This allows statements such as "address abc holds at least an amount x of asset y" to be cryptographically proven as true or false.
 
