@@ -268,9 +268,9 @@ if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     # The results of which include... 
     HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
-    ASSET==$(echo $RIA | jq '.[0].asset' | tr -d '"')
-    ENTROPY==$(echo $RIA | jq '.[0].entropy' | tr -d '"')
-    TOKEN==$(echo $RIA | jq '.[0].token' | tr -d '"')
+    ASSET=$(echo $RIA | jq '.[0].asset' | tr -d '"')
+    ENTROPY=$(echo $RIA | jq '.[0].entropy' | tr -d '"')
+    TOKEN=$(echo $RIA | jq '.[0].token' | tr -d '"')
 
     # Blind, sign and send the transaction that creates the asset issuance...
     BRT=$(e1-cli blindrawtransaction $HEXRIA true '''[]''' false)
