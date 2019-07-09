@@ -8,14 +8,18 @@ permalink: /elements-code-tutorial/advanced-examples
 
 ## Advanced examples
 
-[Example 1](#raw): Manually creating a transaction, manually issuing an asset and using an asset contract.
+[Example 1](#raw)
 
-[Example 2](#multi): Issuing an asset to a multi-sig and spending from the multi-sig.
+Manually creating a transaction, manually issuing an asset, using asset contract hash and asset registration.
+
+[Example 2](#multi)
+
+Issuing an asset to a multi-sig, spending from a multi-sig and reissuing from a multi-sig.
 
 * * *
 
 <a id="raw"></a>
-### Example 1: Manually creating a transaction, manually issuing an asset and using an asset contract
+### Example 1: Manually creating a transaction, manually issuing an asset, using asset contract hash and asset registration.
 
 The code below shows you how to carry out the following actions within Elements:
 
@@ -24,6 +28,10 @@ The code below shows you how to carry out the following actions within Elements:
 * Creating an asset issuance manually (rawissueasset).
 
 * Proving that you issued an asset using 'Contract Hash'.
+
+* Registering an Issued Asset with Blockstream's [Liquid asset registry](https://assets.blockstream.info).
+
+For the last item, you will need to run elements with an argument of ``chain=liquidv1`` and connect to the live Liquid network for the registration to be successful.
 
 Save the code below in a file named **advancedexamplesraw.sh** and place it in your home directory.
 
@@ -41,6 +49,8 @@ You can run each of the examples individualy by passing in the following command
 
 'POI' for proof of issuance / contract hash
 
+'BAR' for Blockstream's [Liquid asset registry](https://assets.blockstream.info)
+
 For example, to run the raw issuance example only:
 ~~~~
 bash advancedexamplesraw.sh RIA
@@ -48,7 +58,7 @@ bash advancedexamplesraw.sh RIA
  
 If you do not pass an argument in, all examples will run.
 
-The examples work with v0.17 of Elements.
+The examples work with v0.18 of Elements.
 
 ##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command. Remove it to run without stopping.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>There is a chance that the " and ' characters may not paste into your **advancedexamplesraw.sh** file correctly, so type over them yourself if you come across any issues executing the code.
  
@@ -66,6 +76,7 @@ set -x
 # 'RTIA' for raw transaction using an issued asset
 # 'RIA' for raw issuance of an asset
 # 'POI' for proof of issuance / contract hash
+# 'BAR' for Blockstream's Liquid asset registry (https://assets.blockstream.info)
 # For example, to run the raw issuance example only:
 # bash advancedexamplesraw.sh RIA
 # 
@@ -418,6 +429,124 @@ fi
 
 # <<< PROOF OF ISSUANCE / CONTRACT HASH
 
+
+#########################################
+#                                       #
+#  BLOCKSTREAM'S LIQUID ASSET REGISTRY  #
+#                                       #
+#########################################
+
+# BLOCKSTREAM'S LIQUID ASSET REGISTRY >>>
+
+# This will issue an asset in a manner that it can then be registered with 
+# Blockstream's Liquid Asset Registry: https://assets.blockstream.info
+#
+# To register an asset, once you have tested your code based on the guidance
+# below, use the live Liquid network for the registration to be successful. 
+# You can do this with Elements by setting you config to chain=liquidv1 and 
+# removing the arguments used only for testing.
+#
+# The code below creates an asset and an associated token and creates two files.
+# - A file that must be placed on the server of the registered domain
+# - A .sh file that posts the registration data to the Blockstream asset registry
+#
+# This guide is based upon: 
+# https://github.com/Blockstream/liquid_multisig_issuance
+# Please refer to the repository above if there are any issues as the format 
+# may change since this was written.
+
+if [ "BAR" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
+
+	# Amend the following:
+	NAME="asset name"
+	TICKER="XYZ"
+	DOMAIN="domain.com"
+	ASSET_AMOUNT=100
+	TOKEN_AMOUNT=1
+	
+	# Amend the following if needed (likely not):
+	PRECISION=0
+	
+	# Don't change the following:
+	VERSION=0 
+	
+	# We need to get a 'legacy' type (prefix 'CTE') address for this:
+	NEWADDR=$(e1-cli getnewaddress "" legacy)
+	
+	VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
+	
+	PUBKEY=$(echo $VALIDATEADDR | jq '.pubkey' | tr -d '"')
+	
+	ASSET_ADDR=$NEWADDR
+	
+	NEWADDR=$(e1-cli getnewaddress "" legacy)
+	
+	TOKEN_ADDR=$NEWADDR
+	
+	# Create the contract and calculate the contract hash
+	# The contract is formatted for use in the Blockstream Asset Registry:
+	
+	CONTRACT_REGISTRY_ENTRY="{\"name\": \"$NAME\", \"ticker\": \"$TICKER\", \"precision\": $PRECISION, \"entity\": {\"domain\": \"$DOMAIN\"}, \"issuer_pubkey\": \"$PUBKEY\", \"version\": $VERSION}"
+	
+	# We will hash using openssl, other options are available
+	CONTRACT_TEXT_HASH=$(echo -n $CONTRACT_REGISTRY_ENTRY | openssl dgst -sha256)
+	CONTRACT_TEXT_HASH=$(echo ${CONTRACT_TEXT_HASH#"(stdin)= "})
+	
+	e1-cli generatetoaddress 1 $ADDRGEN1
+	
+	RAWTX=$(e1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
+	
+	FRT=$(e1-cli fundrawtransaction $RAWTX)
+	
+	HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
+	
+	RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$ASSET_ADDR'''", "''token_amount''":'$TOKEN_AMOUNT', "''token_address''":"'''$TOKEN_ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
+	
+	# Details of the issuance...
+	HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
+	ASSET=$(echo $RIA | jq '.[0].asset' | tr -d '"')
+	ENTROPY=$(echo $RIA | jq '.[0].entropy' | tr -d '"')
+	TOKEN=$(echo $RIA | jq '.[0].token' | tr -d '"')
+	
+	# Blind, sign and send the issuance transaction...
+	BRT=$(e1-cli blindrawtransaction $HEXRIA true '''[]''' false)
+	
+	SRT=$(e1-cli signrawtransactionwithwallet $BRT)
+	
+	HEXSRT=$(echo $SRT | jq '.hex' | tr -d '"')
+	
+	ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
+	
+	e1-cli generatetoaddress 101 $ADDRGEN1
+	sleep 5
+	
+	e1-cli listissuances
+	
+	e1-cli getwalletinfo
+	
+	# To now register the asset Blockstream's Liquid asset registry
+	# https://assets.blockstream.info/ can be used to register an 
+	# asset to an issuer. We already have the required data and 
+	# have formatted the contract plain text into a format that we 
+	# can use for this.
+	
+	# Write the domain and asset ownership proof to a file. 
+	# The file should then be placed in a directory named ".well_known"
+	# within the root of your domain. The file should have no extension
+	# and just copied as it is created.
+	
+	echo "Authorize linking the domain name $DOMAIN to the Liquid asset $ASSET" > liquid-asset-proof-$ASSET
+	
+	# After you have placed the above file without your domain you 
+	# can run the register_asset.sh script created below to post the 
+	# asset data to the registry.
+	
+	echo "curl https://assets.blockstream.info/ --data-raw '{\"asset_id\":\"$ASSET\",\"contract\":$CONTRACT_REGISTRY_ENTRY,\"issuance_txin\":{\"txid\":\"$ISSUETX\",\"vin\":0}}'" > register_asset.sh
+
+fi
+# <<< BLOCKSTREAM'S LIQUID ASSET REGISTRY
+
+
 # CLOSE RUNNING NODES BEFORE EXIT:
 
 e1-cli stop
@@ -431,7 +560,7 @@ echo "Completed without error"
 * * *
 
 <a id="multi"></a>
-### Example 2: Issuing an asset to a multi-sig and spending from the multi-sig
+### Example 2: Issuing an asset to a multi-sig, spending from a multi-sig and reissuing from a multi-sig.
 
 The code below shows you how to carry out the following actions within Elements:
 
