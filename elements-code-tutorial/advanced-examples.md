@@ -253,23 +253,18 @@ fi
 if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     # Get an address to issue the asset to...
-    ADDR=$(e1-cli getnewaddress)
-    VALIDATEADDR=$(e1-cli validateaddress $ADDR)
-    UNCONADDR=$(echo $VALIDATEADDR | jq '.unconfidential' | tr -d '"')
-  
-    # Get an address to issue the reissuance token to...
-    ADDR_TOKEN=$(e1-cli getnewaddress)
-    VALIDATEADDR_TOKEN=$(e1-cli validateaddress $ADDR_TOKEN)
-    UNCONADDR_TOKEN=$(echo $VALIDATEADDR_TOKEN | jq '.unconfidential' | tr -d '"')
+    ASSET_ADDR=$(e1-cli getnewaddress "" legacy)
+
+      # Get an address to issue the reissuance token to...
+    TOKEN_ADDR=$(e1-cli getnewaddress "" legacy)
 
     # Create the raw transaction and fund it
     RAWTX=$(e1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
-    FEERATE="0.00040000"
-    FRT=$(e1-cli fundrawtransaction $RAWTX '''{"''feeRate''":'$FEERATE'}''')
+    FRT=$(e1-cli fundrawtransaction $RAWTX)
     HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
 
     # Create the raw issuance
-    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$UNCONADDR'''", "''token_amount''":7, "''token_address''":"'''$UNCONADDR_TOKEN'''", "''blind''":false}]''')
+    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ASSET_ADDR'''", "''token_amount''":7, "''token_address''":"'''$TOKEN_ADDR'''", "''blind''":false}]''')
 
     # The results of which include... 
     HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
