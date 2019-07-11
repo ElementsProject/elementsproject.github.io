@@ -531,7 +531,7 @@ if [ "BAR" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 	# can use for this.
 	
 	# Write the domain and asset ownership proof to a file. 
-	# The file should then be placed in a directory named ".well_known"
+	# The file should then be placed in a directory named ".well-known"
 	# within the root of your domain. The file should have no extension
 	# and just copied as it is created.
 	
