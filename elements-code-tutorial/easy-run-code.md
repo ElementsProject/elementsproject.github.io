@@ -58,6 +58,8 @@ set -x
 # **runtutorial.sh** file correctly, so type over them yourself if you come 
 # across any issues executing the code.
 #
+# Press Ctrl + c to stop script execution
+#
 #################################
 
 # Remove to run without stopping:
@@ -437,6 +439,8 @@ rm -r ~/elementsdir2/elementsregtest/blocks
 rm -r ~/elementsdir2/elementsregtest/chainstate
 rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 
+# When testing, you can also use the OP_TRUE script -fedpegscript=51 
+# so that you do not have to provide any pubkey values as we do below.
 FEDPEGARG="-fedpegscript=5221$(echo $PUBKEY1)21$(echo $PUBKEY2)52ae"
 
 e1-dae $FEDPEGARG
@@ -475,7 +479,7 @@ e1-cli getpeginaddress
 ADDRS=$(e1-cli getpeginaddress)
 
 MAINCHAIN=$(echo $ADDRS |  jq '.mainchain_address' | tr -d '"')
-SIDECHAIN=$(echo $ADDRS | jq '.claim_script' | tr -d '"')
+CLAIMSCRIPT=$(echo $ADDRS | jq '.claim_script' | tr -d '"')
 
 b-cli getwalletinfo
 
@@ -490,7 +494,7 @@ b-cli getwalletinfo
 PROOF=$(b-cli gettxoutproof '''["'''$TXID'''"]''')
 RAW=$(b-cli getrawtransaction $TXID)
 
-CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF)
+CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF $CLAIMSCRIPT)
 
 e2-cli generatetoaddress 1 $ADDRGEN2
 sleep 10
