@@ -86,7 +86,7 @@ With that established, let's store the data returned in some variables for use l
 ~~~~
 ADDRS=$(e1-cli getpeginaddress)
 MAINCHAIN=$(echo $ADDRS |  jq '.mainchain_address' | tr -d '"')
-SIDECHAIN=$(echo $ADDRS | jq '.claim_script' | tr -d '"')
+CLAIMSCRIPT=$(echo $ADDRS | jq '.claim_script' | tr -d '"')
 ~~~~
 
 We'll be moving bitcoin to this address so we'll check existing balances in our Bitcoin wallet first:
@@ -140,7 +140,7 @@ We will now attempt to claim the funds within our sidechain. The claim takes the
 ##### NOTE: There is an optional third argument of "sidechainaddress" which can be provided to "claimpegin". This is not needed if you are calling the command from the same wallet that "owns" the address.
 
 ~~~~
-CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF)
+CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF $CLAIMSCRIPT)
 ~~~~
 
 Bob's node (as well as Alice's of course) should accept the claim transaction as valid and add it to its mempool. Create a block containing the transaction:
