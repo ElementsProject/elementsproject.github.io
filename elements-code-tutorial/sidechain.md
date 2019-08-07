@@ -40,7 +40,7 @@ rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
 
 We will not require "n of m" block signing in this section so that we can keep the code brief, instead we will return to using "OP_TRUE" block creation. If you implement your own federated sidechain you can of course use the "n of m" signing method outlined earlier in the tutorial.
 
-In order to enable peg-in and peg-out we need to pass a valid "fedpegscript" to our node as a startup parameter. Alternatively, this can be set within the config file of each node:
+In order to enable peg-in and peg-out we need to pass a valid "fedpegscript" to our node as a startup parameter. Alternatively, this can be set within the config file of each node. 
 
 ~~~~
 FEDPEGARG="-fedpegscript=5221$(echo $PUBKEY1)21$(echo $PUBKEY2)52ae"
@@ -48,7 +48,7 @@ e1-dae $FEDPEGARG
 e2-dae $FEDPEGARG
 ~~~~
 
-##### NOTE: The characters outside the public keys are delimiters that indicate public key and ‘n of m’ requirements. For example, the template for a 1-of-1 fedpegscript would be '5121<pubkey>51ae'.
+##### NOTE: The characters outside the public keys are delimiters that indicate public key and 'n of m' requirements. For example, the template for a 1-of-1 fedpegscript would be ``5121<pubkey>51ae``. When testing, you can also use the OP_TRUE script ``-fedpegscript=51`` so that you do not have to provide any pubkey values as we have above.
 
 Create some generate receiving addresses (as we deleted the wallets associated with them above) and mature some outputs on each chain:
 
