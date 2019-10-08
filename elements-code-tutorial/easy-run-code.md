@@ -353,7 +353,7 @@ e1-cli stop
 e2-cli stop
 sleep 15
 
-SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150"
+SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150 -con_dyna_deploy_start=0"
 
 rm -r ~/elementsdir1/elementsregtest/blocks
 rm -r ~/elementsdir1/elementsregtest/chainstate
