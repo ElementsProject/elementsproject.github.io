@@ -10,7 +10,7 @@ permalink: /elements-code-tutorial/issuing-assets
 
 Previously, the RPC calls we've made always returned values denominated in "bitcoin". This is simply because that is what the labelling of the initial asset created by Elements defaults to. 
 
-##### NOTE: You can use the **defaultpeggedassetname** startup paramater to change the label of the default asset to something other than "bitcoin". You can also change the initial issuance amount of the default asset using the **initialfreecoins** parameter and the **initialreissuancetokens** parameter to allocate reissuance tokens for the default asset.
+##### NOTE: You can use the **defaultpeggedassetname** startup parameter to change the label of the default asset to something other than "bitcoin". You can also change the initial issuance amount of the default asset using the **initialfreecoins** parameter and the **initialreissuancetokens** parameter to allocate reissuance tokens for the default asset.
 
 In this section we'll issue our own assets, label them, look at reissuance tokens and learn how to send them to other addresses. We'll also take a look at how to keep track of what assets have been issued and re-issued and, in the next section, reissue and destory them. This last feature may be something which is required if you implement your own blockchain solution based upon real world assets. More on that in the next section.
 
@@ -147,7 +147,7 @@ If we try and view the list of issuances from Bob's node now we'll see the issua
 e2-cli listissuances
 ~~~~
 
-The asset amount and the token amount are both blinded and show as -1:
+The asset amount and the token amount are both blinded and shown as -1:
 
 <div class="console-output">"tokenamount": -1,
 "assetamount": -1,

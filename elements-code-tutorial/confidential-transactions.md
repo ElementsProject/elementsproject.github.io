@@ -8,7 +8,7 @@ permalink: /elements-code-tutorial/confidential-transactions
 
 ## Using Confidential Transactions
 
-All addresses in Elements are, by default, blinded using Confidential Transactions. Blinding is the process by which the amount and type of asset being transferred is cryptographically hidden from everyone except the sending and receiving parties. This is done using a blinding key, which we will look at later. 
+All addresses in Elements are, by default, blinded using Confidential Transactions. Blinding is the process by which the amount and type of asset being transferred are cryptographically hidden from everyone except the sending and receiving parties. This is done using a blinding key, which we will look at later. 
 
 Imagine that our cryptographic friends Alice and Bob are the owners of the Elements nodes we are running and the contents of the wallets they control. Alice owns the e1 wallet and Bob owns e2. We'll have Bob send some assets to himself using a blinded Elements address as the destination. 
 
@@ -44,7 +44,7 @@ You should see a long value for the "confidential_key" property. It will look so
 
 <div class="console-output">"confidential_key": "030788da8d9ca229cbe57e346daaf8d94cba3ed548b41922a8abefaec91ff1abb1"</div>
 
-The confidential_key is the public blinding key, which has been added to the address and is the reason why a confdential address is so long. You will also see that the ‘getaddressinfo’ command shows an associated 'unconfidential' address, which can be used to receive assets if you don't want to make use of the Confidential Transaction feature for some reason.
+The confidential_key is the public blinding key, which has been added to the address and is the reason why a confidential address is so long. You will also see that the ‘getaddressinfo’ command shows an associated 'unconfidential' address, which can be used to receive assets if you don't want to make use of the Confidential Transaction feature for some reason.
 
 We'll now send an amount of 1 "bitcoin" from Bob's wallet to the new address we generated for him:
 
@@ -83,11 +83,11 @@ e1-cli getblockcount
 e2-cli getblockcount
 ~~~~
 
-Note that although Bob sent an amount of 1 "bitcoin" to himself the net effect is that he now has slightly less than he did before, this is because some of the transaction amount was spent on fees. Although Bob mined the block, and will later collect the fees, he will need to wait until the block has matured before he sees it as spendable within his wallet.
+Note that although Bob sent an amount of 1 "bitcoin" to himself the net effect is that he now has slightly less than he did before; this is because some of the transaction amount was spent on fees. Although Bob mined the block, and will later collect the fees, he will need to wait until the block has matured before he sees it as spendable within his wallet.
 
 ##### NOTE: Sidechain fees are defaulted to being paid in "bitcoin". This can be changed using the **feeasset** startup parameter.
 
-The above shows that the client's blockchains and mempools are in sync. If they are not, wait a few seconds and try the calls above again as it may take a moment for the nodes to synchronize. They display the same results not because they share a common data file (indeed, they do not), but because they are connected nodes on the same Elements network and broadcast transactions and blocks between each other in very much the same was as Bitcoin nodes do. You can check this for yourself by looking at the separate data files in the following locations and noting that they are separate stores of the same blockchain data:
+The above shows that the client's blockchains and mempools are in sync. If they are not, wait a few seconds and try the calls above again as it may take a moment for the nodes to synchronize. They display the same results not because they share a common data file (indeed, they do not), but because they are connected nodes on the same Elements network and broadcast transactions and blocks between each other in very much the same way as Bitcoin nodes do. You can check this for yourself by looking at the separate data files in the following locations and noting that they are separate stores of the same blockchain data:
 
 <div class="console-output">/$HOME/elementsdir1/elementsregtest
 /$HOME/elementsdir2/elementsregtest
@@ -160,7 +160,7 @@ But because Alice still does not know the blinding key, the amount (towards the 
 
 <a id="blindingkey"></a>
 
-Without knowledge of the **Blinding Key**, the amount and type of asset being transacted is hidden.
+Without knowledge of the **Blinding Key**, the amount and type of asset being transacted are hidden.
 
 In order for anyone else (such as an auditor) to view the amount and type of assets being transacted, they need to know the blinding key that was used to generate the blinded address. To show this, we can export the blinding key Bob's wallet used, import it into Alice's wallet and try to view the transaction again. Let's export the key for that particular address from Bob's wallet and import it into Alice's in one step:
 
