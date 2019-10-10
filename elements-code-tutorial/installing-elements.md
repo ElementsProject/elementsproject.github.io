@@ -23,7 +23,7 @@ git clone https://github.com/ElementsProject/elements.git
 
 That's pulled all the code from the Elements repository into a newly created directory in Home called "elements". 
 
-Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands. The most up to date set of dependencies for Ubuntu can be found [here](https://github.com/ElementsProject/elements/blob/master/doc/build-unix.md) and others withinin the relevant 'build-*.md' file [here](https://github.com/ElementsProject/elements/tree/master/doc). 
+Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands. The most up to date set of dependencies for Ubuntu can be found [here](https://github.com/ElementsProject/elements/blob/master/doc/build-unix.md) and others within the relevant 'build-*.md' file [here](https://github.com/ElementsProject/elements/tree/master/doc). 
 
 ##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety.
 

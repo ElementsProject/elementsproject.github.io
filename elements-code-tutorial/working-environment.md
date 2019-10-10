@@ -65,7 +65,7 @@ We now have an easy way to start each daemon and the Elements QT front end and m
 
 #### Note: If you want to skip ahead to running a non-sidechain Elements based blockchain you can move to the [Elements as a standalone Blockchain]({{ site.url }}/elements-code-tutorial/blockchain) section now. You can return to the [Using Elements to perform basic operations]({{ site.url }}/elements-code-tutorial/basic-operations) section after that, but you may have to amend the commands used occasionally. 
 
-If you want to run a few examples of your own after following this tutorial you can add the aliases above to your ‘bashrc' file which means that they will be available to you in every new terminal window you open. To do this run "nano ~/.bashrc" and paste the 6 alias lines above into the file, save and exit. The next time you open a new terminal window the aliases will have already been set. 
+If you want to run a few examples of your own after following this tutorial you can add the aliases above to your ‘bashrc' file which means that they will be available to you in every new terminal window you open. To do this run "nano ~/.bashrc" and paste the 8 alias lines above into the file, save and exit. The next time you open a new terminal window the aliases will have already been set. 
 
 #### Note: We won't be using the Elements QT front end in this tutorial but you can start it using the alias we created above (e.g. e1-qt) if you want at any point to see a GUI for your wallet. Note that you cannot run the daemon and QT at the same time as they will both be trying to access the same data directory.
 
