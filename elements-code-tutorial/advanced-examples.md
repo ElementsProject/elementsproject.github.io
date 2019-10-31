@@ -58,7 +58,7 @@ bash advancedexamplesraw.sh RIA
  
 If you do not pass an argument in, all examples will run.
 
-The examples work with v0.18 of Elements.
+The examples have been tested against the following versions of elements: 0.17.0, 0.18.1.1, 0.18.1.2.
 
 ##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command. Remove it to run without stopping.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>There is a chance that the " and ' characters may not paste into your **advancedexamplesraw.sh** file correctly, so type over them yourself if you come across any issues executing the code.
  
