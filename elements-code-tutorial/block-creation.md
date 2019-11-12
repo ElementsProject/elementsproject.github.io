@@ -58,10 +58,10 @@ e1-cli stop
 e2-cli stop
 ~~~~
 
-Define the requirements of block creation (must be valid against our redeemscript) and store in a variable:
+Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. We set the deployment/activation of Dynamic Federations code to a very high block number to essentially disable it for this example:
 
 ~~~~
-SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150 -con_dyna_deploy_start=0"
+SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150 -con_dyna_deploy_start=9999999999999"
 ~~~~
 
 We'll have to wipe out the chain we've been using so far and also the wallets and start again with a new genesis block. Note that once created you can't swap blocksigners in and out on a chain for security reasons. This may change in a later Elements release.
