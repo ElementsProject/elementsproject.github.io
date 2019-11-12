@@ -10,6 +10,7 @@ permalink: /elements-code-tutorial/other-languages
 
 Our aim for each language example is to make simple calls to elementsd using RPC. The examples are very basic but provide a way to get to get a functioning setup which you can use as a building block for further development.
 
+<a id="ruby"></a>
 ### Ruby
 
 You can check if Ruby is installed on your operating system, and install it if not, by following the steps [here](https://www.ruby-lang.org/en/documentation/installation/).
@@ -62,6 +63,7 @@ The output will show the current block count.
 
 * * * 
 
+<a id="java"></a>
 ### Java
 
 The example code doesn't require any external dependencies, but you do need the Java compiler (javac) as well as the Java runtime environment itself. These can be installed on Ubuntu using the command:
@@ -133,6 +135,7 @@ The output will show wallet information.
 
 * * * 
 
+<a id="nodejs"></a>
 ### Node.js
 
 Create a project directory for the Node.js example and move into it:
@@ -192,6 +195,7 @@ The output will show the bitcoin balance returned by getwalletinfo.
 
 * * * 
 
+<a id="go"></a>
 ### Go
 
 To install Go: [https://golang.org](https://golang.org). Note the importance of setting the PATH environment variable.
@@ -256,6 +260,7 @@ The code prints out the current block count.
 
 * * * 
 
+<a id="perl"></a>
 ### Perl
 
 Perl can be installed from [https://www.perl.org](https://www.perl.org) and comes pre-installed on Ubuntu.
