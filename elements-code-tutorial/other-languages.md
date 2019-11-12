@@ -133,6 +133,65 @@ The output will show wallet information.
 
 * * * 
 
+### Node.js
+
+Create a project directory for the Node.js example and move into it:
+
+~~~
+mkdir elementsrpcnodejs
+cd elementsrpcnodejs
+~~~
+
+Generate package.json and install the request package:
+
+~~~
+npm init --yes
+npm install request --save
+~~~
+
+Create a new file named 'elementsrpcnode.js' and paste the code below into it:
+
+~~~~
+const request = require('request');
+
+let username = "user1";
+let password = "password1";
+
+let options = {
+    url: "http://localhost:18884",
+    method: "post",
+    headers:
+    { 
+     "content-type": "text/plain"
+    },
+    auth: {
+        user: username,
+        pass: password
+    },
+    body: JSON.stringify( {"jsonrpc": "2.0", "id": "rpctest", "method": "getwalletinfo", "params": [] })
+};
+
+request(options, (error, response, body) => {
+    if (error) {
+        console.error('An error occurred: ', error);
+    } else {
+        json = JSON.parse(body);
+        console.log(json.result.balance.bitcoin);
+    }
+});
+
+~~~~
+
+Run the code from the command line:
+
+~~~~
+node elementsrpcnode.js
+~~~~
+
+The output will show the bitcoin balance returned by getwalletinfo.
+
+* * * 
+
 ### Go
 
 To install Go: [https://golang.org](https://golang.org). Note the importance of setting the PATH environment variable.
