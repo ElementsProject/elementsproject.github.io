@@ -1,0 +1,30 @@
+---
+layout: doc
+name: initpegoutwallet
+elemversion: 0.18.1.5
+elemgroup: wallet
+permalink: /en/doc/0.18.1.5/rpc/wallet/initpegoutwallet/
+---
+
+initpegoutwallet "bitcoin_descriptor" ( bip32_counter "liquid_pak" )
+
+This call is for Liquid network initialization on the Liquid wallet. The wallet generates a new Liquid pegout authorization key (PAK) and stores it in the Liquid wallet. It then combines this with the `bitcoin_descriptor` to finally create a PAK entry for the network. This allows the user to send Liquid coins directly to a secure offline Bitcoin wallet at the derived path from the bitcoin_descriptor using the `sendtomainchain` command. Losing the Liquid PAK or offline Bitcoin root key will result in the inability to pegout funds, so immediate backup upon initialization is required.
+
+Arguments:
+1. bitcoin_descriptor    (string, required) The Bitcoin descriptor that includes a single extended pubkey. Must be one of the following: pkh(<xpub>), sh(wpkh(<xpub>)), or wpkh(<xpub>). This is used as the destination chain for the Bitcoin destination wallet. The derivation path from the xpub is given by the descriptor, typically `0/k`, reflecting the external chain of the wallet. DEPRECATED: If a plain xpub is given, pkh(<xpub>) is assumed, with the `0/k` derivation from that xpub. See link for more details on script descriptors: https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md
+2. bip32_counter         (numeric, optional, default=0) The `k` in `0/k` to be set as the next address to derive from the `bitcoin_descriptor`. This will be stored in the wallet and incremented on each successful `sendtomainchain` invocation.
+3. liquid_pak            (string, optional) The Liquid wallet pubkey in hex to be used as the Liquid PAK for pegout authorization. The private key must be in the wallet if argument is given. If this argument is not provided one will be generated and stored in the wallet automatically and returned.
+
+Result:
+{
+"pakentry"       (string) The resulting PAK entry to be used at network initialization time in the form of: `pak=<bitcoin_pak>:<liquid_pak>`.
+"liquid_pak"     (string) The Liquid PAK pubkey in hex, which is stored in the local Liquid wallet. This can be used in subsequent calls to `initpegoutwallet` to avoid generating a new `liquid_pak`.
+"liquid_pak_address" (string) The corresponding address for `liquid_pak`. Useful for `dumpprivkey` for wallet backup or transfer.
+"address_lookahead"(array)  The three next Bitcoin addresses the wallet will use for `sendtomainchain` based on `bip32_counter`.
+}
+
+Examples:
+> elements-cli initpegoutwallet sh(wpkh(tpubDAY5hwtonH4NE8zY46ZMFf6B6F3fqMis7cwfNihXXpAg6XzBZNoHAdAzAZx2peoU8nTWFqvUncXwJ9qgE5VxcnUKxdut8F6mptVmKjfiwDQ/0/*))
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "initpegoutwallet", "params": [sh(wpkh(tpubDAY5hwtonH4NE8zY46ZMFf6B6F3fqMis7cwfNihXXpAg6XzBZNoHAdAzAZx2peoU8nTWFqvUncXwJ9qgE5VxcnUKxdut8F6mptVmKjfiwDQ/0/*))] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
