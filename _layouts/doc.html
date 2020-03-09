@@ -1,0 +1,64 @@
+---
+layout: default
+---
+
+{% if page.elemgroup != "index" %}
+  {% assign custom_title = page.name | append: " (" | append: page.elemversion | append: " RPC)" %}
+{% elsif page.elemversion != "index" %}
+  {% assign custom_title = "Elements Core " | append: page.elemversion | append: " RPC" %}
+{% else %}
+  {% assign custom_title = "Elements Core RPC" %}
+{% endif %}
+
+<article class="page">
+  <h1>{{ custom_title | xml_escape }}</h1>
+  <div class="article-wrap">
+
+    {% if page.elemgroup != "index" %}
+
+      <p></p>
+      <span class="doc">
+        {% highlight text %}{{ content }}{% endhighlight %}
+      </span>
+
+    {% elsif page.elemversion != "index" %}
+
+      {% assign groups = site.doc | where:"elemversion", page.elemversion | group_by:"elemgroup" | sort: "name" %}
+      <section class="toc">
+      {% for group in groups %}
+        {% if group.name != "index" %}
+          <header>
+            <h3 class="toc-header">
+              {{ group.name }}
+            </h3>
+            <div class="toc-drawer js-hide-on-start">
+              <ul>
+                {% for article in group.items %}
+                  <li><a href="{{article.url}}">{{article.name}}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </header>
+        {% endif %}
+      {% endfor %}
+      </section>
+
+    {% else %}
+
+      <h2>Documentation for the following versions is available:</h2>
+      {% assign groups = site.doc | sort: "elemversion" | reverse | group_by:"elemversion" %}
+      <ul>
+        {% for group in groups %}
+          {% if group.name != "index" %}
+            {% for article in group.items %}
+              {% if article.name == "index" %}
+                <li><p><a href="{{article.url}}rpc/">{{group.name}}</a></p></li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+    {% endif %}
+  </div><!-- /.article-wrap -->
+</article>

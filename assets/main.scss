@@ -346,3 +346,8 @@ strong {
   font-weight: 700 !important;
   letter-spacing: 0.4px;
 }
+
+.doc pre {
+  word-break: break-word;
+  white-space: pre-wrap;
+}
