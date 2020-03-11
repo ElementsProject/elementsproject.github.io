@@ -1,0 +1,25 @@
+---
+layout: doc
+name: sendtomainchain
+elemversion: 0.18.1.5
+elemgroup: wallet
+permalink: /en/doc/0.18.1.5/rpc/wallet/sendtomainchain/
+---
+
+sendtomainchain "address" amount ( subtractfeefromamount )
+
+Sends sidechain funds to the given mainchain address, through the federated pegin mechanism
+
+Arguments:
+1. address                  (string, required) The destination address on Bitcoin mainchain
+2. amount                   (numeric or string, required) The amount being sent to Bitcoin mainchain
+3. subtractfeefromamount    (boolean, optional, default=false) The fee will be deducted from the amount being pegged-out.
+
+Result:
+"txid"              (string) Transaction ID of the resulting sidechain transaction
+
+Examples:
+> elements-cli sendtomainchain "mgWEy4vBJSHt3mC8C2SEWJQitifb4qeZQq" 0.1
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "sendtomainchain", "params": ["mgWEy4vBJSHt3mC8C2SEWJQitifb4qeZQq" 0.1] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
