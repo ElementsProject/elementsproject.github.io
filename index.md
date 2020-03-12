@@ -71,7 +71,7 @@ The use of [Schnorr Signatures]({{ site.url }}/features#schnorr) within Elements
 
 [How blockchains built with Elements work]({{ site.url }}/how-it-works)
 
-[Running Elements as a Blockchain or Sidechain]({{ site.url }}/blockchain-or-sidechain)
+[Running Elements as a Blockchain or Sidechain]({{ site.url }}/how-it-works#blockchain-or-sidechain)
 
 [Learn Elements by following the code tutorial]({{ site.url }}/elements-code-tutorial/overview)
 
