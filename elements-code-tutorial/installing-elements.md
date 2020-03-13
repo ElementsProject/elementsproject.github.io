@@ -33,26 +33,36 @@ sudo apt-get install libboost-all-dev
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler imagemagick librsvg2-bin
 sudo apt-get install libqrencode-dev autoconf openssl libssl-dev libevent-dev
 sudo apt-get install libminiupnpc-dev
-sudo apt-get install libdb4.8-dev libdb4.8++-dev
 sudo apt install jq
 ~~~~
 
-Move into the Elements directory:
+Now we need to build and install the Berkeley database.
+
+##### Note: You **must** replace ``/home/yourusername`` below with the location of your home directory. Again, note that some lines wrap in the text below.
+
+~~~~
+mkdir bdb4
+wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
+tar -xzvf db-4.8.30.NC.tar.gz
+sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-4.8.30.NC/dbinc/atomic.h
+cd db-4.8.30.NC/build_unix/
+../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/home/yourusername/bdb4/
+make install
+~~~~
+
+Now let's configure, compile and install Elements.
+
+##### Note: You **must** replace ``/home/yourusername`` below (which occurs twice) with the location of your home directory.
 
 ~~~~
 cd elements
-~~~~
-
-Now let's configure, compile and install Elements. If you get a permission denied error when running the final command use "sudo make install" instead.
-
-##### Note: The "make" command may take a while to complete as it will also run the Elements test-suite as part of the build process.
-
-~~~~
 ./autogen.sh
-./configure
+./configure LDFLAGS="-L/home/yourusername/bdb4/lib/" CPPFLAGS="-I/home/yourusername/bdb4/include/"
 make
-make install
+sudo make install
 ~~~~
+
+The "make" command may take a while to complete as it will also run the Elements test-suite as part of the build process.
 
 Check that the install worked:
 
