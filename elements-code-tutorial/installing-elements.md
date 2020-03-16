@@ -8,7 +8,7 @@ permalink: /elements-code-tutorial/installing-elements
 
 ## Installing Elements
 
-As we will be building Elements from the source code, we first need to pull the code from the [GitHub repository](https://github.com/elementsproject/elements) where it is maintained. We'll use "git" for this, which we will now install. You can ignore installation steps within this tutorial for software that you already have.
+As we will be building Elements from the source code, we first need to pull the code from the [GitHub repository](https://github.com/elementsproject/elements) where it is maintained. We'll use "git" for this. You can ignore installation steps within this tutorial for software that you already have. If you do not have git installed (you can check by running the ``git --version`` command) you can install it using:
 
 ~~~~
 sudo apt install git
@@ -25,9 +25,10 @@ That's pulled all the code from the Elements repository into a newly created dir
 
 Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands. The most up to date set of dependencies for Ubuntu can be found [here](https://github.com/ElementsProject/elements/blob/master/doc/build-unix.md) and others within the relevant 'build-*.md' file [here](https://github.com/ElementsProject/elements/tree/master/doc). 
 
-##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety.
+##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety. The first command will update your existing packages list, enabling you to install all the required dependancies.
 
 ~~~~
+sudo apt-get update
 sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
 sudo apt-get install libboost-all-dev
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler imagemagick librsvg2-bin
@@ -55,6 +56,7 @@ Now let's configure, compile and install Elements.
 ##### Note: You **must** replace ``/home/yourusername`` below (which occurs twice) with the location of your home directory.
 
 ~~~~
+cd
 cd elements
 ./autogen.sh
 ./configure LDFLAGS="-L/home/yourusername/bdb4/lib/" CPPFLAGS="-I/home/yourusername/bdb4/include/"
