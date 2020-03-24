@@ -90,13 +90,11 @@ elements-cli sendrawtransaction $TX
 
 The implementation of Confidential Transactions as it appears in Elements has some important limitations to be aware of.
 
-The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level.  Subsequently, there is a "minimum confidential amount" around 0.0001, and a "maximum confidential amount" that is 2<sup>32</sup> times the minimum amount.
-
-Digits smaller than the minimum will be revealed to observers; for example, if the minimum is 0.0001, a transaction output of 123.456789 will look like "?.????89". The tiny amount of information about the value leaked in this way is unlikely to be important, but be aware that this could allow observers to "follow" coins by linking subsequent transactions with identical amounts. All values can be rounded to the minimum to avoid revealing information in this way if preferred.
+The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level.  Subsequently, the default "maximum confidential amount" is just over 45 million (45,035,996.27370496). For assets that are pegged to Bitcoin, such as L-BTC on the Liquid network, it is impossible to exceed 2^52 satoshis. For other Issued Assets it may be possible to exceed the maximum confidential amount by repeatedly reissuing the asset and then spending an amount greater than the limit in a single transaction, and so the limitation should be noted.
 
 A transaction output larger than the maximum will reveal the order of magnitude of the amount to observers, and will also reveal additional digits at the bottom of the amount.
 
-For example, if the maximum is 500k, then all outputs under that amount will look the same, but an output between 500k and 5M will be visible as such to observers (but not the exact amount within that range), and will also reveal one additional digit of the low end of the amount. Revealing the range in this way could be a very significant privacy leak; splitting such extremely large transactions to keep them under the maximum confidential amount is strongly recommended.
+For example, if the maximum is 45 million, then all outputs under that amount will look the same, but an output between 45 million and 450 million will be visible as such to observers (but not the exact amount within that range), and will also reveal one additional digit of the low end of the amount. Revealing the range in this way could be a very significant privacy leak; splitting such extremely large transactions to keep them under the maximum confidential amount is strongly recommended.
 
 ### Find out more about Confidential Transactions
 
