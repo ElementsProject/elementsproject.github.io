@@ -90,7 +90,7 @@ elements-cli sendrawtransaction $TX
 
 The implementation of Confidential Transactions as it appears in Elements has some important limitations to be aware of.
 
-The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level. The default blinding precision is 52-bits, which will cover any value up to 2^52 satoshi. The default equates to a maximum amount of just over 45 million. For assets that are pegged to Bitcoin, such as L-BTC on the Liquid network, this provides cover for all possible pegged asset transactions. It should be noted that for Issued Assets it is possible to exceed the default maximum confidential amount by repeatedly reissuing the asset and then spending an amount greater than the limit in a single transaction.
+The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level. The default blinding precision is 52 bits, which will cover any value up to 2^52 satoshi. The default equates to a maximum amount of just over 45 million. For assets that are pegged to Bitcoin, such as L-BTC on the Liquid network, this provides cover for all possible pegged asset transactions. It should be noted that for Issued Assets it is possible to exceed the default maximum confidential amount by repeatedly reissuing the asset and then spending an amount greater than the limit in a single transaction.
 
 A transaction output larger than the maximum will reveal the order of magnitude of the amount to observers, and will also reveal additional digits at the bottom of the amount.
 
