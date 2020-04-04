@@ -60,10 +60,10 @@ We have stored all of the returned data from the issuance command in a variable 
 In order to do this we can use a tool called [jq](https://stedolan.github.io/jq/) (which we installed as part of the tutorial dependencies) to strip out and store only the parts returned and saved within "ISSUE" that we are interested in:
 
 ~~~~
-ASSET=$(echo $ISSUE | jq '.asset' | tr -d '"')
-TOKEN=$(echo $ISSUE | jq '.token' | tr -d '"')
-ITXID=$(echo $ISSUE | jq '.txid' | tr -d '"')
-IVIN=$(echo $ISSUE | jq '.vin' | tr -d '"')
+ASSET=$(echo $ISSUE | jq -r '.asset')
+TOKEN=$(echo $ISSUE | jq -r '.token')
+ITXID=$(echo $ISSUE | jq -r '.txid')
+IVIN=$(echo $ISSUE | jq -r '.vin')
 ~~~~
 
 To see the hex identifier for the asset we issued run:
@@ -137,7 +137,7 @@ e2-cli listissuances
 Bob's wallet isn't aware of the issuance, so we'll import the address into his wallet:
 
 ~~~~
-IADDR=$(e1-cli gettransaction $ITXID | jq '.details[0].address' | tr -d '"')
+IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
 e2-cli importaddress $IADDR
 ~~~~
 

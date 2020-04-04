@@ -196,10 +196,10 @@ e1-cli dumpassetlabels
 
 ISSUE=$(e1-cli issueasset 100 1)
 
-ASSET=$(echo $ISSUE | jq '.asset' | tr -d '"')
-TOKEN=$(echo $ISSUE | jq '.token' | tr -d '"')
-ITXID=$(echo $ISSUE | jq '.txid' | tr -d '"')
-IVIN=$(echo $ISSUE | jq '.vin' | tr -d '"')
+ASSET=$(echo $ISSUE | jq -r '.asset')
+TOKEN=$(echo $ISSUE | jq -r '.token')
+ITXID=$(echo $ISSUE | jq -r '.txid')
+IVIN=$(echo $ISSUE | jq -r '.vin')
 
 echo $ASSET
 
@@ -230,7 +230,7 @@ e1-cli generatetoaddress 1 $ADDRGEN1
 sleep 10
 e2-cli listissuances
 
-IADDR=$(e1-cli gettransaction $ITXID | jq '.details[0].address' | tr -d '"')
+IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
 
 e2-cli importaddress $IADDR
 
@@ -262,7 +262,7 @@ e2-cli getwalletinfo
 ### Reissuing Assets ###
 
 RTRANS=$(e1-cli reissueasset $ASSET 99)
-RTXID=$(echo $RTRANS | jq '.txid' | tr -d '"')
+RTXID=$(echo $RTRANS | jq -r '.txid')
 
 e1-cli listissuances $ASSET
 
@@ -300,15 +300,15 @@ sleep 10
 
 e1-cli listissuances
 
-RITXID=$(echo $RISSUE | jq '.txid' | tr -d '"')
-RIADDR=$(e2-cli gettransaction $RITXID | jq '.details[0].address' | tr -d '"')
+RITXID=$(echo $RISSUE | jq -r '.txid')
+RIADDR=$(e2-cli gettransaction $RITXID | jq -r '.details[0].address')
 
 e1-cli importaddress $RIADDR
 e1-cli listissuances
 
 UBRISSUE=$(e2-cli issueasset 55 1 false)
 
-UBASSET=$(echo $UBRISSUE | jq '.asset' | tr -d '"')
+UBASSET=$(echo $UBRISSUE | jq -r '.asset')
 
 e2-cli getwalletinfo
 
@@ -317,9 +317,9 @@ sleep 10
 
 e1-cli listissuances
 
-UBRITXID=$(echo $UBRISSUE | jq '.txid' | tr -d '"')
+UBRITXID=$(echo $UBRISSUE | jq -r '.txid')
 
-UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq '.details[0].address' | tr -d '"')
+UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq -r '.details[0].address')
 
 e1-cli importaddress $UBRIADDR
 
@@ -337,16 +337,16 @@ ADDR1=$(e1-cli getnewaddress)
 ADDR2=$(e2-cli getnewaddress)
 
 VALID1=$(e1-cli getaddressinfo $ADDR1)
-PUBKEY1=$(echo $VALID1 | jq '.pubkey' | tr -d '"')
+PUBKEY1=$(echo $VALID1 | jq -r '.pubkey')
 
 VALID2=$(e2-cli getaddressinfo $ADDR2)
-PUBKEY2=$(echo $VALID2 | jq '.pubkey' | tr -d '"')
+PUBKEY2=$(echo $VALID2 | jq -r '.pubkey')
 
 KEY1=$(e1-cli dumpprivkey $ADDR1)
 KEY2=$(e2-cli dumpprivkey $ADDR2)
 
 MULTISIG=$(e1-cli createmultisig 2 '''["'''$PUBKEY1'''", "'''$PUBKEY2'''"]''')
-REDEEMSCRIPT=$(echo $MULTISIG | jq '.redeemScript' | tr -d '"')
+REDEEMSCRIPT=$(echo $MULTISIG | jq -r '.redeemScript')
 echo $REDEEMSCRIPT
 
 e1-cli stop
@@ -419,7 +419,7 @@ SIGN2DATA=$(echo $SIGN2 | jq '.[0]')
 
 COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]")
 
-SIGNEDBLOCK=$(echo $COMBINED | jq '.hex' | tr -d '"')
+SIGNEDBLOCK=$(echo $COMBINED | jq -r '.hex')
 
 e2-cli submitblock $SIGNEDBLOCK
 
@@ -478,8 +478,8 @@ e1-cli getpeginaddress
 
 ADDRS=$(e1-cli getpeginaddress)
 
-MAINCHAIN=$(echo $ADDRS |  jq '.mainchain_address' | tr -d '"')
-CLAIMSCRIPT=$(echo $ADDRS | jq '.claim_script' | tr -d '"')
+MAINCHAIN=$(echo $ADDRS | jq -r '.mainchain_address')
+CLAIMSCRIPT=$(echo $ADDRS | jq -r '.claim_script')
 
 b-cli getwalletinfo
 
@@ -557,10 +557,10 @@ ADDRGEN2=$(e2-cli getnewaddress)
 e1-cli getwalletinfo
 e2-cli getwalletinfo
 
-DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[0]' | tr -d '"')
+DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq -r 'keys | .[0]')
 
 if [ $DEFAULTRIT = "newasset" ]; then
-  DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[1]' | tr -d '"')
+  DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq -r 'keys | .[1]')
 fi
 
 echo $DEFAULTRIT

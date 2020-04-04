@@ -85,8 +85,8 @@ With that established, let's store the data returned in some variables for use l
 
 ~~~~
 ADDRS=$(e1-cli getpeginaddress)
-MAINCHAIN=$(echo $ADDRS |  jq '.mainchain_address' | tr -d '"')
-CLAIMSCRIPT=$(echo $ADDRS | jq '.claim_script' | tr -d '"')
+MAINCHAIN=$(echo $ADDRS | jq -r '.mainchain_address')
+CLAIMSCRIPT=$(echo $ADDRS | jq -r '.claim_script')
 ~~~~
 
 We'll be moving bitcoin to this address so we'll check existing balances in our Bitcoin wallet first:
