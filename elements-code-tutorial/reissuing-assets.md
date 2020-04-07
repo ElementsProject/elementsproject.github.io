@@ -12,7 +12,7 @@ In this section we'll look at reissuing an amount of the asset we previously iss
 
 ~~~~
 RTRANS=$(e1-cli reissueasset $ASSET 99)
-RTXID=$(echo $RTRANS | jq '.txid' | tr -d '"')
+RTXID=$(echo $RTRANS | jq -r '.txid')
 ~~~~
 
 We've just created 99 more units of our new asset. As an aside, because we have already labelled the asset we could have also passed "demoasset" in as the first parameter instead of the hex identifier and it would have worked exactly the same.
@@ -165,8 +165,8 @@ e1-cli listissuances
 Import the address so that it can:
 
 ~~~~
-RITXID=$(echo $RISSUE | jq '.txid' | tr -d '"')
-RIADDR=$(e2-cli gettransaction $RITXID | jq '.details[0].address' | tr -d '"')
+RITXID=$(echo $RISSUE | jq -r '.txid')
+RIADDR=$(e2-cli gettransaction $RITXID | jq -r '.details[0].address')
 e1-cli importaddress $RIADDR
 ~~~~
 
@@ -182,7 +182,7 @@ In Elements you can also carry out an unblinded asset issue:
 
 ~~~~
 UBRISSUE=$(e2-cli issueasset 55 1 false)
-UBASSET=$(echo $UBRISSUE | jq '.asset' | tr -d '"')
+UBASSET=$(echo $UBRISSUE | jq -r '.asset')
 ~~~~
 
 Which shows up as normal in Bob's wallet after he issues it:
@@ -196,8 +196,8 @@ And this time if we import the address into Alice's wallet she should be able to
 ~~~~
 e2-cli generatetoaddress 1 $ADDRGEN2
 e1-cli listissuances
-UBRITXID=$(echo $UBRISSUE | jq '.txid' | tr -d '"')
-UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq '.details[0].address' | tr -d '"')
+UBRITXID=$(echo $UBRISSUE | jq -r '.txid')
+UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq -r '.details[0].address')
 e1-cli importaddress $UBRIADDR
 ~~~~
 

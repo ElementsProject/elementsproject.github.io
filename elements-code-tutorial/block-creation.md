@@ -31,9 +31,9 @@ Validate the addresses and then extract the public key for each:
 
 ~~~~
 VALID1=$(e1-cli getaddressinfo $ADDR1)
-PUBKEY1=$(echo $VALID1 | jq '.pubkey' | tr -d '"')
+PUBKEY1=$(echo $VALID1 | jq -r '.pubkey')
 VALID2=$(e2-cli getaddressinfo $ADDR2)
-PUBKEY2=$(echo $VALID2 | jq '.pubkey' | tr -d '"')
+PUBKEY2=$(echo $VALID2 | jq -r '.pubkey')
 ~~~~
 
 Now extract the private keys which we'll import later:
@@ -47,7 +47,7 @@ Now we need to generate a redeem script for a 2 of 2 multi-sig. We do this by us
 
 ~~~~
 MULTISIG=$(e1-cli createmultisig 2 '''["'''$PUBKEY1'''", "'''$PUBKEY2'''"]''')
-REDEEMSCRIPT=$(echo $MULTISIG | jq '.redeemScript' | tr -d '"')
+REDEEMSCRIPT=$(echo $MULTISIG | jq -r '.redeemScript')
 echo $REDEEMSCRIPT
 ~~~~
 
@@ -172,7 +172,7 @@ We see a result of "True" for the "complete" property as we have signatures from
 Now we will extract the signed block hex from the results of the combineblocksig command and submit the block. It doesn’t matter who does this as long as they have a signed and valid block hex:
 
 ~~~~
-SIGNEDBLOCK=$(echo $COMBINED | jq '.hex' | tr -d '"')
+SIGNEDBLOCK=$(echo $COMBINED | jq -r '.hex')
 e2-cli submitblock $SIGNEDBLOCK
 ~~~~
 

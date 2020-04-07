@@ -198,7 +198,7 @@ if [ "RTIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     # Issue an asset and get the asset hex so we can send some
     ISSUE=$(e1-cli issueasset 100 1)
 
-    ASSET=$(echo $ISSUE | jq '.asset' | tr -d '"')
+    ASSET=$(echo $ISSUE | jq -r '.asset')
 
     # Check the asset shows up in our wallet
     e1-cli getwalletinfo
@@ -206,16 +206,16 @@ if [ "RTIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     # Get a list of unspent we can use as inputs - referenced via transaction id, vout and amount
     UTXO=$(e1-cli listunspent 0 0 [] true '''{"''asset''":"'''$ASSET'''"}''')
 
-    TXID=$(echo $UTXO | jq '.[0].txid' | tr -d '"' )
-    VOUT=$(echo $UTXO | jq '.[0].vout' | tr -d '"' )
-    AMOUNT=$(echo $UTXO | jq '.[0].amount' | tr -d '"' )
+    TXID=$(echo $UTXO | jq -r '.[0].txid' )
+    VOUT=$(echo $UTXO | jq -r '.[0].vout' )
+    AMOUNT=$(echo $UTXO | jq -r '.[0].amount' )
 
     # Get an address to send the asset to - we'll use unconfidential
     ADDR=$(e1-cli getnewaddress)
 
     VALIDATEADDR=$(e1-cli validateaddress $ADDR)
 
-    UNCONADDR=$(echo $VALIDATEADDR | jq '.unconfidential' | tr -d '"')
+    UNCONADDR=$(echo $VALIDATEADDR | jq -r '.unconfidential')
 
     # Build the raw transaction (send 3 of the asset)
     SENDAMOUNT="3.00"
@@ -226,13 +226,13 @@ if [ "RTIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     FRT=$(e1-cli fundrawtransaction $RAWTX)
 
     # blind and sign the tx
-    HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
+    HEXFRT=$(echo $FRT | jq -r '.hex')
 
     BRT=$(e1-cli blindrawtransaction $HEXFRT)
 
     SRT=$(e1-cli signrawtransactionwithwallet $BRT)
 
-    HEXSRT=$(echo $SRT | jq '.hex' | tr -d '"')
+    HEXSRT=$(echo $SRT | jq -r '.hex')
 
     # Send the raw tx and confirm
     TX=$(e1-cli sendrawtransaction $HEXSRT)
@@ -272,23 +272,23 @@ if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     # Create the raw transaction and fund it
     RAWTX=$(e1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
     FRT=$(e1-cli fundrawtransaction $RAWTX)
-    HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
+    HEXFRT=$(echo $FRT | jq -r '.hex')
 
     # Create the raw issuance
     RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ASSET_ADDR'''", "''token_amount''":7, "''token_address''":"'''$TOKEN_ADDR'''", "''blind''":false}]''')
 
     # The results of which include... 
-    HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
-    ASSET=$(echo $RIA | jq '.[0].asset' | tr -d '"')
-    ENTROPY=$(echo $RIA | jq '.[0].entropy' | tr -d '"')
-    TOKEN=$(echo $RIA | jq '.[0].token' | tr -d '"')
+    HEXRIA=$(echo $RIA | jq -r '.[0].hex')
+    ASSET=$(echo $RIA | jq -r '.[0].asset')
+    ENTROPY=$(echo $RIA | jq -r '.[0].entropy')
+    TOKEN=$(echo $RIA | jq -r '.[0].token')
 
     # Blind, sign and send the transaction that creates the asset issuance...
     BRT=$(e1-cli blindrawtransaction $HEXRIA true '''[]''' false)
 
     SRT=$(e1-cli signrawtransactionwithwallet $BRT)
     
-    HEXSRT=$(echo $SRT | jq '.hex' | tr -d '"')
+    HEXSRT=$(echo $SRT | jq -r '.hex')
 
     ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
 
@@ -326,7 +326,7 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     
     VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
 
-    PUBKEY=$(echo $VALIDATEADDR | jq '.pubkey' | tr -d '"')
+    PUBKEY=$(echo $VALIDATEADDR | jq -r '.pubkey')
 
     ADDR=$NEWADDR
     
@@ -350,7 +350,7 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     FRT=$(e1-cli fundrawtransaction $RAWTX)
 
-    HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
+    HEXFRT=$(echo $FRT | jq -r '.hex')
 
     # Write whatever you want as a contract text. Include reference to signed proof of ownership above...
     CONTRACTTEXT="THIS IS THE CONTRACT TEXT FOR THE XYZ ASSET. CREATED BY ABC. ADDRESS:[$ADDR] PUBKEY:[$PUBKEY]"
@@ -369,17 +369,17 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
 
     # Details of the issuance...
-    HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
-    ASSET=$(echo $RIA | jq '.[0].asset' | tr -d '"')
-    ENTROPY=$(echo $RIA | jq '.[0].entropy' | tr -d '"')
-    TOKEN=$(echo $RIA | jq '.[0].token' | tr -d '"')
+    HEXRIA=$(echo $RIA | jq -r '.[0].hex')
+    ASSET=$(echo $RIA | jq -r '.[0].asset')
+    ENTROPY=$(echo $RIA | jq -r '.[0].entropy')
+    TOKEN=$(echo $RIA | jq -r '.[0].token')
 
     # Blind, sign and send the issuance transaction...
     BRT=$(e1-cli blindrawtransaction $HEXRIA)
 
     SRT=$(e1-cli signrawtransactionwithwallet $BRT)
     
-    HEXSRT=$(echo $SRT | jq '.hex' | tr -d '"')
+    HEXSRT=$(echo $SRT | jq -r '.hex')
 
     ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
 
@@ -415,9 +415,9 @@ if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 
     VERIFYISSUANCE=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
 
-    ASSETVERIFY=$(echo $VERIFYISSUANCE | jq '.[0].asset' | tr -d '"')
-    ENTROPYVERIFY=$(echo $VERIFYISSUANCE | jq '.[0].entropy' | tr -d '"')
-    TOKENVERIFY=$(echo $VERIFYISSUANCE | jq '.[0].token' | tr -d '"')
+    ASSETVERIFY=$(echo $VERIFYISSUANCE | jq -r '.[0].asset')
+    ENTROPYVERIFY=$(echo $VERIFYISSUANCE | jq -r '.[0].entropy')
+    TOKENVERIFY=$(echo $VERIFYISSUANCE | jq -r '.[0].token')
 
     [[ $ASSET = $ASSETVERIFY ]] && echo ASSET HEX: VERIFIED || echo ASSET HEX: NOT VERIFIED
     [[ $ENTROPY = $ENTROPYVERIFY ]] && echo ENTROPY: VERIFIED || echo ENTROPY: NOT VERIFIED
@@ -475,7 +475,7 @@ if [ "BAR" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 	
 	VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
 	
-	PUBKEY=$(echo $VALIDATEADDR | jq '.pubkey' | tr -d '"')
+	PUBKEY=$(echo $VALIDATEADDR | jq -r '.pubkey')
 	
 	ASSET_ADDR=$NEWADDR
 	
@@ -498,22 +498,22 @@ if [ "BAR" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
 	
 	FRT=$(e1-cli fundrawtransaction $RAWTX)
 	
-	HEXFRT=$(echo $FRT | jq '.hex' | tr -d '"')
+	HEXFRT=$(echo $FRT | jq -r '.hex')
 	
 	RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$ASSET_ADDR'''", "''token_amount''":'$TOKEN_AMOUNT', "''token_address''":"'''$TOKEN_ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
 	
 	# Details of the issuance...
-	HEXRIA=$(echo $RIA | jq '.[0].hex' | tr -d '"')
-	ASSET=$(echo $RIA | jq '.[0].asset' | tr -d '"')
-	ENTROPY=$(echo $RIA | jq '.[0].entropy' | tr -d '"')
-	TOKEN=$(echo $RIA | jq '.[0].token' | tr -d '"')
+	HEXRIA=$(echo $RIA | jq -r '.[0].hex')
+	ASSET=$(echo $RIA | jq -r '.[0].asset')
+	ENTROPY=$(echo $RIA | jq -r '.[0].entropy')
+	TOKEN=$(echo $RIA | jq -r '.[0].token')
 	
 	# Blind, sign and send the issuance transaction...
 	BRT=$(e1-cli blindrawtransaction $HEXRIA true '''[]''' false)
 	
 	SRT=$(e1-cli signrawtransactionwithwallet $BRT)
 	
-	HEXSRT=$(echo $SRT | jq '.hex' | tr -d '"')
+	HEXSRT=$(echo $SRT | jq -r '.hex')
 	
 	ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
 	
@@ -669,22 +669,22 @@ create_multisig () {
     # Wallet 1's Address for the multi-sig:
     ADDRESS_1=$(w1-cli getnewaddress $LABEL)
     ADDRESS_1_INFO=$(w1-cli getaddressinfo $ADDRESS_1)
-    ADDRESS_1_PUBKEY=$(echo $ADDRESS_1_INFO | jq '.pubkey' | tr -d '"')
+    ADDRESS_1_PUBKEY=$(echo $ADDRESS_1_INFO | jq -r '.pubkey')
     # We wil use the confidential key from Wallet 1's address to create a blinded address later:
-    ADDRESS_1_CONF_KEY=$(echo $ADDRESS_1_INFO | jq '.confidential_key' | tr -d '"')
+    ADDRESS_1_CONF_KEY=$(echo $ADDRESS_1_INFO | jq -r '.confidential_key')
     # We will use the blinding key for Wallet 1's address and import it later so Wallet 1 and Wallet 2 can subsequently see unblinded details
     BLINDING_KEY=$(w1-cli dumpblindingkey $ADDRESS_1)
 
     # Wallet 2's Address for the multi-sig:
     ADDRESS_2=$(w2-cli getnewaddress $LABEL)
     ADDRESS_2_INFO=$(w2-cli getaddressinfo $ADDRESS_2)
-    ADDRESS_2_PUBKEY=$(echo $ADDRESS_2_INFO | jq '.pubkey' | tr -d '"')
+    ADDRESS_2_PUBKEY=$(echo $ADDRESS_2_INFO | jq -r '.pubkey')
 
     # Create a multi-sig '2 of 2' address (n of m, where m is the number of public keys provided)
     N=2
     MULTISIG=$(w1-cli createmultisig $N '''["'''$ADDRESS_1_PUBKEY'''", "'''$ADDRESS_2_PUBKEY'''"]''')
-    MULTISIG_ADDRESS=$(echo $MULTISIG | jq '.address' | tr -d '"')
-    REDEEM_SCRIPT=$(echo $MULTISIG | jq '.redeemScript' | tr -d '"')
+    MULTISIG_ADDRESS=$(echo $MULTISIG | jq -r '.address')
+    REDEEM_SCRIPT=$(echo $MULTISIG | jq -r '.redeemScript')
     
     # Blind the multi-sig address using the confidential key from Wallet 1 that we stored earlier
     BLINDED_ADDRESS=$(w1-cli createblindedaddress $MULTISIG_ADDRESS $ADDRESS_1_CONF_KEY)
@@ -763,12 +763,12 @@ BASE=$(w1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
 
 # Fund the transaction
 FUNDED=$(w1-cli fundrawtransaction $BASE '''{"''feeRate''":'$FEERATE'}''')
-FUNDED_HEX=$(echo $FUNDED | jq '.hex' | tr -d '"')
+FUNDED_HEX=$(echo $FUNDED | jq -r '.hex')
 
 # Store vin txid and vout
 DECODED=$(w1-cli decoderawtransaction $FUNDED_HEX)
-PREV_TX=$(echo $DECODED | jq '.vin[0].txid' | tr -d '"')
-PREV_VOUT=$(echo $DECODED | jq '.vin[0].vout' | tr -d '"')
+PREV_TX=$(echo $DECODED | jq -r '.vin[0].txid')
+PREV_VOUT=$(echo $DECODED | jq -r '.vin[0].vout')
 
 # Create the contract for the asset. The hash of the contract will be used to generate the asset id.
 CONTRACT_TEXT="Your contract text. Can be used to bind the asset to a real world asset etc."
@@ -781,22 +781,22 @@ CONTRACT_TEXT_HASH=$(echo ${CONTRACT_TEXT_HASH#"(stdin)= "})
 RAW_ISSUE=$(w1-cli rawissueasset $FUNDED_HEX '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_ADDRESS'''", "''token_amount''":'$REISSUANCE_TOKEN_AMOUNT', "''token_address''":"'''$MULTISIG_REISSUANCE_ADDRESS'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
 
 # Store details of the issuance for later use
-HEX_RIA=$(echo $RAW_ISSUE | jq '.[0].hex' | tr -d '"')
-ASSET=$(echo $RAW_ISSUE | jq '.[0].asset' | tr -d '"')
-TOKEN=$(echo $RAW_ISSUE | jq '.[0].token' | tr -d '"')
-ENTROPY=$(echo $RAW_ISSUE | jq '.[0].entropy' | tr -d '"')
+HEX_RIA=$(echo $RAW_ISSUE | jq -r '.[0].hex')
+ASSET=$(echo $RAW_ISSUE | jq -r '.[0].asset')
+TOKEN=$(echo $RAW_ISSUE | jq -r '.[0].token')
+ENTROPY=$(echo $RAW_ISSUE | jq -r '.[0].entropy')
 
 # Blind the issuance transaction
 BLIND=$(w1-cli blindrawtransaction $HEX_RIA true '''[]''' false)
 
 # Sign the issuance transaction (we only need sign with Wallet 1 - it is subsequent spends that will require multiple signatures)
 SIGNED=$(w1-cli signrawtransactionwithwallet $BLIND)
-HEX_SRT=$(echo $SIGNED | jq '.hex' | tr -d '"')
+HEX_SRT=$(echo $SIGNED | jq -r '.hex')
 DECODED=$(w1-cli decoderawtransaction $HEX_SRT)
 
 # Test the transaction's acceptance into the mempool
 TEST=$(w1-cli testmempoolaccept '''["'$HEX_SRT'"]''')
-ALLOWED=$(echo $TEST | jq '.[0].allowed' | tr -d '"')
+ALLOWED=$(echo $TEST | jq -r '.[0].allowed')
 
 # If the transaction is valid
 if [ "true" = $ALLOWED ] ; then
@@ -841,22 +841,22 @@ RAW_TX=$(w1-cli createrawtransaction '''[]''' '''{"'''$RECEIVING_ADDRESS'''":'$A
 
 # Fund the transaction
 FUNDED_RAW_TX=$(w1-cli fundrawtransaction $RAW_TX '''{"'''includeWatching'''":true, "'''changeAddress'''":{"'''bitcoin'''":"'''$BITCOIN_CHANGE'''", "'''$ASSET'''":"'''$MULTISIG_ASSET_CHANGE_ADDRESS'''"}}''')
-FUNDED_HEX=$(echo $FUNDED_RAW_TX | jq '.hex' | tr -d '"')
+FUNDED_HEX=$(echo $FUNDED_RAW_TX | jq -r '.hex')
 
 # Blind the transaction
 BLINDED_RAW_TX=$(w1-cli blindrawtransaction $FUNDED_HEX)
 
 # Have Wallet 1 sign the transaction
 SIGNED_RAW_TX=$(w1-cli signrawtransactionwithwallet $BLINDED_RAW_TX)
-SIGNED_RAW_TX_HEX=$(echo $SIGNED_RAW_TX | jq '.hex' | tr -d '"')
+SIGNED_RAW_TX_HEX=$(echo $SIGNED_RAW_TX | jq -r '.hex')
 
 # Have Wallet 2 sign the transaction
 SIGNED_RAW_TX_2=$(w2-cli signrawtransactionwithwallet $SIGNED_RAW_TX_HEX)
-SIGNED_RAW_TX_2_HEX=$(echo $SIGNED_RAW_TX_2 | jq '.hex' | tr -d '"')
+SIGNED_RAW_TX_2_HEX=$(echo $SIGNED_RAW_TX_2 | jq -r '.hex')
 
 # Test the transaction wil be accepted into the mempool
 TEST=$(w1-cli testmempoolaccept '''["'$SIGNED_RAW_TX_2_HEX'"]''')
-ALLOWED=$(echo $TEST | jq '.[0].allowed' | tr -d '"')
+ALLOWED=$(echo $TEST | jq -r '.[0].allowed')
 
 # If the transaction is valid
 if [ "true" = $ALLOWED ] ; then
@@ -901,7 +901,7 @@ BITCOIN_CHANGE=$(w1-cli getrawchangeaddress)
 
 FUNDED=$(w1-cli fundrawtransaction $BASE '''{"'''feeRate'''":'$FEERATE', "'''includeWatching'''": true, "'''changeAddress'''": {"'''bitcoin'''": "'''$BITCOIN_CHANGE'''", "'''$TOKEN'''": "'''$REISSUANCE_TOKEN_CHANGE_ADDRESS'''"}}''')
 
-FUNDED_HEX=$(echo $FUNDED | jq '.hex' | tr -d '"')
+FUNDED_HEX=$(echo $FUNDED | jq -r '.hex')
 
 # Get information about the token's unspent output
 UNSPENTS=$(w1-cli listunspent)
@@ -910,11 +910,11 @@ UTXO_COUNTER=0
 UTXO_COUNT=$(echo $UNSPENTS | jq 'length')
 
 while [ $UTXO_COUNTER -lt $UTXO_COUNT ]; do
-  UTXO_ASSET=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].asset' | tr -d '"')
+  UTXO_ASSET=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].asset')
   if [ $TOKEN = $UTXO_ASSET ] ; then    
-    UTXO_INFO_TXID=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].txid' | tr -d '"')
-    UTXO_INFO_VOUT=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].vout' | tr -d '"')
-    UTXO_INFO_ASSET_BLINDER=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].assetblinder' | tr -d '"')
+    UTXO_INFO_TXID=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].txid')
+    UTXO_INFO_VOUT=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].vout')
+    UTXO_INFO_ASSET_BLINDER=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].assetblinder')
     break
   fi
   let UTXO_COUNTER=UTXO_COUNTER+1
@@ -930,8 +930,8 @@ ASSET_COMMITMENTS=""
 VIN_COUNTER=0
 
 while [ $VIN_COUNTER -lt $DECODED_VIN_COUNT ]; do
-  TX_INPUT_TXID=$(echo $DECODED | jq '.vin['$VIN_COUNTER'].txid' | tr -d '"')
-  TX_INPUT_VOUT=$(echo $DECODED | jq '.vin['$VIN_COUNTER'].vout' | tr -d '"')
+  TX_INPUT_TXID=$(echo $DECODED | jq -r '.vin['$VIN_COUNTER'].txid')
+  TX_INPUT_VOUT=$(echo $DECODED | jq -r '.vin['$VIN_COUNTER'].vout')
 
   if [ $TX_INPUT_TXID = $UTXO_INFO_TXID ] && [ $TX_INPUT_VOUT = $UTXO_INFO_VOUT ]; then    
     REISSUANCE_INDEX=$VIN_COUNTER
@@ -939,9 +939,9 @@ while [ $VIN_COUNTER -lt $DECODED_VIN_COUNT ]; do
 
   UTXO_COUNTER=0
   while [ $UTXO_COUNTER -lt $UTXO_COUNT ]; do
-    UNSPENT_TXID=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].txid' | tr -d '"')
-    UNSPENT_VOUT=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].vout' | tr -d '"')
-    UNSPENT_ASSET_COMMITMENT=$(echo $UNSPENTS | jq '.['$UTXO_COUNTER'].assetcommitment' | tr -d '"')
+    UNSPENT_TXID=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].txid')
+    UNSPENT_VOUT=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].vout')
+    UNSPENT_ASSET_COMMITMENT=$(echo $UNSPENTS | jq -r '.['$UTXO_COUNTER'].assetcommitment')
 
     if [ $TX_INPUT_TXID = $UNSPENT_TXID ] && [ $TX_INPUT_VOUT = $UNSPENT_VOUT ]; then   
       if [ "$ASSET_COMMITMENTS" = "" ]; then
@@ -960,22 +960,22 @@ done
 # Create the reissuance transaction using the UTXO info
 REISSUANCE=$(w1-cli rawreissueasset $FUNDED_HEX '''[{"''input_index''":'$REISSUANCE_INDEX', "''asset_amount''":'$AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_REISSUANCE_ADDRESS'''", "''asset_blinder''":"'''$UTXO_INFO_ASSET_BLINDER'''", "''entropy''":"'''$ENTROPY'''"}]''')
 
-REISSUANCE_HEX=$(echo $REISSUANCE | jq '.hex' | tr -d '"')
+REISSUANCE_HEX=$(echo $REISSUANCE | jq -r '.hex')
 
 # Blind using the asset commitments we found
 BLINDED_RAW_TX=$(w1-cli blindrawtransaction $REISSUANCE_HEX true [$ASSET_COMMITMENTS] false)
 
 # Have Wallet 1 sign the transaction
 SIGNED_RAW_TX=$(w1-cli signrawtransactionwithwallet $BLINDED_RAW_TX)
-SIGNED_RAW_TX_HEX=$(echo $SIGNED_RAW_TX | jq '.hex' | tr -d '"')
+SIGNED_RAW_TX_HEX=$(echo $SIGNED_RAW_TX | jq -r '.hex')
 
 # Have Wallet 2 sign the transaction
 SIGNED_RAW_TX_2=$(w2-cli signrawtransactionwithwallet $SIGNED_RAW_TX_HEX)
-SIGNED_RAW_TX_2_HEX=$(echo $SIGNED_RAW_TX_2 | jq '.hex' | tr -d '"')
+SIGNED_RAW_TX_2_HEX=$(echo $SIGNED_RAW_TX_2 | jq -r '.hex')
 
 # Test the transaction wil be accepted into the mempool
 TEST=$(w1-cli testmempoolaccept '''["'$SIGNED_RAW_TX_2_HEX'"]''')
-ALLOWED=$(echo $TEST | jq '.[0].allowed' | tr -d '"')
+ALLOWED=$(echo $TEST | jq -r '.[0].allowed')
 
 # If the transaction is valid
 if [ "true" = $ALLOWED ] ; then

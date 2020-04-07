@@ -111,10 +111,10 @@ DEFAULTRIT=a6be6b365498cd451be75ba0f68c258ee01e08f3cb30d5f8469f6628db58dc61
 When implementing code in an application, you'll need to execute something similar to the code below in order to extract the hex id from the wallet balance list at runtime. It should be noted that the example code is limited in scope to our ‘two assets, one of which has a known label’ setup. You can ignore the following example code block for now and just use the line above and replace the actual hex id with the one your reissuance token was assigned.
 
 ~~~~
-DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[0]' | tr -d '"')
+DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq -r 'keys | .[0]')
 
 if [ $DEFAULTRIT = "newasset" ]; then
-  DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq 'keys | .[1]' | tr -d '"')
+  DEFAULTRIT=$(e1-cli getwalletinfo | jq '[.balance] | .[0]' | jq -r 'keys | .[1]')
 fi
 ~~~~
 
