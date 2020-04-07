@@ -88,13 +88,13 @@ elements-cli sendrawtransaction $TX
 
 ### Limitations
 
-The implementation of Confidential Transactions as it appears in Elements has some important limitations to be aware of.
+The implementation of Confidential Transactions, as it appears in Elements, has some important limitations to be aware of.
 
-The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level. The default blinding precision is 52 bits, which will cover any value up to 2^52 satoshi. The default equates to a maximum amount of just over 45 million. For assets that are pegged to Bitcoin, such as L-BTC on the Liquid network, this provides cover for all possible pegged asset transactions. It should be noted that for Issued Assets it is possible to exceed the default maximum confidential amount by repeatedly reissuing the asset and then spending an amount greater than the limit in a single transaction.
+The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level. The default blinding precision is currently 52 bits, which will cover any value up to 2^52 satoshi, which equates to a maximum amount of just over 45 million. As the maximum amount that can be transacted is inherited from Bitcoin, and set at 21 million, this currently provides cover for all asset transactions.
 
-A transaction output larger than the maximum will reveal the order of magnitude of the amount to observers, and will also reveal additional digits at the bottom of the amount.
+A transaction output larger than the maximum value set by the blinding precision will reveal the order of magnitude of the amount to observers, and will also reveal additional digits at the bottom of the amount, so care must be taken if you alter the default value.
 
-For example, if the user uses the default blinding precision of 52 bits, then all outputs under that amount will look the same, but an output between 45 million and 450 million will be visible as such to observers (but not the exact amount within that range), and will also reveal one additional digit of the low end of the amount. Revealing the range in this way could be a very significant privacy leak; splitting such extremely large transactions to keep them under the maximum confidential amount is strongly recommended.
+For example, if a user chooses a lower blinding precision than the default in their own Elements implementation, or an increased maximum transaction amount, then all outputs under the limit will look the same, but an output over the amount will be visible as such to observers. Although the exact amount will not be revealed, the order or magnitue over the maximum will. Revealing the range in this way could be a very significant privacy leak; splitting such extremely large transactions to keep them under the maximum confidential amount is strongly recommended.
 
 ### Find out more about Confidential Transactions
 
