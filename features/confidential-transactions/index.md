@@ -90,7 +90,7 @@ elements-cli sendrawtransaction $TX
 
 The implementation of Confidential Transactions, as it appears in Elements, has some important limitations to be aware of.
 
-The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level. The default blinding precision is currently 52 bits, which will cover any value up to 2^52 satoshi, which equates to a maximum amount of just over 45 million. As the maximum amount that can be transacted is inherited from Bitcoin, and set at 21 million, this currently provides cover for all asset transactions.
+The implementation only hides a certain number of the digits of the amount of each transaction output, dependent on the range proof's "blinding coverage" at a desired precision level. The default blinding precision is currently 52 bits, which will cover any value up to 2^52 satoshi, which equates to a maximum amount of just over 45 million BTC equivalent units. As the maximum amount that can be transacted is inherited from Bitcoin, and set at 21 million BTC equivalent units, this currently provides cover for all asset transactions.
 
 A transaction output larger than the maximum value set by the blinding precision will reveal the order of magnitude of the amount to observers, and will also reveal additional digits at the bottom of the amount, so care must be taken if you alter the default value.
 
