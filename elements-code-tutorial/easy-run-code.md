@@ -230,9 +230,10 @@ e1-cli generatetoaddress 1 $ADDRGEN1
 sleep 10
 e2-cli listissuances
 
-IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
-
-e2-cli importaddress $IADDR
+ISSUE_RAW_TX=$(e2-cli getrawtransaction $ITXID 1)
+ISSUE_VOUTS=$(echo $ISSUE_RAW_TX | jq -r '.vout')
+VOUT_ADDRESS_ISSUE=$(echo $ISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e2-cli importaddress $VOUT_ADDRESS_ISSUE
 
 e2-cli listissuances
 
@@ -301,9 +302,11 @@ sleep 10
 e1-cli listissuances
 
 RITXID=$(echo $RISSUE | jq -r '.txid')
-RIADDR=$(e2-cli gettransaction $RITXID | jq -r '.details[0].address')
+REISSUE_RAW_TX=$(e1-cli getrawtransaction $RITXID 1)
+REISSUE_VOUTS=$(echo $REISSUE_RAW_TX | jq -r '.vout')
+VOUT_ADDRESS_REISSUE=$(echo $REISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e1-cli importaddress $VOUT_ADDRESS_REISSUE
 
-e1-cli importaddress $RIADDR
 e1-cli listissuances
 
 UBRISSUE=$(e2-cli issueasset 55 1 false)
@@ -318,10 +321,10 @@ sleep 10
 e1-cli listissuances
 
 UBRITXID=$(echo $UBRISSUE | jq -r '.txid')
-
-UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq -r '.details[0].address')
-
-e1-cli importaddress $UBRIADDR
+UBREISSUE_RAW_TX=$(e1-cli getrawtransaction $UBRITXID 1)
+UBREISSUE_VOUTS=$(echo $UBREISSUE_RAW_TX | jq -r '.vout')
+UBVOUT_ADDRESS_REISSUE=$(echo $UBREISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e1-cli importaddress $UBVOUT_ADDRESS_REISSUE
 
 e1-cli listissuances
 

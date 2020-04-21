@@ -134,11 +134,13 @@ Then wait a few seconds before having Bob's wallet list its view of the asset is
 e2-cli listissuances
 ~~~~
 
-Bob's wallet isn't aware of the issuance, so we'll import the address into his wallet:
+Bob's wallet isn't aware of the issuance transaction's details, so we'll import an address that was part of the issuance transaction outputs into his wallet as watch-only. It doesn't matter which address is used, so we will use the first instance:
 
 ~~~~
-IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
-e2-cli importaddress $IADDR
+ISSUE_RAW_TX=$(e2-cli getrawtransaction $ITXID 1)
+ISSUE_VOUTS=$(echo $ISSUE_RAW_TX | jq -r '.vout')
+VOUT_ADDRESS_ISSUE=$(echo $ISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e2-cli importaddress $VOUT_ADDRESS_ISSUE
 ~~~~
 
 If we try and view the list of issuances from Bob's node now we'll see the issuance, but notice that the amount of the asset and the amount of its associated token are hidden:

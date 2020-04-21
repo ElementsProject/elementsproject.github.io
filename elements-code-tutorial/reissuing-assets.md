@@ -166,8 +166,10 @@ Import the address so that it can:
 
 ~~~~
 RITXID=$(echo $RISSUE | jq -r '.txid')
-RIADDR=$(e2-cli gettransaction $RITXID | jq -r '.details[0].address')
-e1-cli importaddress $RIADDR
+REISSUE_RAW_TX=$(e1-cli getrawtransaction $RITXID 1)
+REISSUE_VOUTS=$(echo $REISSUE_RAW_TX | jq -r '.vout')
+VOUT_ADDRESS_REISSUE=$(echo $REISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e1-cli importaddress $VOUT_ADDRESS_REISSUE
 ~~~~
 
 Now Alice's wallet can see the reissuance:
@@ -197,8 +199,10 @@ And this time if we import the address into Alice's wallet she should be able to
 e2-cli generatetoaddress 1 $ADDRGEN2
 e1-cli listissuances
 UBRITXID=$(echo $UBRISSUE | jq -r '.txid')
-UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq -r '.details[0].address')
-e1-cli importaddress $UBRIADDR
+UBREISSUE_RAW_TX=$(e1-cli getrawtransaction $UBRITXID 1)
+UBREISSUE_VOUTS=$(echo $UBREISSUE_RAW_TX | jq -r '.vout')
+UBVOUT_ADDRESS_REISSUE=$(echo $UBREISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e1-cli importaddress $UBVOUT_ADDRESS_REISSUE
 ~~~~
 
 We can now see that Alice's wallet can see both the issuance and the amount issued (55) without the need to import the blinding key:
