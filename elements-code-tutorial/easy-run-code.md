@@ -230,10 +230,14 @@ e1-cli generatetoaddress 1 $ADDRGEN1
 sleep 10
 e2-cli listissuances
 
-ISSUE_RAW_TX=$(e2-cli getrawtransaction $ITXID 1)
-ISSUE_VOUTS=$(echo $ISSUE_RAW_TX | jq -r '.vout')
-VOUT_ADDRESS_ISSUE=$(echo $ISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
-e2-cli importaddress $VOUT_ADDRESS_ISSUE
+IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
+e2-cli importaddress $IADDR
+
+# Or if the address is not known to e2 but the TXID is (requires index=1 in config file to work):
+#ISSUE_RAW_TX=$(e2-cli getrawtransaction $ITXID 1)
+#ISSUE_VOUTS=$(echo $ISSUE_RAW_TX | jq -r '.vout')
+#VOUT_ADDRESS_ISSUE=$(echo $ISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+#e2-cli importaddress $VOUT_ADDRESS_ISSUE
 
 e2-cli listissuances
 
@@ -302,10 +306,14 @@ sleep 10
 e1-cli listissuances
 
 RITXID=$(echo $RISSUE | jq -r '.txid')
-REISSUE_RAW_TX=$(e1-cli getrawtransaction $RITXID 1)
-REISSUE_VOUTS=$(echo $REISSUE_RAW_TX | jq -r '.vout')
-VOUT_ADDRESS_REISSUE=$(echo $REISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
-e1-cli importaddress $VOUT_ADDRESS_REISSUE
+RIADDR=$(e2-cli gettransaction $RITXID | jq -r '.details[0].address')
+e1-cli importaddress $RIADDR
+
+# Or if the address is not known to e1 but the TXID is (requires index=1 in config file to work):
+#REISSUE_RAW_TX=$(e1-cli getrawtransaction $RITXID 1)
+#REISSUE_VOUTS=$(echo $REISSUE_RAW_TX | jq -r '.vout')
+#VOUT_ADDRESS_REISSUE=$(echo $REISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+#e1-cli importaddress $VOUT_ADDRESS_REISSUE
 
 e1-cli listissuances
 
@@ -321,10 +329,15 @@ sleep 10
 e1-cli listissuances
 
 UBRITXID=$(echo $UBRISSUE | jq -r '.txid')
-UBREISSUE_RAW_TX=$(e1-cli getrawtransaction $UBRITXID 1)
-UBREISSUE_VOUTS=$(echo $UBREISSUE_RAW_TX | jq -r '.vout')
-UBVOUT_ADDRESS_REISSUE=$(echo $UBREISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
-e1-cli importaddress $UBVOUT_ADDRESS_REISSUE
+
+UBRIADDR=$(e2-cli gettransaction $UBRITXID | jq -r '.details[0].address')
+e1-cli importaddress $UBRIADDR
+
+# Or if the address is not known to e1 but the TXID is (requires index=1 in config file to work):
+#UBREISSUE_RAW_TX=$(e1-cli getrawtransaction $UBRITXID 1)
+#UBREISSUE_VOUTS=$(echo $UBREISSUE_RAW_TX | jq -r '.vout')
+#UBVOUT_ADDRESS_REISSUE=$(echo $UBREISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+#e1-cli importaddress $UBVOUT_ADDRESS_REISSUE
 
 e1-cli listissuances
 
