@@ -134,14 +134,25 @@ Then wait a few seconds before having Bob's wallet list its view of the asset is
 e2-cli listissuances
 ~~~~
 
-Bob's wallet isn't aware of the issuance, so we'll import the address into his wallet:
+Bob's wallet isn't aware of the issuance transaction's details, so we'll import an address that was part of the issuance transaction output into his wallet as watch-only. 
 
 ~~~~
 IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
 e2-cli importaddress $IADDR
 ~~~~
 
-If we try and view the list of issuances from Bob's node now we'll see the issuance, but notice that the amount of the asset and the amount of its associated token are hidden:
+Another way to make Bob's node aware of the issuance is for Bob to get the issuance transaction ID and use that to import any output address from the transaction into his wallet. This is useful if Bob is not able to get the adress from Alice, but knows the transaction in which the asset was issued... perhaps by using the [Blockstream Explorer's assets list](https://blockstream.info/liquid/assets/) to look it up. From that page he can either use the TXID or select one of the addresses from the outputs. Using the TXID requires that Bob's node has ``index=1`` set in the elements.conf file.
+
+Bob's already imported the address above but for reference the code to import using TXID is shown below. It doesn't matter which address is used, so we will use the first instance:
+
+~~~~
+ISSUE_RAW_TX=$(e2-cli getrawtransaction $ITXID 1)
+ISSUE_VOUTS=$(echo $ISSUE_RAW_TX | jq -r '.vout')
+VOUT_ADDRESS_ISSUE=$(echo $ISSUE_VOUTS | jq -r '.[0].scriptPubKey.addresses[0]')
+e2-cli importaddress $VOUT_ADDRESS_ISSUE
+~~~~
+
+Either way, if we try and view the list of issuances from Bob's node now we'll see the issuance, but notice that the amount of the asset and the amount of its associated token are hidden:
 
 ~~~~
 e2-cli listissuances
