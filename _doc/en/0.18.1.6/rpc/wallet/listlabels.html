@@ -1,0 +1,36 @@
+---
+layout: doc
+name: listlabels
+elemversion: 0.18.1.6
+elemgroup: wallet
+permalink: /en/doc/0.18.1.6/rpc/wallet/listlabels/
+---
+
+listlabels ( "purpose" )
+
+Returns the list of all labels, or labels that are assigned to addresses with a specific purpose.
+
+Arguments:
+1. purpose    (string, optional) Address purpose to list labels for ('send','receive'). An empty string is the same as not providing this argument.
+
+Result:
+[               (json array of string)
+  "label",      (string) Label name
+  ...
+]
+
+Examples:
+
+List all labels
+> elements-cli listlabels 
+
+List labels that have receiving addresses
+> elements-cli listlabels receive
+
+List labels that have sending addresses
+> elements-cli listlabels send
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "listlabels", "params": [receive] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

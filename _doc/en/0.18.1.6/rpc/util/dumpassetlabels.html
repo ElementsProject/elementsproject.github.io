@@ -1,0 +1,17 @@
+---
+layout: doc
+name: dumpassetlabels
+elemversion: 0.18.1.6
+elemgroup: util
+permalink: /en/doc/0.18.1.6/rpc/util/dumpassetlabels/
+---
+
+dumpassetlabels
+
+Lists all known asset id/label pairs in this wallet. This list can be modified with `-assetdir` configuration argument.
+
+Examples:
+> elements-cli dumpassetlabels 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "dumpassetlabels", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
