@@ -1,0 +1,28 @@
+---
+layout: doc
+name: getrpcinfo
+elemversion: 0.18.1.7
+elemgroup: control
+permalink: /en/doc/0.18.1.7/rpc/control/getrpcinfo/
+---
+
+getrpcinfo
+
+Returns details of the RPC server.
+
+Result:
+{
+ "active_commands" (array) All active commands
+  [
+   {               (object) Information about an active command
+    "method"       (string)  The name of the RPC command 
+    "duration"     (numeric)  The running time in microseconds
+   },...
+  ]
+}
+
+Examples:
+> elements-cli getrpcinfo 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getrpcinfo", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
