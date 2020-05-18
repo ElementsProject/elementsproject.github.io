@@ -1,0 +1,20 @@
+---
+layout: doc
+name: getblockcount
+elemversion: 0.18.1.6
+elemgroup: blockchain
+permalink: /en/doc/0.18.1.6/rpc/blockchain/getblockcount/
+---
+
+getblockcount
+
+Returns the number of blocks in the longest blockchain.
+
+Result:
+n    (numeric) The current block count
+
+Examples:
+> elements-cli getblockcount 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockcount", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
