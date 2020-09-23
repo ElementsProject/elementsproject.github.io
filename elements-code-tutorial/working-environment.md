@@ -80,7 +80,7 @@ e2-cli stop
 If we now try and execute a simple command using the Bitcoin RPC client it will error as we haven't started the Bitcoin daemon yet:
 
 ~~~~
-b-cli -getinfo
+b-cli getblockcount
 ~~~~
 
 That gives us an error, but we were expecting that. Let's start the Bitcoin daemon:
@@ -92,10 +92,10 @@ b-dae
 Give it a few seconds to start up, and then try again:
 
 ~~~~
-b-cli -getinfo
+b-cli getblockcount
 ~~~~
 
-That should work! You should get a response telling you general information about the node.
+That should work! It doesn't matter what the number returned is, and it may well be zero, as long as you get a response.
 
 So now we have the Bitcoin daemon running we need to start our Elements daemons. Remember that we are able to run two instances on the same machine because we are using different configuration files with different ports and RPC permissions set. Start the daemons:
 
