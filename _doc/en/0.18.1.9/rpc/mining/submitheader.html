@@ -1,0 +1,23 @@
+---
+layout: doc
+name: submitheader
+elemversion: 0.18.1.9
+elemgroup: mining
+permalink: /en/doc/0.18.1.9/rpc/mining/submitheader/
+---
+
+submitheader "hexdata"
+
+Decode the given hexdata as a header and submit it as a candidate chain tip if valid.
+Throws when the header is invalid.
+
+Arguments:
+1. hexdata    (string, required) the hex-encoded block header data
+
+Result:
+None
+Examples:
+> elements-cli submitheader "aabbcc"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "submitheader", "params": ["aabbcc"] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

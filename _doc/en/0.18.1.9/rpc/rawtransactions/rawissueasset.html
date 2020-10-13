@@ -1,0 +1,39 @@
+---
+layout: doc
+name: rawissueasset
+elemversion: 0.18.1.9
+elemgroup: rawtransactions
+permalink: /en/doc/0.18.1.9/rpc/rawtransactions/rawissueasset/
+---
+
+rawissueasset "transaction" [{"asset_amount":amount,"asset_address":"str","token_amount":amount,"token_address":"str","blind":bool,"contract_hash":"hex"},...]
+
+Create an asset by attaching issuances to transaction inputs. Returns the transaction hex. There must be as many inputs as issuances requested. The final transaction hex is the final version of the transaction appended to the last object in the array.
+
+Arguments:
+1. transaction                      (string, required) Transaction in hex in which to include an issuance input.
+2. issuances                        (json array, required) List of issuances to create. Each issuance must have one non-zero amount.
+     [
+       {                            (json object, required)
+         "asset_amount": amount,    (numeric or string, optional) Amount of asset to generate, if any.
+         "asset_address": "str",    (string, optional) Destination address of generated asset. Required if `asset_amount` given.
+         "token_amount": amount,    (numeric or string, optional) Amount of reissuance token to generate, if any.
+         "token_address": "str",    (string, optional) Destination address of generated reissuance tokens. Required if `token_amount` given.
+         "blind": bool,             (boolean, optional, default=true) Whether to mark the issuance input for blinding or not. Only affects issuances with re-issuance tokens.
+         "contract_hash": "hex",    (string, optional, default=0000...0000) Contract hash that is put into issuance definition. Must be 32 bytes worth in hex string form. This will affect the asset id.
+       },
+       ...
+     ]
+
+Result:
+[                           (json array) Results of issuances, in the order of `issuances` argument
+  {                           (json object)
+    "hex":<hex>,            (string) The transaction with issuances appended. Only appended to final index in returned array.
+    "vin":"n",            (numeric) The input position of the issuance in the transaction.
+    "entropy":"<entropy>" (string) Entropy of the asset type.
+    "asset":"<asset>",    (string) Asset type for issuance if known.
+    "token":"<token>",    (string) Token type for issuance.
+  },
+  ...
+]
+
