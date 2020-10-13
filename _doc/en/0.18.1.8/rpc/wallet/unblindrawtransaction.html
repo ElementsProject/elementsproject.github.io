@@ -1,0 +1,24 @@
+---
+layout: doc
+name: unblindrawtransaction
+elemversion: 0.18.1.8
+elemgroup: wallet
+permalink: /en/doc/0.18.1.8/rpc/wallet/unblindrawtransaction/
+---
+
+unblindrawtransaction "hex"
+
+Recovers unblinded transaction outputs from blinded outputs and issuance inputs when possible using wallet's known blinding keys, and strips related witness data.
+
+Arguments:
+1. hex    (string, required) The hex string of the raw transaction.
+
+Result:
+{
+  "hex":       "value", (string)  The resulting unblinded raw transaction (hex-encoded string)
+}
+
+Examples:
+> elements-cli unblindrawtransaction "blindedtransactionhex"
+
+
