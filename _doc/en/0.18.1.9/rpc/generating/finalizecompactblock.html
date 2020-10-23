@@ -1,0 +1,22 @@
+---
+layout: doc
+name: finalizecompactblock
+elemversion: 0.18.1.9
+elemgroup: generating
+permalink: /en/doc/0.18.1.9/rpc/generating/finalizecompactblock/
+---
+
+finalizecompactblock "compact_hex" "block_transactions" "found_transactions"
+Takes the two transaction lists, fills out the compact block and attempts to finalize it.
+Arguments:
+1. compact_hex           (string, required) Hex serialized compact block.
+2. block_transactions    (string, required) Hex serialized BlockTransactions, the response to getblocktxn.
+3. found_transactions    (string, required) Hex serialized list of transactions that were found in response to receiving a compact sketch in `consumecompactsketch`.
+
+Result:
+block             (hex) The serialized final block.
+
+Examples:
+> elements-cli finalizecompactblock <compact_hex> <block_transactions> <found_transactions>
+
+

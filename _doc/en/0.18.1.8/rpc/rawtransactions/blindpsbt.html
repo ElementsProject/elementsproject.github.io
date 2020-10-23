@@ -1,0 +1,24 @@
+---
+layout: doc
+name: blindpsbt
+elemversion: 0.18.1.8
+elemgroup: rawtransactions
+permalink: /en/doc/0.18.1.8/rpc/rawtransactions/blindpsbt/
+---
+
+blindpsbt "psbt" ( ignoreblindfail )
+
+Uses the blinding data from the PSBT inputs to generate the blinding data for the PSBT outputs.
+
+Arguments:
+1. psbt               (string, required) The PSBT base64 string
+2. ignoreblindfail    (boolean, optional, default=true) Return a transaction even when a blinding attempt fails due to number of blinded inputs/outputs.
+
+Result:
+"psbt"       (string) The base64-encoded partially signed transaction
+
+Examples:
+> elements-cli blindpsbt "psbt"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "blindpsbt", "params": ["psbt"] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

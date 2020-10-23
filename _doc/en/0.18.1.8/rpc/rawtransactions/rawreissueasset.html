@@ -1,0 +1,32 @@
+---
+layout: doc
+name: rawreissueasset
+elemversion: 0.18.1.8
+elemgroup: rawtransactions
+permalink: /en/doc/0.18.1.8/rpc/rawtransactions/rawreissueasset/
+---
+
+rawreissueasset "transaction" [{"asset_amount":amount,"asset_address":"str","input_index":n,"asset_blinder":"hex","entropy":"hex"},...]
+
+Re-issue an asset by attaching pseudo-inputs to transaction inputs, revealing the underlying reissuance token of the input. Returns the transaction hex.
+
+Arguments:
+1. transaction                      (string, required) Transaction in hex in which to include an issuance input.
+2. reissuances                      (json array, required) List of re-issuances to create. Each issuance must have one non-zero amount.
+     [
+       {                            (json object, required)
+         "asset_amount": amount,    (numeric or string, required) Amount of asset to generate, if any.
+         "asset_address": "str",    (string, required) Destination address of generated asset. Required if `asset_amount` given.
+         "input_index": n,          (numeric, required) The input position of the reissuance in the transaction.
+         "asset_blinder": "hex",    (string, required) The blinding factor of the reissuance token output being spent.
+         "entropy": "hex",          (string, required) The `entropy` returned during initial issuance for the asset being reissued.
+       },
+       ...
+     ]
+
+Result:
+{                             (json object)
+    "hex":<hex>,            (string) The transaction with reissuances appended.
+}
+
+

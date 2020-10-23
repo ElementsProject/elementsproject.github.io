@@ -1,0 +1,27 @@
+---
+layout: doc
+name: walletfillpsbtdata
+elemversion: 0.18.1.8
+elemgroup: wallet
+permalink: /en/doc/0.18.1.8/rpc/wallet/walletfillpsbtdata/
+---
+
+walletfillpsbtdata "psbt" ( bip32derivs )
+
+Update a PSBT with input information from our wallet
+
+
+Arguments:
+1. psbt           (string, required) The transaction base64 string
+2. bip32derivs    (boolean, optional, default=false) If true, includes the BIP 32 derivation paths for public keys if we know them
+
+Result:
+{
+  "psbt" : "value",        (string) The base64-encoded partially signed transaction
+}
+
+Examples:
+> elements-cli walletfillpsbtdata "psbt"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "walletfillpsbtdata", "params": ["psbt"] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

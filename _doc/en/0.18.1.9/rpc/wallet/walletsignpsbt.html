@@ -1,0 +1,35 @@
+---
+layout: doc
+name: walletsignpsbt
+elemversion: 0.18.1.9
+elemgroup: wallet
+permalink: /en/doc/0.18.1.9/rpc/wallet/walletsignpsbt/
+---
+
+walletsignpsbt "psbt" ( "sighashtype" imbalance_ok )
+
+Sign all PSBT iputs that we can sign for.
+
+
+Arguments:
+1. psbt            (string, required) The transaction base64 string
+2. sighashtype     (string, optional, default=ALL) The signature hash type to sign with if not specified by the PSBT. Must be one of
+                   "ALL"
+                   "NONE"
+                   "SINGLE"
+                   "ALL|ANYONECANPAY"
+                   "NONE|ANYONECANPAY"
+                   "SINGLE|ANYONECANPAY"
+3. imbalance_ok    (boolean, optional, default=false) Sign even if the transaction amounts do not balance
+
+Result:
+{
+  "psbt" : "value",          (string) The base64-encoded partially signed transaction
+  "complete" : true|false,   (boolean) If the transaction has a complete set of signatures
+}
+
+Examples:
+> elements-cli walletsignpsbt "psbt"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "walletsignpsbt", "params": ["psbt"] }' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
