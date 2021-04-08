@@ -1,0 +1,23 @@
+---
+layout: doc
+name: getcompactsketch
+elemversion: 0.18.1.11
+elemgroup: generating
+permalink: /en/doc/0.18.1.11/rpc/generating/getcompactsketch/
+---
+
+getcompactsketch block_hex "block_hex"
+
+Gets hex representation of a proposed compact block sketch.
+It is consumed by `consumecompactsketch.`
+
+Arguments:
+1. block_hex    (string, required) Hex serialized block proposal from `getnewblockhex`.
+
+Result:
+sketch      (string) The block serialized block sketch in hex
+
+Examples:
+> elements-cli getcompactsketch 
+
+
