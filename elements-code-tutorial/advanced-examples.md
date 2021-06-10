@@ -16,22 +16,20 @@ Manually creating a transaction, manually issuing an asset, using asset contract
 
 Issuing an asset to a multi-sig, spending from a multi-sig and reissuing from a multi-sig.
 
+[Example 3](#registry)
+
+Issuing an asset and using the `issueasset` command's contract hash argument to enable registration with the Blockstream Liquid Asset Registry.
+
 * * *
 
 <a id="raw"></a>
-### Example 1: Manually creating a transaction, manually issuing an asset, using asset contract hash and asset registration.
+### Example 1: Manually creating a transaction, manually issuing an asset.
 
 The code below shows you how to carry out the following actions within Elements:
 
 * Creating a transaction manually (createrawtransaction) using an Issued Asset.
 
 * Creating an asset issuance manually (rawissueasset).
-
-* Proving that you issued an asset using 'Contract Hash'.
-
-* Registering an Issued Asset with Blockstream's [Liquid asset registry](https://assets.blockstream.info).
-
-For the last item, you will need to run elements with an argument of ``chain=liquidv1`` and connect to the live Liquid network for the registration to be successful.
 
 Save the code below in a file named **advancedexamplesraw.sh** and place it in your home directory.
 
@@ -47,18 +45,14 @@ You can run each of the examples individualy by passing in the following command
 
 'RIA' for raw issuance of an asset
 
-'POI' for proof of issuance / contract hash
-
-'BAR' for Blockstream's [Liquid asset registry](https://assets.blockstream.info)
-
 For example, to run the raw issuance example only:
 ~~~~
 bash advancedexamplesraw.sh RIA
 ~~~~
  
-If you do not pass an argument in, all examples will run.
+If you do not pass an argument in, both examples will run.
 
-The examples have been tested against the following versions of elements: 0.17.0, 0.18.1.1, 0.18.1.2.
+The examples have been tested with version 0.18.1.12 of Elements.
 
 ##### Note: If you want to run some of the steps automatically and then have execution stop and wait for you to press enter before continuing one line at a time: move the **trap read debug** statement down so that it is above the line you want to stop at. Execution will run each line automatically and stop when that line is reached. It will then switch to executing one line at a time, waiting for you to press return before executing the next command. Remove it to run without stopping.<br/><br/>You will see that occasionally we will use the **sleep** command to pause execution. This allows the daemons time to do things like stop, start and sync mempools.<br/><br/>There is a chance that the " and ' characters may not paste into your **advancedexamplesraw.sh** file correctly, so type over them yourself if you come across any issues executing the code.
  
@@ -75,14 +69,10 @@ set -x
 # You can run each of the examples individualy by passing in the following command line arguments:
 # 'RTIA' for raw transaction using an issued asset
 # 'RIA' for raw issuance of an asset
-# 'POI' for proof of issuance / contract hash
-# 'BAR' for Blockstream's Liquid asset registry (https://assets.blockstream.info)
 # For example, to run the raw issuance example only:
 # bash advancedexamplesraw.sh RIA
 # 
-# If you do not pass an argument in, all examples will run.
-#
-# Press the return key to execute each line in turn.
+# If you do not pass an argument in, both examples will run.
 #
 # If you want to run some of the steps automatically and then have execution stop
 # and wait for you to press enter before continuing one line at a time: uncomment 
@@ -96,9 +86,6 @@ set -x
 # can probably decrease the sleeps without issue. The numbers used below are so a low
 # powered machine like a Raspberry Pi can run without incident.
 #
-
-# Remove to run without stopping:
-# trap read debug
 
 if [ "$1" != "" ]; then
     EXAMPLETYPE=$1
@@ -118,9 +105,6 @@ fi
 
 shopt -s expand_aliases
 
-alias b-dae="bitcoind -datadir=$HOME/bitcoindir"
-alias b-cli="bitcoin-cli -datadir=$HOME/bitcoindir"
-
 alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
 alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1"
 
@@ -130,28 +114,18 @@ alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
 # Ignore error
 set +o errexit
 
-# The following 3 lines may error without issue if the daemons are not already running
-b-cli stop
+# The following lines may error without issue if the daemons are not already running
 e1-cli stop
 e2-cli stop
 sleep 15
 
-# The following 3 lines may error without issue
+# The following lines may error without issue
 rm -r ~/bitcoindir ; rm -r ~/elementsdir1 ; rm -r ~/elementsdir2
 mkdir ~/bitcoindir ; mkdir ~/elementsdir1 ; mkdir ~/elementsdir2
 
 cp ~/elements/contrib/assets_tutorial/bitcoin.conf ~/bitcoindir/bitcoin.conf
 cp ~/elements/contrib/assets_tutorial/elements1.conf ~/elementsdir1/elements.conf
 cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.conf
-
-b-dae
-sleep 15
-
-until b-cli getwalletinfo
-do
-  echo "Waiting for bitcoin node to finish loading..."
-  sleep 2
-done
 
 e1-dae
 e2-dae
@@ -175,7 +149,6 @@ done
 # Exit on error
 set -o errexit
 
-ADDRGENB=$(b-cli getnewaddress)
 ADDRGEN1=$(e1-cli getnewaddress)
 
 e1-cli sendtoaddress $(e1-cli getnewaddress) 21000000 "" "" true
@@ -306,252 +279,10 @@ fi
 
 # <<< RAW ISSUE ASSET
 
-
-###########################################
-#                                         #
-#    PROOF OF ISSUANCE / CONTRACT HASH    #
-#                                         #
-###########################################
-
-# PROOF OF ISSUANCE / CONTRACT HASH >>>
-
-if [ "POI" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
-
-    b-cli generatetoaddress 101 $ADDRGENB
-    e1-cli generatetoaddress 101 $ADDRGEN1
-    sleep 5
-
-    # We need to get a 'legacy' type (prefix 'CTE') address for this:
-    NEWADDR=$(e1-cli getnewaddress "" legacy)
-    
-    VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
-
-    PUBKEY=$(echo $VALIDATEADDR | jq -r '.pubkey')
-
-    ADDR=$NEWADDR
-    
-    # Write to an asset registry to prove we (ABC Company) control the address in question...
-    MSG="THE ADDRESS THAT I, ABC, HAVE CONTROL OVER IS:[$ADDR] PUBKEY:[$PUBKEY]"
-
-    SIGNEDMSG=$(e1-cli signmessage $ADDR "$MSG")
-
-    VERIFIED=$(e1-cli verifymessage $ADDR $SIGNEDMSG "$MSG")
-
-    # Write that proof to the registry...
-    echo "REGISTRY ENTRY = MESSAGE:[$MSG] SIGNED MESSAGE:[$SIGNEDMSG]"
-
-    FUNDINGADDR=$(e1-cli getnewaddress)
-
-    e1-cli sendtoaddress $FUNDINGADDR 2
-
-    e1-cli generatetoaddress 1 $ADDRGEN1
-
-    RAWTX=$(e1-cli createrawtransaction [] '''{"'''$FUNDINGADDR'''":1.00}''')
-
-    FRT=$(e1-cli fundrawtransaction $RAWTX)
-
-    HEXFRT=$(echo $FRT | jq -r '.hex')
-
-    # Write whatever you want as a contract text. Include reference to signed proof of ownership above...
-    CONTRACTTEXT="THIS IS THE CONTRACT TEXT FOR THE XYZ ASSET. CREATED BY ABC. ADDRESS:[$ADDR] PUBKEY:[$PUBKEY]"
-
-    # Sign it using the same address it references...
-    SIGNEDCONTRACTTEXT=$(e1-cli signmessage $ADDR "$CONTRACTTEXT")
-
-    # Hash that signed message, which we will use as the contract hash...
-    # (hash as 32 bytes however you want to do this - we will use openssl commandline)
-    CONTRACTTEXTHASH=$(echo -n $SIGNEDCONTRACTTEXT | openssl dgst -sha256)
-    CONTRACTTEXTHASH=$(echo ${CONTRACTTEXTHASH#"(stdin)= "})
-
-    echo $CONTRACTTEXTHASH
-
-    # Issue the asset to the address that we signed for earlier and which we included in the signed contract hash...
-    RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
-
-    # Details of the issuance...
-    HEXRIA=$(echo $RIA | jq -r '.[0].hex')
-    ASSET=$(echo $RIA | jq -r '.[0].asset')
-    ENTROPY=$(echo $RIA | jq -r '.[0].entropy')
-    TOKEN=$(echo $RIA | jq -r '.[0].token')
-
-    # Blind, sign and send the issuance transaction...
-    BRT=$(e1-cli blindrawtransaction $HEXRIA)
-
-    SRT=$(e1-cli signrawtransactionwithwallet $BRT)
-    
-    HEXSRT=$(echo $SRT | jq -r '.hex')
-
-    ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
-
-    e1-cli generatetoaddress 101 $ADDRGEN1
-    sleep 5
-
-    # In the output from decoderawtransaction you will see in the vout section the asset being issued to the address we signed from earlier...
-    RT=$(e1-cli getrawtransaction $ISSUETX)
-
-    DRT=$(e1-cli decoderawtransaction $RT)
-
-    # Build an asset registry entry saying that we issued the asset...
-    ASSETREGISTERMESSAGE="I, ABC, CREATED ASSET:[$ASSET] WITH ASSET ENTROPY:[$ENTROPY] AT ADDRESS:[$ADDR] IN TX:[$ISSUETX]"
-
-    SIGNEDMSG=$(e1-cli signmessage $ADDR "$ASSETREGISTERMESSAGE")
-
-    e1-cli verifymessage $ADDR $SIGNEDMSG "$ASSETREGISTERMESSAGE"
-
-    # Then make the entry in the aset registry...
-    echo "REGISTRY ENTRY = ASSET CREATION MESSAGE:[$ASSETREGISTERMESSAGE] SIGNED VERSION:[$SIGNEDMSG]"
-
-    e1-cli listissuances
-
-    e1-cli getwalletinfo
-
-    # Proving the issuance was indeed made against the contract hash...
-    # We need to provide the following to anyone wishing to validate that the contract has was used to produce the asset:
-    #  - Hex of funded raw transaction used to fund the issuance
-    #  - contract_hash
-    # Not needed (other values can be used): asset_amount, asset_address, blind
-
-    # If someone else tries to claim they created the asset and we didn't - they will need to prove they can sign for the address it was sent to and explain how come we can sign messages (as found in the asset registry) for that address.
-
-    VERIFYISSUANCE=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":33, "''asset_address''":"'''$ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACTTEXTHASH'''"}]''')
-
-    ASSETVERIFY=$(echo $VERIFYISSUANCE | jq -r '.[0].asset')
-    ENTROPYVERIFY=$(echo $VERIFYISSUANCE | jq -r '.[0].entropy')
-    TOKENVERIFY=$(echo $VERIFYISSUANCE | jq -r '.[0].token')
-
-    [[ $ASSET = $ASSETVERIFY ]] && echo ASSET HEX: VERIFIED || echo ASSET HEX: NOT VERIFIED
-    [[ $ENTROPY = $ENTROPYVERIFY ]] && echo ENTROPY: VERIFIED || echo ENTROPY: NOT VERIFIED
-    [[ $TOKEN = $TOKENVERIFY ]] && echo TOKEN: VERIFIED || echo TOKEN: NOT VERIFIED
-
-    echo "END OF 'POI' EXAMPLE"
-        
-fi
-
-# <<< PROOF OF ISSUANCE / CONTRACT HASH
-
-
-#########################################
-#                                       #
-#  BLOCKSTREAM'S LIQUID ASSET REGISTRY  #
-#                                       #
-#########################################
-
-# BLOCKSTREAM'S LIQUID ASSET REGISTRY >>>
-
-# This will issue an asset in a manner that it can then be registered with 
-# Blockstream's Liquid Asset Registry: https://assets.blockstream.info
-#
-# To register an asset, once you have tested your code based on the guidance
-# below, use the live Liquid network for the registration to be successful. 
-# You can do this with Elements by setting you config to chain=liquidv1 and 
-# removing the arguments used only for testing.
-#
-# The code below creates an asset and an associated token and creates two files.
-# - A file that must be placed on the server of the registered domain
-# - A .sh file that posts the registration data to the Blockstream asset registry
-#
-# This guide is based upon: 
-# https://github.com/Blockstream/liquid_multisig_issuance
-# Please refer to the repository above if there are any issues as the format 
-# may change since this was written.
-
-if [ "BAR" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
-
-	# Amend the following:
-	NAME="asset name"
-	TICKER="XYZ"
-	DOMAIN="domain.com"
-	ASSET_AMOUNT=100
-	TOKEN_AMOUNT=1
-	
-	# Amend the following if needed (likely not):
-	PRECISION=0
-	
-	# Don't change the following:
-	VERSION=0 
-	
-	# We need to get a 'legacy' type (prefix 'CTE') address for this:
-	NEWADDR=$(e1-cli getnewaddress "" legacy)
-	
-	VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
-	
-	PUBKEY=$(echo $VALIDATEADDR | jq -r '.pubkey')
-	
-	ASSET_ADDR=$NEWADDR
-	
-	NEWADDR=$(e1-cli getnewaddress "" legacy)
-	
-	TOKEN_ADDR=$NEWADDR
-	
-	# Create the contract and calculate the contract hash
-	# The contract is formatted for use in the Blockstream Asset Registry:
-	
-	CONTRACT_REGISTRY_ENTRY="{\"name\": \"$NAME\", \"ticker\": \"$TICKER\", \"precision\": $PRECISION, \"entity\": {\"domain\": \"$DOMAIN\"}, \"issuer_pubkey\": \"$PUBKEY\", \"version\": $VERSION}"
-	
-	# We will hash using openssl, other options are available
-	CONTRACT_TEXT_HASH=$(echo -n $CONTRACT_REGISTRY_ENTRY | openssl dgst -sha256)
-	CONTRACT_TEXT_HASH=$(echo ${CONTRACT_TEXT_HASH#"(stdin)= "})
-	
-	e1-cli generatetoaddress 1 $ADDRGEN1
-	
-	RAWTX=$(e1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
-	
-	FRT=$(e1-cli fundrawtransaction $RAWTX)
-	
-	HEXFRT=$(echo $FRT | jq -r '.hex')
-	
-	RIA=$(e1-cli rawissueasset $HEXFRT '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$ASSET_ADDR'''", "''token_amount''":'$TOKEN_AMOUNT', "''token_address''":"'''$TOKEN_ADDR'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
-	
-	# Details of the issuance...
-	HEXRIA=$(echo $RIA | jq -r '.[0].hex')
-	ASSET=$(echo $RIA | jq -r '.[0].asset')
-	ENTROPY=$(echo $RIA | jq -r '.[0].entropy')
-	TOKEN=$(echo $RIA | jq -r '.[0].token')
-	
-	# Blind, sign and send the issuance transaction...
-	BRT=$(e1-cli blindrawtransaction $HEXRIA true '''[]''' false)
-	
-	SRT=$(e1-cli signrawtransactionwithwallet $BRT)
-	
-	HEXSRT=$(echo $SRT | jq -r '.hex')
-	
-	ISSUETX=$(e1-cli sendrawtransaction $HEXSRT)
-	
-	e1-cli generatetoaddress 101 $ADDRGEN1
-	sleep 5
-	
-	e1-cli listissuances
-	
-	e1-cli getwalletinfo
-	
-	# To now register the asset Blockstream's Liquid asset registry
-	# https://assets.blockstream.info/ can be used to register an 
-	# asset to an issuer. We already have the required data and 
-	# have formatted the contract plain text into a format that we 
-	# can use for this.
-	
-	# Write the domain and asset ownership proof to a file. 
-	# The file should then be placed in a directory named ".well-known"
-	# within the root of your domain. The file should have no extension
-	# and just copied as it is created.
-	
-	echo "Authorize linking the domain name $DOMAIN to the Liquid asset $ASSET" > liquid-asset-proof-$ASSET
-	
-	# After you have placed the above file without your domain you 
-	# can run the register_asset.sh script created below to post the 
-	# asset data to the registry.
-	
-	echo "curl https://assets.blockstream.info/ --data-raw '{\"asset_id\":\"$ASSET\",\"contract\":$CONTRACT_REGISTRY_ENTRY,\"issuance_txin\":{\"txid\":\"$ISSUETX\",\"vin\":0}}'" > register_asset.sh
-
-fi
-# <<< BLOCKSTREAM'S LIQUID ASSET REGISTRY
-
-
 # CLOSE RUNNING NODES BEFORE EXIT:
 
 e1-cli stop
 e2-cli stop
-b-cli stop
 sleep 10
 
 echo "Completed without error"
@@ -995,3 +726,140 @@ sleep 10
 
 echo "Completed without error"
 ~~~~
+
+* * *
+
+<a id="registry"></a>
+### Example 3: Issuing an asset and using the contract hash argument to enable registration with the Blockstream Liquid Asset Registry.
+
+Save the code below in a file named **advancedexamplesregistry.sh** and place it in your home directory and run:
+
+~~~~
+bash advancedexamplesregistry.sh
+~~~~
+
+Update the following fields within the script before running it and check the path to your elementsd and elements-cli:
+
+~~~
+NAME
+TICKER
+DOMAIN
+ASSET_AMOUNT
+TOKEN_AMOUNT
+PRECISION
+~~~
+
+For reference as to how the values should be set please refer to the <a href="https://docs.blockstream.com/liquid/developer-guide/developer-guide-index.html#proof-of-issuance-blockstream-s-liquid-asset-registry" target="_blank">Blockstream docs site</a>.
+
+##### Note: The following will use the live Liquid network by default as the `datadir` is set to `.elements`. Assets issued on elementsregtest cannot be registered.
+
+~~~~
+#!/bin/bash
+set -x
+
+shopt -s expand_aliases
+
+alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/.elements"
+alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/.elements"
+
+# Ignore error
+set +o errexit
+
+# The following may error without issue if the daemon is not already running
+e1-cli stop
+sleep 15
+
+# Start the daemon
+e1-dae
+sleep 15
+
+# Make sure the node has finished startup and is responding to commands
+until e1-cli getwalletinfo
+do
+  echo "Waiting for e1 to finish loading..."
+  sleep 2
+done
+
+# Exit on error
+set -o errexit
+
+# We will be using the issueasset command and the contract_hash argument:
+# issueasset <assetamount> <tokenamount> <blind> <contract_hash>
+
+NAME="your asset name here"
+TICKER="ticker here"
+DOMAIN="domain.here"
+ASSET_AMOUNT=100
+TOKEN_AMOUNT=1
+PRECISION=0
+
+# Don't change the following:
+VERSION=0 
+
+# As we need to sign the deletion request message later we need
+# a legacy address. If you prefer to generate a pubkey and sign
+# outside of Elements you can use a regular address instead.
+NEWADDR=$(e1-cli getnewaddress "" legacy)
+
+VALIDATEADDR=$(e1-cli getaddressinfo $NEWADDR)
+
+PUBKEY=$(echo $VALIDATEADDR | jq -r '.pubkey')
+
+ASSET_ADDR=$NEWADDR
+
+NEWADDR=$(e1-cli getnewaddress "" legacy)
+
+TOKEN_ADDR=$NEWADDR
+
+# Create the contract and calculate the contract hash
+# The contract is formatted for use in the Blockstream Asset Registry:
+
+CONTRACT='{"entity":{"domain":"'$DOMAIN'"},"issuer_pubkey":"'$PUBKEY'","name":"'$NAME'","precision":'$PRECISION',"ticker":"'$TICKER'","version":'$VERSION'}'
+
+# We will hash using openssl, other options are available
+CONTRACT_HASH=$(echo -n $CONTRACT | openssl dgst -sha256)
+CONTRACT_HASH=$(echo ${CONTRACT_HASH#"(stdin)= "})
+
+# Reverse the hash
+TEMP=$CONTRACT_HASH
+LEN=${#TEMP}
+until [ $LEN -eq "0" ]; do
+    END=${TEMP:(-2)}
+    CONTRACT_HASH_REV="$CONTRACT_HASH_REV$END"
+    TEMP=${TEMP::-2}
+    LEN=$((LEN-2))
+done
+
+# Wait for peers to connect (optional)
+sleep 180
+
+# Issue the asset and pass in the contract hash
+IA=$(e1-cli issueasset $ASSET_AMOUNT $TOKEN_AMOUNT false $CONTRACT_HASH_REV)
+
+# Details of the issuance...
+ASSET=$(echo $IA | jq -r '.asset')
+TOKEN=$(echo $IA | jq -r '.token')
+ISSUETX=$(echo $IA | jq -r '.txid')
+
+# Output the proof file - you need to place this on your domain.
+# See the Blockstream docs link above for reference as to where.
+echo "Authorize linking the domain name $DOMAIN to the Liquid asset $ASSET" > liquid-asset-proof-$ASSET
+
+# Create the bash script to run after you have placed the proof file on your domain
+# that will call the registry and request the asset is registered.
+echo "curl https://assets.blockstream.info/ --data-raw '{\"asset_id\":\"$ASSET\",\"contract\":$CONTRACT}'" > register_asset-$ASSET.sh
+
+# Create the bash script to delete the asset from the registry (if needed later)
+PRIV=$(e1-cli dumpprivkey $ASSET_ADDR)
+SIGNED=$(e1-cli signmessagewithprivkey $PRIV "remove $ASSET from registry")
+echo "curl -X DELETE https://assets.blockstream.info/$ASSET -H 'Content-Type: application/json' -d '{\"signature\":\"$SIGNED\"}'" > delete_asset_$ASSET.sh
+
+# Stop the daemon
+e1-cli stop
+sleep 10
+
+echo "Completed without error"
+
+~~~~
+
+
