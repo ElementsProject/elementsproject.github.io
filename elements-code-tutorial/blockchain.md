@@ -52,20 +52,16 @@ Next we'll need to clear out any existing blockchain and wallet data as we will 
 
 ~~~~
 cd 
-rm -r ~/elementsdir1/elementsregtest/blocks
-rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
-rm -r ~/elementsdir2/elementsregtest/blocks
-rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
+rm -rf ~/elementsdir1/elementsregtest
+rm -rf ~/elementsdir2/elementsregtest
 ~~~~
 
 Now we will perform steps 1 to 3 above. Start our two nodes with a few parameters which are used to configure the initialization of our blockchain:
 
 ~~~~
-STANDALONEARGS="-validatepegin=0 -defaultpeggedassetname=newasset -initialfreecoins=100000000000000 -initialreissuancetokens=200000000"
-e1-dae $STANDALONEARGS
-e2-dae $STANDALONEARGS
+STANDALONEARGS=("-validatepegin=0" "-defaultpeggedassetname=newasset" "-initialfreecoins=100000000000000" "-initialreissuancetokens=200000000")
+e1-dae ${STANDALONEARGS[@]}
+e2-dae ${STANDALONEARGS[@]}
 ~~~~
 
 We'll look at what these parameters do in more detail next.
