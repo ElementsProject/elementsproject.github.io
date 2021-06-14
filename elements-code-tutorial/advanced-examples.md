@@ -759,7 +759,8 @@ set -x
 
 shopt -s expand_aliases
 
-alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/.elements"
+# We don't need to validate pegin for this example so no bitcoin node is used
+alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/.elements -validatepegin=0"
 alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/.elements"
 
 # Ignore error
