@@ -58,28 +58,24 @@ e1-cli stop
 e2-cli stop
 ~~~~
 
-Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. We set the deployment/activation of Dynamic Federations code to a very high block number to essentially disable it for this example:
+Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. Note that the value "214" comes from (required_signers * 74) + (number_of_nodes * 33). Also note that the "con_dyna_deploy_start" parameter is to prevent dynamic federations from activating which complicates block signing:
 
 ~~~~
-SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150 -con_dyna_deploy_start=9999999999999"
+SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-con_dyna_deploy_start=0")
 ~~~~
 
 We'll have to wipe out the chain we've been using so far and also the wallets and start again with a new genesis block. Note that once created you can't swap blocksigners in and out on a chain for security reasons. This may change in a later Elements release.
 
 ~~~~
-rm -r ~/elementsdir1/elementsregtest/blocks
-rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
-rm -r ~/elementsdir2/elementsregtest/blocks
-rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
+rm -rf ~/elementsdir1/elementsregtest
+rm -rf ~/elementsdir2/elementsregtest
 ~~~~
 
 Start the daemons with the "signblockscript" we specified for the 2 of 2 block signing:
 
 ~~~~
-e1-dae $SIGNBLOCKARG
-e2-dae $SIGNBLOCKARG
+e1-dae ${SIGNBLOCKARGS[@]}
+e2-dae ${SIGNBLOCKARGS[@]}
 ~~~~
 
 Now import the signing keys that we stored earlier before wiping the wallets: 
@@ -151,11 +147,12 @@ e1-cli getblockcount
 So let's sort that out and sign the block using each daemon to satisfy the 2 of 2 requirement:
 
 ~~~~
-SIGN1=$(e1-cli signblock $HEX)
-SIGN2=$(e2-cli signblock $HEX)
+SIGN1=$(e1-cli signblock $HEX "$REDEEMSCRIPT")
+SIGN2=$(e2-cli signblock $HEX "$REDEEMSCRIPT")
 ~~~~
 
 ##### NOTE: Signblock tests validity before signing. This signing step can be outsourced to a Hardware Security Module (HSM) to enforce a greater level of security.
+##### NOTE: We are using the redeemscript for the "witnessScript" parameter here.
 
 We can have each node sign the proposed block hex easily as we are running our code on a single machine with access to the output from each node's call to 'signblock'. In a production environment you will likely require remote nodes to exchange signed blocks between each other so that the requirements of the block signing script can be met. An example of how to do this can be found here: [https://github.com/nkostoulas/block-signing-federation](https://github.com/nkostoulas/block-signing-federation). The demo code uses Kafka as a communication protocol between 3 signing nodes running locally, implementing a 2-of-3 federation and can be extended for nodes running in remote locations by changing the demo's configuration.
 
@@ -164,8 +161,10 @@ As we are running our nodes on the same machine with easy access to the output f
 ~~~~
 SIGN1DATA=$(echo $SIGN1 | jq '.[0]')
 SIGN2DATA=$(echo $SIGN2 | jq '.[0]')
-COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]")
+COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]" "$REDEEMSCRIPT")
+echo $COMBINED
 ~~~~
+##### NOTE: Again we're using redeemscript for the "witnessScript" parameter to "combineblocksigs"
 
 We see a result of "True" for the "complete" property as we have signatures from enough keys to satisfy the 2 of 2 requirement. So "complete" in this context means "has enough signatures for the 'n of m' multi-sig to be valid".
 

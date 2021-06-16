@@ -369,17 +369,13 @@ e1-cli stop
 e2-cli stop
 sleep 15
 
-SIGNBLOCKARG="-signblockscript=$(echo $REDEEMSCRIPT) -con_max_block_sig_size=150 -con_dyna_deploy_start=9999999999999"
+SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-con_dyna_deploy_start=0")
 
-rm -r ~/elementsdir1/elementsregtest/blocks
-rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
-rm -r ~/elementsdir2/elementsregtest/blocks
-rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
+rm -r ~/elementsdir1/elementsregtest
+rm -r ~/elementsdir2/elementsregtest
 
-e1-dae $SIGNBLOCKARG
-e2-dae $SIGNBLOCKARG
+e1-dae ${SIGNBLOCKARGS[@]}
+e2-dae ${SIGNBLOCKARGS[@]}
 
 sleep 10
 
@@ -427,13 +423,13 @@ e1-cli submitblock $HEX
 
 e1-cli getblockcount
 
-SIGN1=$(e1-cli signblock $HEX)
-SIGN2=$(e2-cli signblock $HEX)
+SIGN1=$(e1-cli signblock $HEX "$REDEEMSCRIPT")
+SIGN2=$(e2-cli signblock $HEX "$REDEEMSCRIPT")
 
 SIGN1DATA=$(echo $SIGN1 | jq '.[0]')
 SIGN2DATA=$(echo $SIGN2 | jq '.[0]')
 
-COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]")
+COMBINED=$(e1-cli combineblocksigs $HEX "[$SIGN1DATA,$SIGN2DATA]" "$REDEEMSCRIPT")
 
 SIGNEDBLOCK=$(echo $COMBINED | jq -r '.hex')
 
@@ -448,12 +444,8 @@ sleep 15
 
 ### Sidechain - Peg-In ###
 
-rm -r ~/elementsdir1/elementsregtest/blocks
-rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
-rm -r ~/elementsdir2/elementsregtest/blocks
-rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
+rm -r ~/elementsdir1/elementsregtest
+rm -r ~/elementsdir2/elementsregtest
 
 # When testing, you can also use the OP_TRUE script -fedpegscript=51 
 # so that you do not have to provide any pubkey values as we do below.
@@ -534,17 +526,13 @@ sleep 15
 
 ### Standalone Blockchain ###
 
-rm -r ~/elementsdir1/elementsregtest/blocks
-rm -r ~/elementsdir1/elementsregtest/chainstate
-rm ~/elementsdir1/elementsregtest/wallets/wallet.dat
-rm -r ~/elementsdir2/elementsregtest/blocks
-rm -r ~/elementsdir2/elementsregtest/chainstate
-rm ~/elementsdir2/elementsregtest/wallets/wallet.dat
+rm -r ~/elementsdir1/elementsregtest
+rm -r ~/elementsdir2/elementsregtest
 
-STANDALONEARGS="-validatepegin=0 -defaultpeggedassetname=newasset -initialfreecoins=100000000000000 -initialreissuancetokens=200000000"
+STANDALONEARGS=("-validatepegin=0" "-defaultpeggedassetname=newasset" "-initialfreecoins=100000000000000" "-initialreissuancetokens=200000000")
 
-e1-dae $STANDALONEARGS
-e2-dae $STANDALONEARGS
+e1-dae ${STANDALONEARGS[@]}
+e2-dae ${STANDALONEARGS[@]}
 sleep 10
 
 # Ignore error

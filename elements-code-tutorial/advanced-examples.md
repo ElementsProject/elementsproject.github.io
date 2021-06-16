@@ -105,11 +105,19 @@ fi
 
 shopt -s expand_aliases
 
-alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
-alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1"
+# Before running this script, change the following variables to point to: your local Elements binaries directory, the directory you'll use to store node data (note that the script will delete the $DATA_DIR/elementsregtest directory when run, so back up anything you might already have in there before running).
 
-alias e2-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir2"
-alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
+ELEMENTS_DIR="$HOME/elements"
+DATA_DIR1="$HOME/elementsdir1"
+DATA_DIR2="$HOME/elementsdir2"
+
+BINDIR="$ELEMENTS_DIR/src"
+
+alias e1-dae="$BINDIR/elementsd -datadir=$DATA_DIR1 -validatepegin=0 -chain=elementsregtest"
+alias e1-cli="$BINDIR/elements-cli -datadir=$DATA_DIR1 -chain=elementsregtest"
+
+alias e2-dae="$BINDIR/elementsd -datadir=$DATA_DIR2 -validatepegin=0 -chain=elementsregtest"
+alias e2-cli="$BINDIR/elements-cli -datadir=$DATA_DIR2 -chain=elementsregtest"
 
 # Ignore error
 set +o errexit
@@ -120,12 +128,11 @@ e2-cli stop
 sleep 15
 
 # The following lines may error without issue
-rm -r ~/bitcoindir ; rm -r ~/elementsdir1 ; rm -r ~/elementsdir2
-mkdir ~/bitcoindir ; mkdir ~/elementsdir1 ; mkdir ~/elementsdir2
+rm -r $DATA_DIR1 ; rm -r $DATA_DIR2
+mkdir $DATA_DIR1 ; mkdir $DATA_DIR2
 
-cp ~/elements/contrib/assets_tutorial/bitcoin.conf ~/bitcoindir/bitcoin.conf
-cp ~/elements/contrib/assets_tutorial/elements1.conf ~/elementsdir1/elements.conf
-cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.conf
+cp $ELEMENTS_DIR/contrib/assets_tutorial/elements1.conf $DATA_DIR1/elements.conf
+cp $ELEMENTS_DIR/contrib/assets_tutorial/elements2.conf $DATA_DIR2/elements.conf
 
 e1-dae
 e2-dae
