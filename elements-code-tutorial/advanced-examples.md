@@ -20,6 +20,14 @@ Issuing an asset to a multi-sig, spending from a multi-sig and reissuing from a 
 
 Issuing an asset and using the `issueasset` command's contract hash argument to enable registration with the Blockstream Liquid Asset Registry.
 
+[Example 4](#verify)
+
+Verify an output's asset and amount values using the blinding factors.
+
+You can use this example to prove to parties not involved in the transaction that an Elements Confidential Transaction sent a certain amount of a certain asset.
+
+You can do this using the Blockstream Explorer or by using the provided script. The script reveals the values are correct by using an Elements node as a trusted source.
+
 * * *
 
 <a id="raw"></a>
@@ -870,4 +878,180 @@ echo "Completed without error"
 
 ~~~~
 
+<a id="verify"></a>
+### Example 4: Verify an output's asset and amount values using the blinding factors.
+
+The Confidential Transaction feature blinds both the asset and the amount sent within a transaction's outputs. Normally only the sender and receiver know how much of an asset, and which asset, has been sent in any relevant outputs.
+
+In some cases the sender might want to share the unblinded details of the transaction with a third party, such as an auditor or user of a service. This can be done by the sender through the sharing of blinding factors. Each blinding factor applies to a particular output, so the sender can share data at a 'per output' level without exposing the values of all outputs in a transaction.
+
+The example below shows you how to carry out the following actions:
+
+* Create a link to the Blockstream Explorer that unblinds an output's asset and amount values.
+
+* Use a Python script to allow a third party to verify the asset and amount values using their own Elements node. This can be done if the third party do not want to trust the results from the Blockstream Explorer.
+
+For our example we will be unblinding a transaction made on the live Liquid network (the default network in Elements) so that we can use the Blockstream Explorer's ability to derive and display values using the blinding factors given.
+
+We'll also show how the [libwally-core](https://github.com/ElementsProject/libwally-core) library can take the blinding factors and use then to unblind transaction data retrieved from an Elements node, so trust in the Explorer is not required.
+
+We will use a transaction with two non-change outputs which was created using the Elements `sendmany` command.
+
+#### Using Blockstream Explorer
+
+You can use the transaction ID to view the transaction we will be unblinding in the Blockstream Explorer. You can see that the amount and asset are blinded for each output (note that the fee is always unblinded in Elements):
+
+[https://blockstream.info/liquid/tx/1a7f371207ca5a1d13d8ab3dab7fb7a9e05288fe922665e30731adddddd81ecb](https://blockstream.info/liquid/tx/1a7f371207ca5a1d13d8ab3dab7fb7a9e05288fe922665e30731adddddd81ecb)
+
+![confidential]({{ site.url }}/images/confidential.png)
+
+To allow somone to view the unblinded values via the Explorer, the sender first needs to get the transaction ID in question and use it to get the transaction details from their Elements node like:
+
+~~~~
+elements-cli gettransaction <txid>
+~~~~
+
+That will return data such as that shown below. Only relevant data (the outputs) are shown here:
+
+~~~~
+"details": [
+    {
+      "address": "H2o9NEs7Fz5LKu9oKEJtU9f1Zdd8tdabod",
+      "category": "send",
+      "amount": -0.00000800,
+      "amountblinder": "90fb24aab49dfd862e60161ae621f9dc9679f3197b55e6b1b7454155c94a1b7f",
+      "asset": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+      "assetblinder": "4f07afe0d712e80b91319eaadcb3401ee22e6f88caa1f0faadfd9ea7bc95abfe",
+      "label": "",
+      "vout": 0,
+      "fee": 0.00000665,
+      "abandoned": false
+    },
+    {
+      "address": "GzLAQ46cphBFwHWnEvEgLTj5RZjUeRhp7t",
+      "category": "send",
+      "amount": -0.00000900,
+      "amountblinder": "6ca03a3942ea11ccec276fe5750e2859fe53b33d0a840f71818161620682cca0",
+      "asset": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+      "assetblinder": "a00df580064426065097de14b92023b0da2e900f8607e42fade2da46235edf6b",
+      "label": "",
+      "vout": 1,
+      "fee": 0.00000665,
+      "abandoned": false
+    },
+~~~~
+
+Taking the `amount`, `asset`, `amountblinder`, `assetblinder` from the above and passing it into the URL using the format below. You can provide multiple amount/asset/blinder values at once as we do below. The explorer will loop through each set and match to an output:
+
+~~~~
+https://blockstream.info/liquid/tx/{txid}#blinded={amount},{asset_id},{amount_blinder},{asset_blinder},{amount2},{asset_id2},{amount_blinder2},{asset_blinder2}
+~~~~
+
+Doing this with our example outputs we get a URL:
+
+[https://blockstream.info/liquid/tx/1a7f371207ca5a1d13d8ab3dab7fb7a9e05288fe922665e30731adddddd81ecb#blinded=800,6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d,90fb24aab49dfd862e60161ae621f9dc9679f3197b55e6b1b7454155c94a1b7f,4f07afe0d712e80b91319eaadcb3401ee22e6f88caa1f0faadfd9ea7bc95abfe,900,6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d,6ca03a3942ea11ccec276fe5750e2859fe53b33d0a840f71818161620682cca0,a00df580064426065097de14b92023b0da2e900f8607e42fade2da46235edf6b](https://blockstream.info/liquid/tx/1a7f371207ca5a1d13d8ab3dab7fb7a9e05288fe922665e30731adddddd81ecb#blinded=800,6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d,90fb24aab49dfd862e60161ae621f9dc9679f3197b55e6b1b7454155c94a1b7f,4f07afe0d712e80b91319eaadcb3401ee22e6f88caa1f0faadfd9ea7bc95abfe,900,6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d,6ca03a3942ea11ccec276fe5750e2859fe53b33d0a840f71818161620682cca0,a00df580064426065097de14b92023b0da2e900f8607e42fade2da46235edf6b)
+
+The Explorer uses the blinding factors to derive the actual amount and asset for each of the provided outputs:
+
+![confidential]({{ site.url }}/images/unblinded.png)
+
+
+#### Using the libwally-core library
+
+Rather than trust the commitment proof provided by the Blockstream Liquid explorer above a user might want to run their own proof of commitments. They can do this using the [verify-elements-commitments](https://github.com/Blockstream/verify-elements-commitments) Python script, which itself uses [Libwally](https://github.com/ElementsProject/libwally-core), a cross-platform, cross-language collection of useful primitives for cryptocurrency wallets.
+
+To run the `verify-elements-commitments.py` Python script the verifying party first needs to install the prerequisites. To do this they would follow the steps below:
+
+From the terminal, create a folder to run the code from and move into it:
+
+~~~~
+mkdir verify_elements_commitments
+cd verify_elements_commitments
+~~~~
+
+Then (optionally) initialize a Python virtual environment to install the requirements within:
+
+~~~~
+virtualenv -p python3 venv
+source venv/bin/activate
+~~~~
+
+Into this environment you need to install `libwally-core`. The source code for libwally can be found in the [Libwally](https://github.com/ElementsProject/libwally-core) repository but here will will use the pip install command:
+
+~~~~
+pip install wallycore
+~~~~
+
+Download the `verify-elements-commitments.py` file from:
+
+~~~~
+https://github.com/Blockstream/verify-elements-commitments
+~~~~
+
+Place the downloaded file in the `verify_elements_commitments` folder.
+
+Get the relevant transaction hex from an Elements node.
+
+~~~~
+elements-cli getrawtransaction <transaction_id>
+~~~~
+
+So for our example you would run:
+
+~~~~
+elements-cli getrawtransaction 1a7f371207ca5a1d13d8ab3dab7fb7a9e05288fe922665e30731adddddd81ecb
+~~~~
+
+Save the results of the above to a new file named `transaction.txt` within the `verify_elements_commitments` folder.
+
+The sender selects and saves the output blinders they are interested in, using the following format, and saves it to a file named blinders.json that they can provide to the verifying party:
+
+~~~~
+{
+    "inputs":[],
+    "outputs":[
+        {
+            "asset_id_hex": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+            "asset_blinder_hex": "4f07afe0d712e80b91319eaadcb3401ee22e6f88caa1f0faadfd9ea7bc95abfe",
+            "amount_satoshi": 800,
+            "amount_blinder_hex": "90fb24aab49dfd862e60161ae621f9dc9679f3197b55e6b1b7454155c94a1b7f"
+        },
+        {
+            "asset_id_hex": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+            "asset_blinder_hex": "a00df580064426065097de14b92023b0da2e900f8607e42fade2da46235edf6b",
+            "amount_satoshi": 900,
+            "amount_blinder_hex": "6ca03a3942ea11ccec276fe5750e2859fe53b33d0a840f71818161620682cca0"
+        }
+    ]
+}
+~~~~
+
+Now the issuer can execute the proof like this, using the transaction data from their own node and the blinders provided by the sender:
+
+~~~~
+python verify-elements-commitments.py --tx transaction.txt --blinded blinders.json
+~~~~
+
+Which, in our example case, will output:
+
+~~~~
+{
+  "txid": "1a7f371207ca5a1d13d8ab3dab7fb7a9e05288fe922665e30731adddddd81ecb",
+  "inputs": [],
+  "outputs": [
+    {
+      "vout": 0,
+      "asset": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+      "satoshi": 800
+    },
+    {
+      "vout": 1,
+      "asset": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+      "satoshi": 900
+    }
+  ]
+}
+~~~~
+
+We've seen how a third party can use the `verify-elements-commitments.py` Python script to verify the the asset and amount values without having to trust the Blockstream Explorer’s implementation of the same process.
 
