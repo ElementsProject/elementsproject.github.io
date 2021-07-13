@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installing Elemets
+title: Installing Elements
 permalink: /elements-code-tutorial/installing-elements
 ---
 
