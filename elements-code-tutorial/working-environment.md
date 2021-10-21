@@ -25,13 +25,69 @@ mkdir ~/elementsdir1
 mkdir ~/elementsdir2
 ~~~~
 
-We need to set up our config files now. We'll do that by copying the example configuration files contained within the elements source code into the working directories we just created. 
+We need to set up our config files now. We'll do that by writing some settings to the working directories we just created.
 
+The Bitcoin config file:
 ~~~~
-cp ~/elements/contrib/assets_tutorial/bitcoin.conf ~/bitcoindir/bitcoin.conf
-cp ~/elements/contrib/assets_tutorial/elements1.conf ~/elementsdir1/elements.conf
-cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.conf
+echo "regtest=1
+txindex=1
+daemon=1
+rpcuser=user3
+rpcpassword=password3
+fallbackfee=0.0002
+[regtest]
+rpcport=18888
+port=18889
+
+" > ~/bitcoindir/bitcoin.conf
 ~~~~
+
+Elements 1 config file:
+~~~
+echo "chain=elementsregtest
+rpcuser=user1
+rpcpassword=password1
+daemon=1
+server=1
+listen=1
+txindex=1
+validatepegin=1
+mainchainrpcport=18888
+mainchainrpcuser=user3
+mainchainrpcpassword=password3
+initialfreecoins=2100000000000000
+fallbackfee=0.0002
+[elementsregtest]
+rpcport=18884
+port=18886
+anyonecanspendaremine=1
+connect=localhost:18887
+
+" > ~/elementsdir1/elements.conf
+~~~
+
+Elements 2 config file:
+~~~
+echo "chain=elementsregtest
+rpcuser=user2
+rpcpassword=password2
+daemon=1
+server=1
+listen=1
+txindex=1
+mainchainrpcport=18888
+mainchainrpcuser=user3
+mainchainrpcpassword=password3
+initialfreecoins=2100000000000000
+fallbackfee=0.0002
+[elementsregtest]
+rpcport=18885
+port=18887
+anyonecanspendaremine=1
+connect=localhost:18886
+
+" > ~/elementsdir2/elements.conf
+~~~
 
 If you take a quick look in each of the 3 config files you will see that they contain a flag to tell the nodes to operate in "regtest" mode. They also contain RPC information such as port, username and password. The Elements config files also contain details of the Bitcoin node's RPC authentication data. They need access to this information in order to authenticate and make calls to the Bitcoin node later.
 
@@ -104,7 +160,16 @@ e1-dae
 e2-dae
 ~~~~
 
-Give them a few seconds to start up and then check they are running:
+Give them a few seconds to start up and then create the default wallets for each node. We also call rescanblockchain so the nodes are aware the new wallets can access the initial free coins set within the config files.
+
+~~~
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+~~~
+
+Then check the balances using:
 
 ~~~~
 e1-cli getwalletinfo

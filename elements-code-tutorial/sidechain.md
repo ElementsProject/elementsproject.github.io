@@ -50,6 +50,15 @@ e2-dae $FEDPEGARG
 
 ##### NOTE: The characters outside the public keys are delimiters that indicate public key and 'n of m' requirements. For example, the template for a 1-of-1 fedpegscript would be ``5121<pubkey>51ae``. When testing, you can also use the OP_TRUE script ``-fedpegscript=51`` so that you do not have to provide any pubkey values as we have above.
 
+Create the default wallet and rescan the blockchain:
+
+~~~
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+~~~
+
 Create some generate receiving addresses (as we deleted the wallets associated with them above) and mature some outputs on each chain:
 
 ~~~~

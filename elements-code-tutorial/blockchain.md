@@ -64,6 +64,15 @@ e1-dae ${STANDALONEARGS[@]}
 e2-dae ${STANDALONEARGS[@]}
 ~~~~
 
+Now we need to create default wallets and rescan the blockchain:
+
+~~~
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+~~~
+
 We'll look at what these parameters do in more detail next.
 
 * * * 
@@ -125,7 +134,7 @@ Note that we did not need to specify the asset being sent, as "newasset" will be
 Now claim the anyone-can-spend reissuance token and generate some blocks to confirm the transactions. We also need to recreate the generate receiving addresses, because we deleted the corresponding wallets above.
 
 ~~~~
-e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET $DEFAULTRIT
+e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET false $DEFAULTRIT
 ADDRGEN1=$(e1-cli getnewaddress)
 ADDRGEN2=$(e2-cli getnewaddress)
 e1-cli generatetoaddress 101 $ADDRGEN1
@@ -142,7 +151,7 @@ e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false
 Send some of the reissuance tokens to e2 and confirm the two transactions:
 
 ~~~~
-e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET $DEFAULTRIT
+e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET false $DEFAULTRIT
 e1-cli generatetoaddress 101 $ADDRGEN1
 ~~~~
 

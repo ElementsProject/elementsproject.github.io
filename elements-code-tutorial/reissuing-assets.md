@@ -119,7 +119,7 @@ RITRECADD=$(e2-cli getnewaddress)
 Send the token from Alice's wallet to Bob's new address as if it were any other asset. We'll use the hex of the token to say what type of asset we are sending and also generate a block so the transaction confirms:
 
 ~~~~
-e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET $TOKEN
+e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET false $TOKEN
 e1-cli generatetoaddress 1 $ADDRGEN1
 ~~~~
 
