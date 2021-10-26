@@ -91,9 +91,58 @@ echo "The following 3 'rm' commands may error - that is fine."
 rm -r ~/bitcoindir ; rm -r ~/elementsdir1 ; rm -r ~/elementsdir2
 mkdir ~/bitcoindir ; mkdir ~/elementsdir1 ; mkdir ~/elementsdir2
 
-cp ~/elements/contrib/assets_tutorial/bitcoin.conf ~/bitcoindir/bitcoin.conf
-cp ~/elements/contrib/assets_tutorial/elements1.conf ~/elementsdir1/elements.conf
-cp ~/elements/contrib/assets_tutorial/elements2.conf ~/elementsdir2/elements.conf
+echo "regtest=1
+txindex=1
+daemon=1
+rpcuser=user3
+rpcpassword=password3
+fallbackfee=0.0002
+[regtest]
+rpcport=18888
+port=18889
+
+" > ~/bitcoindir/bitcoin.conf
+
+echo "chain=elementsregtest
+rpcuser=user1
+rpcpassword=password1
+daemon=1
+server=1
+listen=1
+txindex=1
+validatepegin=1
+mainchainrpcport=18888
+mainchainrpcuser=user3
+mainchainrpcpassword=password3
+initialfreecoins=2100000000000000
+fallbackfee=0.0002
+[elementsregtest]
+rpcport=18884
+port=18886
+anyonecanspendaremine=1
+connect=localhost:18887
+
+" > ~/elementsdir1/elements.conf
+
+echo "chain=elementsregtest
+rpcuser=user2
+rpcpassword=password2
+daemon=1
+server=1
+listen=1
+txindex=1
+mainchainrpcport=18888
+mainchainrpcuser=user3
+mainchainrpcpassword=password3
+initialfreecoins=2100000000000000
+fallbackfee=0.0002
+[elementsregtest]
+rpcport=18885
+port=18887
+anyonecanspendaremine=1
+connect=localhost:18886
+
+" > ~/elementsdir2/elements.conf
 
 b-dae
 
@@ -110,6 +159,12 @@ e1-dae
 e2-dae
 
 sleep 10
+
+# Create new wallets
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
 
 # Wait for e1 node to finish startup and respond to commands
 until e1-cli getwalletinfo
@@ -248,7 +303,7 @@ e2-cli importissuanceblindingkey $ITXID $IVIN $ISSUEKEY
 e2-cli listissuances
 
 E2DEMOADD=$(e2-cli getnewaddress)
-e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET demoasset
+e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET false demoasset
 sleep 10
 e1-cli generatetoaddress 1 $ADDRGEN1
 sleep 10
@@ -257,7 +312,7 @@ e2-cli getwalletinfo
 e1-cli getwalletinfo
 
 E1DEMOADD=$(e1-cli getnewaddress)
-e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET $ASSET
+e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET false $ASSET
 sleep 10
 e2-cli generatetoaddress 1 $ADDRGEN2
 sleep 10
@@ -291,7 +346,7 @@ e2-cli reissueasset $ASSET 10
 set -o errexit
 
 RITRECADD=$(e2-cli getnewaddress)
-e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET $TOKEN
+e1-cli sendtoaddress $RITRECADD 1 "" "" false false 1 UNSET false $TOKEN
 e1-cli generatetoaddress 1 $ADDRGEN1
 sleep 10
 e1-cli getwalletinfo
@@ -379,6 +434,12 @@ e2-dae ${SIGNBLOCKARGS[@]}
 
 sleep 10
 
+# Create new wallets
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+
 # Ignore error
 set +o errexit
 
@@ -454,6 +515,12 @@ FEDPEGARG="-fedpegscript=5221$(echo $PUBKEY1)21$(echo $PUBKEY2)52ae"
 e1-dae $FEDPEGARG
 e2-dae $FEDPEGARG
 sleep 10
+
+# Create new wallets
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
 
 # Ignore error
 set +o errexit
@@ -535,6 +602,12 @@ e1-dae ${STANDALONEARGS[@]}
 e2-dae ${STANDALONEARGS[@]}
 sleep 10
 
+# Create new wallets
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+
 # Ignore error
 set +o errexit
 
@@ -571,13 +644,13 @@ echo $DEFAULTRIT
 
 e1-cli sendtoaddress $(e1-cli getnewaddress) 1000000 "" "" true
 
-e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET $DEFAULTRIT
+e1-cli sendtoaddress $(e1-cli getnewaddress) 2 "" "" false false 1 UNSET false $DEFAULTRIT
 e1-cli generatetoaddress 101 $ADDRGEN1
 sleep 10
 
 e1-cli sendtoaddress $(e2-cli getnewaddress) 500 "" "" false 
 
-e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET $DEFAULTRIT
+e1-cli sendtoaddress $(e2-cli getnewaddress) 1 "" "" false false 1 UNSET false $DEFAULTRIT
 e1-cli generatetoaddress 101 $ADDRGEN1
 sleep 10
 

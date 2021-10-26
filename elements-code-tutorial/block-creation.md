@@ -78,6 +78,15 @@ e1-dae ${SIGNBLOCKARGS[@]}
 e2-dae ${SIGNBLOCKARGS[@]}
 ~~~~
 
+Now we need to create default wallets and rescan the blockchain:
+
+~~~
+e1-cli createwallet ""
+e2-cli createwallet ""
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+~~~
+
 Now import the signing keys that we stored earlier before wiping the wallets: 
 
 ~~~~

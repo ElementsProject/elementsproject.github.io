@@ -191,7 +191,7 @@ Just like any other asset in Elements, we can send our "demoasset" from Alice's 
 
 ~~~~
 E2DEMOADD=$(e2-cli getnewaddress)
-e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET demoasset
+e1-cli sendtoaddress $E2DEMOADD 10 "" "" false false 1 UNSET false demoasset
 e1-cli generatetoaddress 1 $ADDRGEN1
 ~~~~
 
@@ -208,7 +208,7 @@ As we didn't assign a label in Bob's node for the asset we created, it will be i
 
 ~~~~
 E1DEMOADD=$(e1-cli getnewaddress)
-e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET $ASSET
+e2-cli sendtoaddress $E1DEMOADD 10 "" "" false false 1 UNSET false $ASSET
 e2-cli generatetoaddress 1 $ADDRGEN2
 ~~~~
 
