@@ -1,0 +1,19 @@
+---
+layout: doc
+name: importblindingkey
+elemversion: 0.21.0.0
+elemgroup: wallet
+permalink: /en/doc/0.21.0.0/rpc/wallet/importblindingkey/
+---
+
+importblindingkey "address" "hexkey"
+
+Imports a private blinding key in hex for a CT address.
+Arguments:
+1. address    (string, required) The CT address
+2. hexkey     (string, required) The blinding key in hex
+
+Examples:
+> elements-cli importblindingkey "my blinded CT address" <blindinghex>
+
+

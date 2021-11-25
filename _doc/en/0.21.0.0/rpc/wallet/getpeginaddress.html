@@ -1,0 +1,25 @@
+---
+layout: doc
+name: getpeginaddress
+elemversion: 0.21.0.0
+elemgroup: wallet
+permalink: /en/doc/0.21.0.0/rpc/wallet/getpeginaddress/
+---
+
+getpeginaddress
+
+Returns information needed for claimpegin to move coins to the sidechain.
+The user should send coins from their Bitcoin wallet to the mainchain_address returned.
+
+Result:
+{                                 (json object)
+  "mainchain_address" : "str",    (string) mainchain deposit address to send bitcoin to
+  "claim_script" : "hex"          (string) claim script committed to by the mainchain address. This may be required in `claimpegin` to retrieve pegged-in funds
+                                  
+}
+
+Examples:
+> elements-cli getpeginaddress 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getpeginaddress", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

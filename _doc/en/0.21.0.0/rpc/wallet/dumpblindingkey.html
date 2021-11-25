@@ -1,0 +1,21 @@
+---
+layout: doc
+name: dumpblindingkey
+elemversion: 0.21.0.0
+elemgroup: wallet
+permalink: /en/doc/0.21.0.0/rpc/wallet/dumpblindingkey/
+---
+
+dumpblindingkey "address"
+
+Dumps the private blinding key for a CT address in hex.
+Arguments:
+1. address    (string, required) The CT address
+
+Result:
+"str"    (string) the blinding key
+
+Examples:
+> elements-cli dumpblindingkey "my address"
+
+
