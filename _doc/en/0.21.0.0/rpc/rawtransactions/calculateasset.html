@@ -1,0 +1,26 @@
+---
+layout: doc
+name: calculateasset
+elemversion: 0.21.0.0
+elemgroup: rawtransactions
+permalink: /en/doc/0.21.0.0/rpc/rawtransactions/calculateasset/
+---
+
+calculateasset "txid" vout ( "asset_entropy" blind_reissuance )
+
+Calculate the asset tags and reissuance asset tags for a given prevout and contract hash
+
+Arguments:
+1. txid                (string, required) Transaction id of the output that will be spent for this issuance.
+2. vout                (numeric, required) Output index of the output that will be spent for this issuance.
+3. asset_entropy       (string) Additional asset entropy to be included in the asset tag. This is the contract hash.
+4. blind_reissuance    (boolean, optional, default=true) Whether the reissuance asset tag will be blinded
+
+Result:
+{                                    (json object)
+  "asset_tag" : "hex",               (string) Calculated asset tag.
+  "reissuance_asset_tag" : "hex",    (string) Asset tag for the reissuance tokens.
+  "final_asset_entropy" : "hex"      (string) The calculated asset entropy that is needed for reissuance.
+}
+
+

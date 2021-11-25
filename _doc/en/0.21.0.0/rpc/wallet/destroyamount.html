@@ -1,0 +1,35 @@
+---
+layout: doc
+name: destroyamount
+elemversion: 0.21.0.0
+elemgroup: wallet
+permalink: /en/doc/0.21.0.0/rpc/wallet/destroyamount/
+---
+
+destroyamount "asset" amount ( "comment" verbose )
+
+Destroy an amount of a given asset.
+
+
+Arguments:
+1. asset      (string, required) Hex asset id or asset label to destroy.
+2. amount     (numeric or string, required) The amount to destroy (8 decimals above the minimal unit).
+3. comment    (string, optional) A comment used to store what the transaction is for.
+              This is not part of the transaction, just kept in your wallet.
+4. verbose    (boolean, optional, default=false) If true, return extra information about the transaction.
+
+Result (if verbose is not set or set to false):
+"hex"    (string) the transaction id
+
+Result (if verbose is set to true):
+{                             (json object)
+  "transactionid" : "hex",    (string) the transaction id
+  "fee reason" : "str"        (string) The transaction fee reason.
+}
+
+Examples:
+> elements-cli destroyamount "bitcoin" 100
+> elements-cli destroyamount "bitcoin" 100 "destroy assets"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "destroyamount", "params": ["bitcoin" 100 "destroy assets"]}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
