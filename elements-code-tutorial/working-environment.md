@@ -153,6 +153,20 @@ b-cli getblockcount
 
 That should work! It doesn't matter what the number returned is, and it may well be zero, as long as you get a response.
 
+Now let's create a default wallet:
+
+~~~
+b-cli createwallet ""
+~~~
+
+#### Note: If you are running Bitcoin Core version 0.21.0 or newer, you will have to create a new wallet like we have done. For previous releases, a new wallet is automatically created on startup.
+
+We can check the balance using:
+
+~~~
+b-cli getwalletinfo
+~~~
+
 So now we have the Bitcoin daemon running we need to start our Elements daemons. Remember that we are able to run two instances on the same machine because we are using different configuration files with different ports and RPC permissions set. Start the daemons:
 
 ~~~~
