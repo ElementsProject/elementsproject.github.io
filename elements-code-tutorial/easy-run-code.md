@@ -424,7 +424,7 @@ e1-cli stop
 e2-cli stop
 sleep 15
 
-SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-con_dyna_deploy_start=0")
+SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-evbparams=dynafed:0:::")
 
 rm -r ~/elementsdir1/elementsregtest
 rm -r ~/elementsdir2/elementsregtest
