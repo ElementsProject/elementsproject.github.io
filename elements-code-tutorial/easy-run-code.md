@@ -148,6 +148,9 @@ b-dae
 
 sleep 10
 
+# Create new wallet
+b-cli createwallet ""
+
 # Wait for bitcoin node to finish startup and respond to commands
 until b-cli getwalletinfo
 do
