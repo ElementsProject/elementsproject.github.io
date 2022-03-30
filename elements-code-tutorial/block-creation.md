@@ -108,7 +108,7 @@ Both error with the message:
 <div class="console-output">ProcessNewBlock, block not accepted
 </div>
 
-Because we started with the "signblockscript" argument we have to follow a new process for making, signing and released blocks.
+Because we started with the "signblockscript" argument we have to follow a new process for making, signing and releasing blocks.
 
 * * *
 
