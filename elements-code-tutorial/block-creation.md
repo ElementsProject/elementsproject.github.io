@@ -105,7 +105,7 @@ e2-cli generatetoaddress 1 $ADDRGEN2
 
 Both error with the message:
 
-<div class="console-output">This method cannot be used with a block-signature-required chain
+<div class="console-output">ProcessNewBlock, block not accepted
 </div>
 
 Because we started with the "signblockscript" argument we have to follow a new process for making, signing and released blocks.
