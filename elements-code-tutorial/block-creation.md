@@ -58,11 +58,13 @@ e1-cli stop
 e2-cli stop
 ~~~~
 
-Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. Note that the value "214" comes from (required_signers * 74) + (number_of_nodes * 33). Also note that the "con_dyna_deploy_start" parameter is to prevent dynamic federations from activating which complicates block signing:
+Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. Note that the value "214" comes from (required_signers * 74) + (number_of_nodes * 33). Also note that the "evbparams=dynafed:0:::" parameter is to prevent dynamic federations from activating which complicates block signing:
 
 ~~~~
-SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-con_dyna_deploy_start=0")
+SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-evbparams=dynafed:0:::")
 ~~~~
+
+#### Note: For Elements versions older than 0.21.0.1, "-con_dyna_deploy_start=0" should be used to disable dynamic federations (instead of "-evbparams=dynafed:0:::").
 
 We'll have to wipe out the chain we've been using so far and also the wallets and start again with a new genesis block. Note that once created you can't swap blocksigners in and out on a chain for security reasons. This may change in a later Elements release.
 
