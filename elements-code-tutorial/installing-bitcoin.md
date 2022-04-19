@@ -10,7 +10,7 @@ permalink: /elements-code-tutorial/installing-bitcoin
 
 First we will install Bitcoin on the machine. This will allow us to demonstrate how the Federated 2-Way Peg works in Elements later on in the tutorial. It is not required if you intend to use Elements as a standalone blockchain, but to fully understand the features available in Elements it is a good idea to follow along anyway. It doesn’t take long to install Bitcoin using the commands below and we will be running in "regtest" mode, so there is no blockchain to sync.
 
-You can download the compiled libraries from the [Bitcoin Core Download page](https://bitcoincore.org/en/download/). Make sure you download the binaries, `SHA256SUMS` and `SHA256SUMS.asc` files.
+You can download the compiled libraries from the [Bitcoin Core Download page](https://bitcoincore.org/en/download/). Make sure you download the binaries, `SHA256SUMS` and `SHA256SUMS.asc` file.
 
 Open a terminal and change your directory the one of the files mentioned above. If you are using `~Downloads` this becomes
 
@@ -18,13 +18,13 @@ Open a terminal and change your directory the one of the files mentioned above. 
 cd ~/Downloads/
 ~~~
 
-Verify the hash
+Verify the hash:
 
 ~~~
 sha256sum --ignore-missing --check SHA256SUMS
 ~~~
 
-Verify that the files are signed by a bitcoin-core maintainer.
+Verify that the download is signed by a bitcoin-core maintainer. The bitcoin-source contains a [list of reputable keys](https://github.com/bitcoin/bitcoin/blob/master/contrib/verify-commits/trusted-keys). The snippet below shows how to verify the signature for one of them.
 
 ~~~
 gpg --keyserver hkps://keys.openpgp.org --recv-keys E777299FC265DD04793070EB944D35F9AC3DB76A
