@@ -121,10 +121,10 @@ DATA_DIR2="$HOME/elementsdir2"
 
 BINDIR="$ELEMENTS_DIR/src"
 
-alias e1-dae="$BINDIR/elementsd -datadir=$DATA_DIR1 -validatepegin=0 -chain=elementsregtest"
+alias e1-dae="$BINDIR/elementsd -datadir=$DATA_DIR1 -validatepegin=0 -chain=elementsregtest -daemon=1"
 alias e1-cli="$BINDIR/elements-cli -datadir=$DATA_DIR1 -chain=elementsregtest"
 
-alias e2-dae="$BINDIR/elementsd -datadir=$DATA_DIR2 -validatepegin=0 -chain=elementsregtest"
+alias e2-dae="$BINDIR/elementsd -datadir=$DATA_DIR2 -validatepegin=0 -chain=elementsregtest -daemon=1"
 alias e2-cli="$BINDIR/elements-cli -datadir=$DATA_DIR2 -chain=elementsregtest"
 
 # Ignore error
@@ -146,6 +146,14 @@ e1-dae
 e2-dae
 
 sleep 10
+
+# Create the default wallets for each node
+e1-cli createwallet ""
+e2-cli createwallet ""
+# Call rescanblockchain so the nodes are aware the new wallets can access the initial free coins set within the config files
+e1-cli rescanblockchain
+e2-cli rescanblockchain
+
 
 # Wait for e1 node to finish startup and respond to commands
 until e1-cli getwalletinfo
@@ -208,7 +216,7 @@ if [ "RTIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     # Build the raw transaction (send 3 of the asset)
     SENDAMOUNT="3.00"
 
-    RAWTX=$(e1-cli createrawtransaction '''[{"''txid''":"'''$TXID'''", "''vout''":'$VOUT', "''asset''":"'''$ASSET'''"}]''' '''{"'''$UNCONADDR'''":'$SENDAMOUNT'}''' 0 false '''{"'''$UNCONADDR'''":"'''$ASSET'''"}''')
+    RAWTX=$(e1-cli createrawtransaction '''[{"''txid''":"'''$TXID'''", "''vout''":'$VOUT', "''asset''":"'''$ASSET'''"}]''' '''[{"'''$UNCONADDR'''":'$SENDAMOUNT'}]''' 0 false)
 
     # Fund the tx
     FRT=$(e1-cli fundrawtransaction $RAWTX)
@@ -258,7 +266,7 @@ if [ "RIA" = $EXAMPLETYPE ] || [ "ALL" = $EXAMPLETYPE ] ; then
     TOKEN_ADDR=$(e1-cli getnewaddress "" legacy)
 
     # Create the raw transaction and fund it
-    RAWTX=$(e1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
+    RAWTX=$(e1-cli createrawtransaction '''[]''' '''[{"''data''":"''00''"}]''')
     FRT=$(e1-cli fundrawtransaction $RAWTX)
     HEXFRT=$(echo $FRT | jq -r '.hex')
 
