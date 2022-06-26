@@ -520,8 +520,7 @@ PREV_VOUT=$(echo $DECODED | jq -r '.vin[0].vout')
 CONTRACT_TEXT="Your contract text. Can be used to bind the asset to a real world asset etc."
 
 # We will hash using openssl, other options are available
-CONTRACT_TEXT_HASH=$(echo -n $CONTRACT_TEXT | openssl dgst -sha256)
-CONTRACT_TEXT_HASH=$(echo ${CONTRACT_TEXT_HASH#"(stdin)= "})
+CONTRACT_TEXT_HASH=$(echo -n $CONTRACT_TEXT | openssl dgst -sha256 | sed 's/.*= //g')
 
 # Create the raw issuance (will not yet be complete or broadcast)
 RAW_ISSUE=$(w1-cli rawissueasset $FUNDED_HEX '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_ADDRESS'''", "''token_amount''":'$REISSUANCE_TOKEN_AMOUNT', "''token_address''":"'''$MULTISIG_REISSUANCE_ADDRESS'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
@@ -833,8 +832,7 @@ TOKEN_ADDR=$NEWADDR
 CONTRACT='{"entity":{"domain":"'$DOMAIN'"},"issuer_pubkey":"'$PUBKEY'","name":"'$NAME'","precision":'$PRECISION',"ticker":"'$TICKER'","version":'$VERSION'}'
 
 # We will hash using openssl, other options are available
-CONTRACT_HASH=$(echo -n $CONTRACT | openssl dgst -sha256)
-CONTRACT_HASH=$(echo ${CONTRACT_HASH#"(stdin)= "})
+CONTRACT_HASH=$(echo -n $CONTRACT | openssl dgst -sha256 | sed 's/.*= //g')
 
 # Reverse the hash
 TEMP=$CONTRACT_HASH
