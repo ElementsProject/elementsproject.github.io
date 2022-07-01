@@ -840,7 +840,7 @@ LEN=${#TEMP}
 until [ $LEN -eq "0" ]; do
     END=${TEMP:(-2)}
     CONTRACT_HASH_REV="$CONTRACT_HASH_REV$END"
-    TEMP=${TEMP::-2}
+    TEMP=${TEMP::$((${#TEMP} - 2))}
     LEN=$((LEN-2))
 done
 
