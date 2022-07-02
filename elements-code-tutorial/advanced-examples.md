@@ -398,6 +398,9 @@ alias w1-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_1.da
 alias w2-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_2.dat"
 alias w3-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_3.dat"
 
+# We will hash using sha256sum if available, openssl otherwise (other options are available)
+which sha256sum >/dev/null 2>&1 && alias sha256hash="sha256sum | sed 's/ .*//g'" || alias sha256hash="openssl dgst -sha256 | sed 's/.*= //g'"
+
 
 # The following 'create_multisig' function will be called within the script to create the multisig addresses for the:
 # - Asset Issuance
@@ -519,8 +522,7 @@ PREV_VOUT=$(echo $DECODED | jq -r '.vin[0].vout')
 # Create the contract for the asset. The hash of the contract will be used to generate the asset id.
 CONTRACT_TEXT="Your contract text. Can be used to bind the asset to a real world asset etc."
 
-# We will hash using openssl, other options are available
-CONTRACT_TEXT_HASH=$(echo -n $CONTRACT_TEXT | openssl dgst -sha256 | sed 's/.*= //g')
+CONTRACT_TEXT_HASH=$(echo -n "${CONTRACT_TEXT}" | sha256hash)
 
 # Create the raw issuance (will not yet be complete or broadcast)
 RAW_ISSUE=$(w1-cli rawissueasset $FUNDED_HEX '''[{"''asset_amount''":'$ASSET_AMOUNT', "''asset_address''":"'''$MULTISIG_ASSET_ADDRESS'''", "''token_amount''":'$REISSUANCE_TOKEN_AMOUNT', "''token_address''":"'''$MULTISIG_REISSUANCE_ADDRESS'''", "''blind''":false, "''contract_hash''":"'''$CONTRACT_TEXT_HASH'''"}]''')
@@ -777,6 +779,9 @@ shopt -s expand_aliases
 alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/.elements -validatepegin=0"
 alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/.elements"
 
+# We will hash using sha256sum if available, openssl otherwise (other options are available)
+which sha256sum >/dev/null 2>&1 && alias sha256hash="sha256sum | sed 's/ .*//g'" || alias sha256hash="openssl dgst -sha256 | sed 's/.*= //g'"
+
 # Ignore error
 set +o errexit
 
@@ -831,8 +836,7 @@ TOKEN_ADDR=$NEWADDR
 
 CONTRACT='{"entity":{"domain":"'$DOMAIN'"},"issuer_pubkey":"'$PUBKEY'","name":"'$NAME'","precision":'$PRECISION',"ticker":"'$TICKER'","version":'$VERSION'}'
 
-# We will hash using openssl, other options are available
-CONTRACT_HASH=$(echo -n $CONTRACT | openssl dgst -sha256 | sed 's/.*= //g')
+CONTRACT_HASH=$(echo -n "${CONTRACT}" | sha256hash)
 
 # Reverse the hash
 TEMP=$CONTRACT_HASH
