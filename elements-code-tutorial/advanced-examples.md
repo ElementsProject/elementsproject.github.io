@@ -839,8 +839,7 @@ TOKEN_ADDR=$NEWADDR
 
 CONTRACT='{"entity":{"domain":"'$DOMAIN'"},"issuer_pubkey":"'$PUBKEY'","name":"'$NAME'","precision":'$PRECISION',"ticker":"'$TICKER'","version":'$VERSION'}'
 
-# We will hash using openssl, other options are available
-CONTRACT_HASH=$(echo -n $CONTRACT | openssl dgst -sha256 | sed 's/.*= //g')
+CONTRACT_HASH=sha256sum | awk '{ print $CONTRACT }'
 
 # Reverse the hash
 TEMP=$CONTRACT_HASH
