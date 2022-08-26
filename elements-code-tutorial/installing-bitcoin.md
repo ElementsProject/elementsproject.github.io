@@ -12,7 +12,7 @@ First we will install Bitcoin on the machine. This will allow us to demonstrate 
 
 You can download the compiled libraries from the [Bitcoin Core Download page](https://bitcoincore.org/en/download/). Make sure you download the binaries, `SHA256SUMS` and `SHA256SUMS.asc` file.
 
-Open a terminal and change your directory the one of the files mentioned above. If you are using `~Downloads` this becomes
+Open a terminal and change your directory to the one containing the files downloaded above. If you are using `~Downloads` this becomes
 
 ~~~
 cd ~/Downloads/
