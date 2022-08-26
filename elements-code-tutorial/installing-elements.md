@@ -26,11 +26,9 @@ The file extensions for each platform are as follows:
 | Windows 64-bit | `-win64.zip` |
 | 64-bit Raspberry Pi and 64 bit ARM Linux | `-aarch64-linux-gnu.tar.gz` |
 
-
 Note that if you are following this tutorial on a Windows computer, you will need to have a version of bash for Windows.
 
 Once you have downloaded the package and the `SHA256SUMS.asc` file, verify the package hash. For example, on Linux:
-
 
 ```
 $ sha256sum --ignore-missing --check SHA256SUMS.asc 
