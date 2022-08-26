@@ -67,14 +67,16 @@ set -x
 
 shopt -s expand_aliases
 
+# Ensure that bitcoind, bitcoin-cli, elementsd, and elements-cli are in the PATH
+
 alias b-dae="bitcoind -datadir=$HOME/bitcoindir"
 alias b-cli="bitcoin-cli -datadir=$HOME/bitcoindir"
 
-alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
-alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1"
+alias e1-dae="elementsd -datadir=$HOME/elementsdir1"
+alias e1-cli="elements-cli -datadir=$HOME/elementsdir1"
 
-alias e2-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir2"
-alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
+alias e2-dae="elementsd -datadir=$HOME/elementsdir2"
+alias e2-cli="elements-cli -datadir=$HOME/elementsdir2"
 
 echo "The following 3 lines may error - that is fine."
 

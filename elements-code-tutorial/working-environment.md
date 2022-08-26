@@ -109,15 +109,17 @@ cd src
 shopt -s expand_aliases
 alias b-dae="bitcoind -datadir=$HOME/bitcoindir"
 alias b-cli="bitcoin-cli -datadir=$HOME/bitcoindir"
-alias e1-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir1"
-alias e1-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1"
-alias e2-dae="$HOME/elements/src/elementsd -datadir=$HOME/elementsdir2"
-alias e2-cli="$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir2"
-alias e1-qt="$HOME/elements/src/qt/elements-qt -datadir=$HOME/elementsdir1"
-alias e2-qt="$HOME/elements/src/qt/elements-qt -datadir=$HOME/elementsdir2"
+alias e1-dae="elementsd -datadir=$HOME/elementsdir1"
+alias e1-cli="elements-cli -datadir=$HOME/elementsdir1"
+alias e2-dae="elementsd -datadir=$HOME/elementsdir2"
+alias e2-cli="elements-cli -datadir=$HOME/elementsdir2"
+alias e1-qt="elements-qt -datadir=$HOME/elementsdir1"
+alias e2-qt="elements-qt -datadir=$OME/elementsdir2"
 ~~~~
 
-We now have an easy way to start each daemon and the Elements QT front end and make simple calls to the clients. Instead of having to type "$HOME/elements/src/elements-cli -datadir=$HOME/elementsdir1" every time we want to make a call to the Elements client, we can just use the "e1-cli" alias for example.
+You'll need to ensure that the directories containing `bitcoind`, `bitcoin-cli`, `elements-cli`, `elementsd`, and `elements-qt` are in the PATH environment variable.
+
+We now have an easy way to start each daemon and the Elements QT front end and make simple calls to the clients. Instead of having to type "elements-cli -datadir=$HOME/elementsdir1" every time we want to make a call to the Elements client, we can just use the "e1-cli" alias for example.
 
 #### Note: If you want to skip ahead to running a non-sidechain Elements based blockchain you can move to the [Elements as a standalone Blockchain]({{ site.url }}/elements-code-tutorial/blockchain) section now. You can return to the [Using Elements to perform basic operations]({{ site.url }}/elements-code-tutorial/basic-operations) section after that, but you may have to amend the commands used occasionally. 
 

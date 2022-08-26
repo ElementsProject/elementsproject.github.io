@@ -8,75 +8,68 @@ permalink: /elements-code-tutorial/installing-elements
 
 ## Installing Elements
 
-As we will be building Elements from the source code, we first need to pull the code from the [GitHub repository](https://github.com/elementsproject/elements) where it is maintained. We'll use "git" for this. You can ignore installation steps within this tutorial for software that you already have. If you do not have git installed (you can check by running the ``git --version`` command) you can install it using:
+To run this tutorial, you will need to have the elements executables installed locally. 
 
-~~~~
-sudo apt install git
-~~~~
+Elements can be installed from packages, or [built and run locally from the source code.](building-elements-from-source)
 
-Now pull the code from the repository to your machine (after moving to your home directory):
+Signed elements packages are published with each release on [Github](https://github.com/elementsproject/elements/releases).
 
-~~~~
-cd
-git clone https://github.com/ElementsProject/elements.git
-~~~~
+For this tutorial, you will need to download the latest `.tar.gz` or `.zip` file for your platform.
+You should also download the `SHA256SUMS.asc` file, in order to verify the integrity of the package.
 
-That's pulled all the code from the Elements repository into a newly created directory in Home called "elements". 
+The file extensions for each platform are as follows:
 
-Before we can compile and install Elements, we need to install software that the build process and this tutorial is dependant upon. Run the following terminal commands in turn. You will need to enter "y" when prompted for some of the commands. The most up to date set of dependencies for Ubuntu can be found [here](https://github.com/ElementsProject/elements/blob/master/doc/build-unix.md) and others within the relevant 'build-*.md' file [here](https://github.com/ElementsProject/elements/tree/master/doc). 
+| Platform | Package Extension |
+| -------- | --------  |
+| Linux 64-bit on Intel or AMD | `-x86_64-linux-gnu.tar.gz` |
+| macOS (Intel and Apple Silion) | `-osx-64.tar.gz` |
+| Windows 64-bit | `-win64.zip` |
+| 64-bit Raspberry Pi and 64 bit ARM Linux | `-aarch64-linux-gnu.tar.gz` |
 
-##### Note: Some lines wrap in the text below. Each line starting with "sudo apt-get" should be executed in its entirety. The first command will update your existing packages list, enabling you to install all the required dependancies.
+Note that if you are following this tutorial on a Windows computer, you will need to have a version of bash for Windows.
 
-~~~~
-sudo apt-get update
-sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config
-sudo apt-get install libboost-all-dev
-sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler imagemagick librsvg2-bin
-sudo apt-get install libqrencode-dev autoconf libevent-dev
-sudo apt-get install libminiupnpc-dev
-sudo apt install jq
-~~~~
+Once you have downloaded the package and the `SHA256SUMS.asc` file, verify the package hash. For example, on Linux:
 
-Now we need to build and install the Berkeley database.
+```
+$ sha256sum --ignore-missing --check SHA256SUMS.asc 
+elements-elements-0.21.0.2-x86_64-linux-gnu.tar.gz: OK
+sha256sum: WARNING: 19 lines are improperly formatted
+```
 
-##### Note: You **must** replace ``/home/yourusername`` below with the location of your home directory. Again, note that some lines wrap in the text below.
+You can verify the gpg signature of the hashes as follows:
 
-~~~~
-mkdir bdb4
-wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
-tar -xzvf db-4.8.30.NC.tar.gz
-sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-4.8.30.NC/dbinc/atomic.h
-cd db-4.8.30.NC/build_unix/
-../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/home/yourusername/bdb4/
-make install
-~~~~
+```
+$ gpg --keyserver keyserver.ubuntu.com --recv-keys DE10E82629A8CAD55B700B972F2A88D7F8D68E87
+gpg: key 2A57E0A610D7F19C: public key "Steven Roose <steven@stevenroose.org>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+$ gpg --verify SHA256SUMS.asc 
+gpg: Signature made Thu 03 Mar 2022 06:02:41 AM PST
+gpg:                using RSA key DE10E82629A8CAD55B700B972F2A88D7F8D68E87
+gpg: Good signature from "Steven Roose <steven@stevenroose.org>" [unknown]
+gpg:                 aka "Steven Roose (Jabber) <steven@konuro.net>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 8CC9 74D9 CFD0 34DC EED2  13B0 2A57 E0A6 10D7 F19C
+     Subkey fingerprint: DE10 E826 29A8 CAD5 5B70  0B97 2F2A 88D7 F8D6 8E87
+```
 
-Now let's configure, compile and install Elements.
+Extract the archive, and copy the `elementsd`, `elements-cli`, and `elements-qt` executables to `/usr/local/bin`.
 
-##### Note: You **must** replace ``/home/yourusername`` below (which occurs twice) with the location of your home directory.
+Check that you can run the packages, using the `-version` option:
 
-~~~~
-cd
-cd elements
-./autogen.sh
-./configure LDFLAGS="-L/home/yourusername/bdb4/lib/" CPPFLAGS="-I/home/yourusername/bdb4/include/"
-make
-sudo make install
-~~~~
 
-The "make" command may take a while to complete as it will also run the Elements test-suite as part of the build process.
+```
+$ elementsd -version
+Elements Core version elements-0.21.0.2
+...
 
-Check that the install worked:
+$ elements-cli -version
+Elements Core RPC client version elements-0.21.0.2
+```
 
-~~~~
-which elementsd
-~~~~
+You are now ready to proceed with the tutorial.
 
-Which should return:
-
-<div class="console-output">/usr/local/bin/elementsd</div>
-
-If you are using a Virtual Machine, now would be a good point to take a snapshot of the machine's state as we have set up Bitcoin and Elements ready for use. 
 
 [Next: Setting up your working environment]({{ site.url }}/elements-code-tutorial/working-environment)
 
