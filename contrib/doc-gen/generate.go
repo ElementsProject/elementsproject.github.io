@@ -73,7 +73,7 @@ func getVersion() string {
 
 	numv := int(m["version"].(float64))
 	// ELEMENTS: added the numv%100 extra version part here
-	v := fmt.Sprintf("%d.%d.%d.%d", numv/1000000, (numv/10000)%100, (numv/100)%100, numv%100)
+	v := fmt.Sprintf("%d.%d.%d", numv/10000, (numv/100)%100, numv%100)
 	return v
 }
 
