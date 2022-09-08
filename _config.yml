@@ -35,6 +35,9 @@ collections:
   doc:
     output: true
 
+webmaster_verifications:
+  google: googlefba269d56ccb761c.html
+
 exclude:
   - _config.yml
   - LICENSE
