@@ -1,0 +1,43 @@
+---
+layout: doc
+name: getreceivedbyaddress
+elemversion: 22.0.0
+elemgroup: wallet
+permalink: /en/doc/22.0.0/rpc/wallet/getreceivedbyaddress/
+---
+
+getreceivedbyaddress "address" ( minconf "assetlabel" )
+
+Returns the total amount received by the given address in transactions with at least minconf confirmations.
+
+Arguments:
+1. address       (string, required) The address for transactions.
+2. minconf       (numeric, optional, default=1) Only include transactions confirmed at least this many times.
+3. assetlabel    (string, optional) Hex asset id or asset label for balance.
+
+Result:
+{         (json object) The total amount, per asset if none is specified, in BTC received for this wallet.
+  ...     the amount for each asset
+}
+
+Result:
+n    (numeric) the total amount for the asset, if one is specified
+
+Result:
+null    (json null)
+
+Examples:
+
+The amount from transactions with at least 1 confirmation
+> elements-cli getreceivedbyaddress "bc1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl"
+
+The amount including unconfirmed transactions, zero confirmations
+> elements-cli getreceivedbyaddress "bc1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl" 0
+
+The amount with at least 6 confirmations
+> elements-cli getreceivedbyaddress "bc1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl" 6
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getreceivedbyaddress", "params": ["bc1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl", 6]}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

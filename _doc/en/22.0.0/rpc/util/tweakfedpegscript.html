@@ -1,0 +1,23 @@
+---
+layout: doc
+name: tweakfedpegscript
+elemversion: 22.0.0
+elemgroup: util
+permalink: /en/doc/22.0.0/rpc/util/tweakfedpegscript/
+---
+
+tweakfedpegscript "claim_script" ( "fedpegscript" )
+
+Returns a tweaked fedpegscript.
+
+Arguments:
+1. claim_script    (string, required) Script to tweak the fedpegscript with. For example obtained as a result of getpeginaddress.
+2. fedpegscript    (string, optional) Fedpegscript to be used with the claim_script. By default this is the current fedpegscript.
+
+Result:
+{                       (json object)
+  "script" : "hex",     (string) The fedpegscript tweaked with claim_script
+  "address" : "str"     (string) The address corresponding to the tweaked fedpegscript
+}
+
+

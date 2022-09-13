@@ -1,0 +1,23 @@
+---
+layout: doc
+name: importissuanceblindingkey
+elemversion: 22.0.0
+elemgroup: wallet
+permalink: /en/doc/22.0.0/rpc/wallet/importissuanceblindingkey/
+---
+
+importissuanceblindingkey "txid" vin "blindingkey"
+
+Imports a private blinding key in hex for an asset issuance.
+Arguments:
+1. txid           (string, required) The transaction id of the issuance
+2. vin            (numeric, required) The input number of the issuance in the transaction.
+3. blindingkey    (string, required) The blinding key in hex
+
+Result:
+null    (json null)
+
+Examples:
+> elements-cli importblindingkey "my blinded CT address" <blindinghex>
+
+

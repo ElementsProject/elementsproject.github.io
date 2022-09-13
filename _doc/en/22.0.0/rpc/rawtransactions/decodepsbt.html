@@ -1,0 +1,202 @@
+---
+layout: doc
+name: decodepsbt
+elemversion: 22.0.0
+elemgroup: rawtransactions
+permalink: /en/doc/22.0.0/rpc/rawtransactions/decodepsbt/
+---
+
+decodepsbt "psbt"
+
+Return a JSON object representing the serialized, base64-encoded partially signed Bitcoin transaction.
+
+Note that for Elements, PSBTs (or PSET) follow the Partially Signed Elements Transaction specification.
+
+Arguments:
+1. psbt    (string, required) The PSBT base64 string
+
+Result:
+{                                                         (json object)
+  "tx" : {                                                (json object) The decoded network-serialized unsigned transaction.
+    ...                                                   The layout is the same as the output of decoderawtransaction.
+  },
+  "global_xpubs" : [                                      (json array)
+    {                                                     (json object)
+      "xpub" : "str",                                     (string) The extended public key this path corresponds to
+      "master_fingerprint" : "hex",                       (string) The fingerprint of the master key
+      "path" : "str"                                      (string) The path
+    },
+    ...
+  ],
+  "tx_version" : n,                                       (numeric) The version number of the unsigned transaction. Not to be confused with PSBT version
+  "fallback_locktime" : n,                                (numeric) The locktime to fallback to if no inputs specify a required locktime.
+  "input_count" : n,                                      (numeric) The number of inputs in this psbt
+  "output_count" : n,                                     (numeric) The number of outputs in this psbt.
+  "inputs_modifiable" : n,                                (numeric) Whether inputs can be modified
+  "outputs_modifiable" : n,                               (numeric) Whether outputs can be modified
+  "sighash_single_indexes" : [                            (json array) The indexes which have SIGHASH_SINGLE signatures
+    n,                                                    (numeric) Index of an input with a SIGHASH_SINGLE signature
+    ...
+  ],
+  "psbt_version" : n,                                     (numeric) The PSBT version number. Not to be confused with the unsigned transaction version
+  "scalar_offsets" : {                                    (json object) The PSET scalar elements
+    "scalar" : "hex",                                     (string) A scalar offset stored in the PSET
+    ...
+  },
+  "proprietary" : {                                       (json object) The global proprietary map
+    "" : {                                                (json object)
+      "identifier" : "hex",                               (string) The hex string for the proprietary identifier
+      "subtype" : n,                                      (numeric) The number for the subtype
+      "key" : "hex",                                      (string) The hex for the key
+      "value" : "hex"                                     (string) The hex for the value
+    }
+  },
+  "unknown" : {                                           (json object) The unknown global fields
+    "key" : "hex",                                        (string) (key-value pair) An unknown key-value pair
+    ...
+  },
+  "inputs" : [                                            (json array)
+    {                                                     (json object)
+      "non_witness_utxo" : {                              (json object, optional) Decoded network transaction for non-witness UTXOs
+        ...
+      },
+      "witness_utxo" : {                                  (json object, optional) Transaction output for witness UTXOs
+        "amount" : n,                                     (numeric) The value in BTC
+        "scriptPubKey" : {                                (json object)
+          "asm" : "str",                                  (string) The asm
+          "hex" : "hex",                                  (string) The hex
+          "type" : "str",                                 (string) The type, eg 'pubkeyhash'
+          "address" : "str"                               (string)  Bitcoin address if there is one
+        }
+      },
+      "partial_signatures" : {                            (json object, optional)
+        "pubkey" : "str",                                 (string) The public key and signature that corresponds to it.
+        ...
+      },
+      "sighash" : "str",                                  (string, optional) The sighash type to be used
+      "redeem_script" : {                                 (json object, optional)
+        "asm" : "str",                                    (string) The asm
+        "hex" : "hex",                                    (string) The hex
+        "type" : "str"                                    (string) The type, eg 'pubkeyhash'
+      },
+      "witness_script" : {                                (json object, optional)
+        "asm" : "str",                                    (string) The asm
+        "hex" : "hex",                                    (string) The hex
+        "type" : "str"                                    (string) The type, eg 'pubkeyhash'
+      },
+      "bip32_derivs" : [                                  (json array, optional)
+        {                                                 (json object, optional) The public key with the derivation path as the value.
+          "master_fingerprint" : "str",                   (string) The fingerprint of the master key
+          "path" : "str"                                  (string) The path
+        },
+        ...
+      ],
+      "final_scriptsig" : {                               (json object, optional)
+        "asm" : "str",                                    (string) The asm
+        "hex" : "str"                                     (string) The hex
+      },
+      "final_scriptwitness" : [                           (json array)
+        "hex",                                            (string) hex-encoded witness data (if any)
+        ...
+      ],
+      "previous_txid" : "hex",                            (string) TXID of the transaction containing the output being spent by this input.
+      "previous_vout" : n,                                (numeric) Index of the output being spent
+      "sequence" : n,                                     (numeric) Sequence number for this inputs
+      "time_locktime" : n,                                (numeric) Required time-based locktime for this input
+      "height_locktime" : n,                              (numeric) Required height-based locktime for this input
+      "issuance_value" : n,                               (numeric) The explicit value of the issuance in this input in BTC
+      "issuance_value_commitment" : "hex",                (string) The commitment of the value of the issuance in this input.
+      "issuance_value_rangeproof" : "hex",                (string) The rangeproof for the value commitment of the issuance in this input.
+      "blind_issuance_value_proof" : "hex",               (string) Explicit value rangeproof that proves the issuance value commitment matches the value
+      "issuance_reissuance_amount" : n,                   (numeric) The explicit amount available for the reissuance output.
+      "issuance_reissuance_amount_commitment" : "hex",    (string) The commitment of the reissuance amount.
+      "issuance_reissuance_amount_rangeproof" : "hex",    (string) The rangeproof for the amount commitment of the reissuance amount.
+      "blind_reissuance_amount_proof" : "hex",            (string) Explicit value rangeproof that proves the reissuance value commitment matches the reissuance value
+      "issuance_blinding_nonce" : "hex",                  (string) The blinding nonce for the issuance in this input.
+      "issuance_asset_entropy" : "hex",                   (string) The asset entropy for the issuance in this input.
+      "pegin_bitcoin_tx" : "hex",                         (string) The tx providing the peg-in in the format of the getrawtransaction RPC
+      "pegin_claim_script" : "hex",                       (string) The claim script for the peg-in input
+      "pegin_txout_proof" : "hex",                        (string) The tx providing the peg-in input
+      "pegin_genesis_hash" : "hex",                       (string) The hash of the genesis block for this peg-in
+      "pegin_value" : n,                                  (numeric) The value of this peg-in.
+      "pegin_witness" : [                                 (json array)
+        "hex",                                            (string) hex-encoded witness data (if any)
+        ...
+      ],
+      "utxo_rangeproof" : "hex",                          (string) The rangeproof for the UTXO
+      "explicit_value" : n,                               (numeric, optional) The explicit value for this input
+      "value_proof" : "hex",                              (string, optional) The explicit value proof for this input
+      "explicit_asset" : "hex",                           (string, optional) The explicit asset for this input
+      "asset_proof" : "hex",                              (string, optional) The explicit asset proof for this input
+      "blinded_issuance" : true|false,                    (boolean, optional) Whether the issuance should be blinded prior to signing
+      "unknown" : {                                       (json object) The unknown global fields
+        "key" : "hex",                                    (string) (key-value pair) An unknown key-value pair
+        ...
+      },
+      "proprietary" : {                                   (json object) The global proprietary map
+        "" : {                                            (json object)
+          "identifier" : "hex",                           (string) The hex string for the proprietary identifier
+          "subtype" : n,                                  (numeric) The number for the subtype
+          "key" : "hex",                                  (string) The hex for the key
+          "value" : "hex"                                 (string) The hex for the value
+        }
+      }
+    },
+    ...
+  ],
+  "outputs" : [                                           (json array)
+    {                                                     (json object)
+      "redeem_script" : {                                 (json object, optional)
+        "asm" : "str",                                    (string) The asm
+        "hex" : "hex",                                    (string) The hex
+        "type" : "str"                                    (string) The type, eg 'pubkeyhash'
+      },
+      "witness_script" : {                                (json object, optional)
+        "asm" : "str",                                    (string) The asm
+        "hex" : "hex",                                    (string) The hex
+        "type" : "str"                                    (string) The type, eg 'pubkeyhash'
+      },
+      "bip32_derivs" : [                                  (json array, optional)
+        {                                                 (json object)
+          "pubkey" : "str",                               (string) The public key this path corresponds to
+          "master_fingerprint" : "str",                   (string) The fingerprint of the master key
+          "path" : "str"                                  (string) The path
+        },
+        ...
+      ],
+      "amount" : n,                                       (numeric) The amount (nValue) for this output
+      "script" : {                                        (json object) The output script (scriptPubKey) for this output
+        ...                                               The layout is the same as the output of scriptPubKeys in decoderawtransaction.
+      },
+      "value_commitment" : "hex",                         (string) The blinded value of the output
+      "asset_commiment" : "hex",                          (string) The blinded asset id of the output
+      "asset" : "hex",                                    (string) The explicit asset for the output
+      "rangeproof" : "hex",                               (string) The rangeproof for the output
+      "surjection_proof" : "hex",                         (string) The surjection proof for the output
+      "ecdh_pubkey" : "hex",                              (string) The ecdh pubkey for the output
+      "blinding_pubkey" : "hex",                          (string) The blinding pubkey for the output
+      "blind_value_proof" : "hex",                        (string) Explicit value rangeproof that proves the value commitment matches the value
+      "blind_asset_proof" : "hex",                        (string) Assert surjection proof that proves the assert commitment matches the asset
+      "status" : "str",                                   (string) information about how the output has been blinded, if available
+      "unknown" : {                                       (json object) The unknown global fields
+        "key" : "hex",                                    (string) (key-value pair) An unknown key-value pair
+        ...
+      },
+      "proprietary" : {                                   (json object) The global proprietary map
+        "" : {                                            (json object)
+          "identifier" : "hex",                           (string) The hex string for the proprietary identifier
+          "subtype" : n,                                  (numeric) The number for the subtype
+          "key" : "hex",                                  (string) The hex for the key
+          "value" : "hex"                                 (string) The hex for the value
+        }
+      }
+    },
+    ...
+  ],
+  "fee" : n                                               (numeric, optional) The transaction fee paid if all UTXOs slots in the PSBT have been filled.
+}
+
+Examples:
+> elements-cli decodepsbt "psbt"
+
+

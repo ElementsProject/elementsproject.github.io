@@ -1,0 +1,34 @@
+---
+layout: doc
+name: combineblocksigs
+elemversion: 22.0.0
+elemgroup: generating
+permalink: /en/doc/22.0.0/rpc/generating/combineblocksigs/
+---
+
+combineblocksigs "blockhex" [{"pubkey":"hex","sig":"hex"},...] ( "witnessScript" )
+
+Merges signatures on a block proposal
+
+Arguments:
+1. blockhex                  (string, required) The hex-encoded block from getnewblockhex
+2. signatures                (json array, required) A json array of pubkey/signature pairs
+     [
+       {                     (json object)
+         "pubkey": "hex",    (string, required) The pubkey for the signature in hex
+         "sig": "hex",       (string, required) A signature (in the form of a hex-encoded scriptSig)
+       },
+       ...
+     ]
+3. witnessScript             (string, optional) The hex-encoded witnessScript for the signblockscript
+
+Result:
+{                             (json object)
+  "hex" : "hex",              (string) the signed block
+  "complete" : true|false     (boolean) whether the block is complete
+}
+
+Examples:
+> elements-cli combineblocksigs <hex> '[{"pubkey":"hex","sig":"hex"}, ...]'
+
+

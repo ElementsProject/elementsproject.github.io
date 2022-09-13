@@ -1,0 +1,24 @@
+---
+layout: doc
+name: getunconfirmedbalance
+elemversion: 22.0.0
+elemgroup: wallet
+permalink: /en/doc/22.0.0/rpc/wallet/getunconfirmedbalance/
+---
+
+getunconfirmedbalance
+DEPRECATED
+Identical to getbalances().mine.untrusted_pending
+
+Result:
+{         (json object) The total amount, per asset if none is specified, in BTC received for this wallet.
+  ...     the amount for each asset
+}
+
+Result:
+n    (numeric) the total amount for the asset, if one is specified
+
+Result:
+null    (json null)
+
+
