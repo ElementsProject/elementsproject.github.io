@@ -1,0 +1,38 @@
+---
+layout: doc
+name: getsidechaininfo
+elemversion: 22.0.0
+elemgroup: blockchain
+permalink: /en/doc/22.0.0/rpc/blockchain/getsidechaininfo/
+---
+
+getsidechaininfo
+Returns an object containing various state info regarding sidechain functionality.
+
+Result:
+{                                                (json object)
+  "fedpegscript" : "hex",                        (string) The fedpegscript from genesis block
+  "current_fedpegscripts" : [                    (json array) The currently-enforced fedpegscripts in hex. Peg-ins for any entries on this list are honored by consensus and policy. Oldest first. Two total entries are possible
+    "hex",                                       (string) active fedpegscript
+    ...
+  ],
+  "current_fedpeg_programs" : [                  (json array) The currently-enforced fedpegscript scriptPubKeys in hex. Prior to a transition this may be P2SH scriptpubkey, otherwise it will be a native segwit script. Results are paired in-order with current_fedpegscripts
+    "hex",                                       (string) active fedpegscript scriptPubKeys
+    ...
+  ],
+  "pegged_asset" : "hex",                        (string) Pegged asset type
+  "min_peg_diff" : "str",                        (string) The minimum difficulty parent chain header target. Peg-in headers that have less work will be rejected as an anti-Dos measure
+  "parent_blockhash" : "hex",                    (string) The parent genesis blockhash as source of pegged-in funds
+  "parent_chain_has_pow" : true|false,           (boolean) Whether parent chain has pow or signed blocks
+  "parent_chain_signblockscript_asm" : "str",    (string) If the parent chain has signed blocks, its signblockscript in ASM
+  "parent_chain_signblockscript_hex" : "hex",    (string) If the parent chain has signed blocks, its signblockscript in hex
+  "parent_pegged_asset" : "hex",                 (string) If the parent chain has Confidential Assets, the asset id of the pegged asset in that chain
+  "pegin_confirmation_depth" : n,                (numeric) The number of mainchain confirmations required for a peg-in transaction to become valid
+  "enforce_pak" : true|false                     (boolean) If peg-out authorization is being enforced
+}
+
+Examples:
+> elements-cli getsidechaininfo 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getsidechaininfo", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

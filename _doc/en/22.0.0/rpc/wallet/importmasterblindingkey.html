@@ -1,0 +1,23 @@
+---
+layout: doc
+name: importmasterblindingkey
+elemversion: 22.0.0
+elemgroup: wallet
+permalink: /en/doc/22.0.0/rpc/wallet/importmasterblindingkey/
+---
+
+importmasterblindingkey "hexkey"
+
+Imports a master private blinding key in hex for the wallet.
+Note: wallets can only have one master blinding key at a time. Funds could be permanently lost if user doesn't know what they are doing. Recommended use is only for wallet recovery using this in conjunction with `sethdseed`.
+
+Arguments:
+1. hexkey    (string, required) The blinding key in hex
+
+Result:
+null    (json null)
+
+Examples:
+> elements-cli importmasterblindingkey <hexkey>
+
+

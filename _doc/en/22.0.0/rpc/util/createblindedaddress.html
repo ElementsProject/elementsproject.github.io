@@ -1,0 +1,28 @@
+---
+layout: doc
+name: createblindedaddress
+elemversion: 22.0.0
+elemgroup: util
+permalink: /en/doc/22.0.0/rpc/util/createblindedaddress/
+---
+
+createblindedaddress "address" "blinding_key"
+
+Creates a blinded address using the provided blinding key.
+
+Arguments:
+1. address         (string, required) The unblinded address to be blinded.
+2. blinding_key    (string, required) The blinding public key. This can be obtained for a given address using `getaddressinfo` (`confidential_key` field).
+
+Result:
+"str"    (string) The blinded address
+
+Examples:
+
+Create a blinded address
+> elements-cli createblindedaddress HEZk3iQi1jC49bxUriTtynnXgWWWdAYx16 ec09811118b6febfa5ebe68642e5091c418fbace07e655da26b4a845a691fc2d
+
+As a json rpc call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "createblindedaddress", "params": [HEZk3iQi1jC49bxUriTtynnXgWWWdAYx16, ec09811118b6febfa5ebe68642e5091c418fbace07e655da26b4a845a691fc2d]}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
