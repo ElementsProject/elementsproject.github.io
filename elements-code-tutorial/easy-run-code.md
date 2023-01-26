@@ -553,8 +553,12 @@ ADDRGEN2=$(e2-cli getnewaddress)
 e1-cli generatetoaddress 101 $ADDRGEN1
 b-cli generatetoaddress 101 $ADDRGENB
 
+# Generate a peg-in address
 e1-cli getpeginaddress
+# If you execute the command again you’ll notice that the returned data changes:
 e1-cli getpeginaddress
+
+# Warning: Peg-in addresses are not long-term durable and should not be reused.
 
 ADDRS=$(e1-cli getpeginaddress)
 
@@ -575,6 +579,8 @@ PROOF=$(b-cli gettxoutproof '''["'''$TXID'''"]''')
 RAW=$(b-cli getrawtransaction $TXID)
 
 CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF $CLAIMSCRIPT)
+
+# Warning: The time between generating a peg-in address with "getpeginaddress" and claiming it with "claimpegin" should be kept as small as possible.
 
 e2-cli generatetoaddress 1 $ADDRGEN2
 sleep 10
