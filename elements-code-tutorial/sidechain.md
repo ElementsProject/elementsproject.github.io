@@ -90,6 +90,8 @@ The reason is that  each time we generate a new peg-in address we are asking the
 
 A user would send coins from their Bitcoin wallet to the "mainchain_address" value returned from the command as shown below. Like getnewaddress, getpeginaddress adds new secrets to wallet.dat, necessitating backup on a regular basis.
 
+##### NOTE: **Peg-in addresses are not long-term durable and should not be reused.**
+
 With that established, let's store the data returned in some variables for use later:
 
 ~~~~
@@ -151,6 +153,8 @@ We will now attempt to claim the funds within our sidechain. The claim takes the
 ~~~~
 CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF $CLAIMSCRIPT)
 ~~~~
+
+##### NOTE: **The time between generating a peg-in address with "getpeginaddress" and claiming it with "claimpegin" should be kept as small as possible.**
 
 Bob's node (as well as Alice's of course) should accept the claim transaction as valid and add it to its mempool. Create a block containing the transaction:
 
