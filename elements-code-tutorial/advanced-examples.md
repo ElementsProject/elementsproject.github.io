@@ -401,6 +401,7 @@ shopt -s expand_aliases
 # Node
 alias n-dae="$BINARY_DIR/elementsd -datadir=$DATA_DIR"
 # Client wallets
+alias w-cli-no-wallet="$BINARY_DIR/elements-cli -datadir=$DATA_DIR"
 alias w-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet.dat"
 alias w1-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_1.dat"
 alias w2-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_2.dat"
@@ -467,7 +468,7 @@ create_multisig () {
 # Ignore error
 set +o errexit
 
-w-cli stop
+w-cli-no-wallet stop
 echo "Wait for the node to stop if it was running..."
 sleep 20
 
@@ -477,6 +478,12 @@ rm -r $DATA_DIR/elementsregtest
 # Start the daemon
 n-dae
 sleep 10 
+
+w-cli-no-wallet createwallet "wallet.dat"
+w-cli-no-wallet createwallet "wallet_1.dat"
+w-cli-no-wallet createwallet "wallet_2.dat"
+w-cli-no-wallet createwallet "wallet_3.dat"
+w-cli rescanblockchain
 
 # Wait for node to finish loading all wallets and respond to command to get new address
 until ADDRGEN1=$(w-cli getnewaddress)
@@ -516,7 +523,7 @@ CREATE=$(create_multisig "reissuance")
 MULTISIG_REISSUANCE_ADDRESS="$(echo $CREATE | cut -d'|' -f1)"
 
 # Create the base transaction
-BASE=$(w1-cli createrawtransaction '''[]''' '''{"''data''":"''00''"}''')
+BASE=$(w1-cli createrawtransaction '''[]''' '''[{"''data''":"''00''"}]''')
 
 # Fund the transaction
 FUNDED=$(w1-cli fundrawtransaction $BASE '''{"''feeRate''":'$FEERATE'}''')
@@ -592,7 +599,7 @@ MULTISIG_ASSET_CHANGE_ADDRESS="$(echo $CREATE | cut -d'|' -f1)"
 BITCOIN_CHANGE=$(w1-cli getrawchangeaddress)
 
 # Create the multi-sig spending transaction
-RAW_TX=$(w1-cli createrawtransaction '''[]''' '''{"'''$RECEIVING_ADDRESS'''":'$AMOUNT'}''' 0 false '''{"'''$RECEIVING_ADDRESS'''":"'''$ASSET'''"}''')
+RAW_TX=$(w1-cli createrawtransaction '''[]''' '''[{"'''$RECEIVING_ADDRESS'''":'$AMOUNT',"'''asset'''":"'''$ASSET'''"}]''' 0 false)
 
 # Fund the transaction
 FUNDED_RAW_TX=$(w1-cli fundrawtransaction $RAW_TX '''{"'''includeWatching'''":true, "'''changeAddress'''":{"'''bitcoin'''":"'''$BITCOIN_CHANGE'''", "'''$ASSET'''":"'''$MULTISIG_ASSET_CHANGE_ADDRESS'''"}}''')
@@ -650,7 +657,7 @@ AMOUNT="0.00700000"
 
 REISSUANCE_TOKEN_AMOUNT="0.00000001"
 
-BASE=$(w1-cli createrawtransaction '''[]''' '''{"'''$REISSUANCE_TOKEN_ADDRESS'''":'$REISSUANCE_TOKEN_AMOUNT'}''' 0 false '''{"'''$REISSUANCE_TOKEN_ADDRESS'''":"'''$TOKEN'''"}''')
+BASE=$(w1-cli createrawtransaction '''[]''' '''[{"'''$REISSUANCE_TOKEN_ADDRESS'''":'$REISSUANCE_TOKEN_AMOUNT',"'''asset'''":"'''$TOKEN'''"}]''' 0 false)
 
 BITCOIN_CHANGE=$(w1-cli getrawchangeaddress)
 
