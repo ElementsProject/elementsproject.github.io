@@ -361,10 +361,10 @@ DATA_DIR="$HOME/elementsdir1"
 
 #daemon=1
 #chain=elementsregtest
-#elementsregtest.wallet=wallet.dat
-#elementsregtest.wallet=wallet_1.dat
-#elementsregtest.wallet=wallet_2.dat
-#elementsregtest.wallet=wallet_3.dat
+#elementsregtest.wallet=wallet
+#elementsregtest.wallet=wallet_1
+#elementsregtest.wallet=wallet_2
+#elementsregtest.wallet=wallet_3
 #validatepegin=0
 #initialfreecoins=2100000000000000
 
@@ -402,10 +402,10 @@ shopt -s expand_aliases
 alias n-dae="$BINARY_DIR/elementsd -datadir=$DATA_DIR"
 # Client wallets
 alias w-cli-no-wallet="$BINARY_DIR/elements-cli -datadir=$DATA_DIR"
-alias w-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet.dat"
-alias w1-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_1.dat"
-alias w2-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_2.dat"
-alias w3-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_3.dat"
+alias w-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet"
+alias w1-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_1"
+alias w2-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_2"
+alias w3-cli="$BINARY_DIR/elements-cli -datadir=$DATA_DIR -rpcwallet=wallet_3"
 
 # We will hash using sha256sum if available, openssl otherwise (other options are available)
 which sha256sum >/dev/null 2>&1 && alias sha256hash="sha256sum | sed 's/ .*//g'" || alias sha256hash="openssl dgst -sha256 | sed 's/.*= //g'"
@@ -479,10 +479,10 @@ rm -r $DATA_DIR/elementsregtest
 n-dae
 sleep 10 
 
-w-cli-no-wallet createwallet "wallet.dat"
-w-cli-no-wallet createwallet "wallet_1.dat"
-w-cli-no-wallet createwallet "wallet_2.dat"
-w-cli-no-wallet createwallet "wallet_3.dat"
+w-cli-no-wallet createwallet "wallet"
+w-cli-no-wallet createwallet "wallet_1"
+w-cli-no-wallet createwallet "wallet_2"
+w-cli-no-wallet createwallet "wallet_3"
 w-cli rescanblockchain
 
 # Wait for node to finish loading all wallets and respond to command to get new address
