@@ -30,9 +30,9 @@ echo $ADDR
 
 After running the echo command above you should see something similar to this:
 
-<div class="console-output">Azpr7BwzjwdiB1pNZKcLkk6Esn5NWAE7wtrC4UzEsshpKe3eUZzPQBvfJ7q9wzJLbt9yn8hYZmZDayGG</div>
+<div class="console-output">el1qqds73pp5sflsnrfstyf5y0n39esy3wfcca0e7u8q7kap2eg3z630pmgmljx9tlmv8urr0gtd842e9hfqta0ezke8p5jpfyx3e</div>
 
-##### NOTE: As of Elements v0.17, getnewaddress defaults to creating P2SH-P2WPKH addresses. You can create 'CTE' prefixed addresses (the Elements pre-0.17 default) by calling getnewaddress like this: `e1-cli getnewaddress "" legacy`. You can also set the addresstype=legacy argument on node startup, or set it in your config file to always get legacy addresses from 'getnewaddress'. Some commands require a 'legacy' style address in order to work, such as message signing, as shown in the [Advanced examples]({{ site.url }}/elements-code-tutorial/advanced-examples) section.
+##### NOTE: As of Elements v0.18, getnewaddress defaults to creating blinded bech32 addresses. You can create 'CTE' prefixed addresses (the Elements pre-0.17 default) by calling getnewaddress like this: `e1-cli getnewaddress "" legacy`. You can also set the addresstype=legacy argument on node startup, or set it in your config file to always get legacy addresses from 'getnewaddress'. Some commands require a 'legacy' style address in order to work, such as message signing, as shown in the [Advanced examples]({{ site.url }}/elements-code-tutorial/advanced-examples) section.
 
 Let's look at the address in more detail to check that it is indeed a confidential one. To do this we can use the "getaddressinfo" command, passing in the address that we stored in the ADDR variable as a parameter:
 
