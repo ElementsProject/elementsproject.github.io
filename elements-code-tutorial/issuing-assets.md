@@ -23,7 +23,7 @@ e1-cli getwalletinfo
 We see that Alice holds a lot of the "bitcoin" asset and nothing else:
 
 <div class="console-output">"balance": {
-    "bitcoin": 10500001.00000000
+    "bitcoin": 10500000.00000000
 </div>
 
 Every asset you issue within Elements (including the "bitcoin" default) will be assigned its own hex value. This is used to uniquely identify it on the network. Notice how "bitcoin" is displayed with a readable asset name however. This is because Elements automatically associates the label "bitcoin" with the asset hex for that default asset. To find out its hex value we can run: 
