@@ -136,9 +136,10 @@ e1-cli getrawtransaction $TXID 1
 That returns raw transaction details. If you look within the "vout" section you can see that there are three instances. The first two instances are the receiving and change amounts and the third is the transaction fee. Of these three amounts, the fee is the only one in which you can see a value, as the fee itself is unblinded. For the first two instances you will see (amongst others) properties with values similar to this:
 
 <div class="console-output">"value-minimum": 0.00000001,
-"value-maximum": 11258999.06842624,
-"amountcommitment": "0881c61d8a15ad26e6ef621ca99a188ccebbdb348d5285012393459b7e5b1e6113",
-"assetcommitment": "0b1b7a1a4a604f4a68b3277e3a8926d74e86adce7b92e8e6ba67f9c5a8ad2cbcf4",
+"value-maximum": 45035996.27370496,
+...
+"valuecommitment": "089dac0ee066b8c126ea69e2a9274cff2bc35d0bcd048e1e36baf4ffa74a80188d",
+"assetcommitment": "0a80020aeca516f22abb6c952bd4e4d1eaa013fdde6f98289a2fb9f0b6dcd03142",
 </div>
 
 What this shows are the "blinded ranges" of the value amounts and the commitment data that acts as proof of the actual amount and type of asset transacted.
