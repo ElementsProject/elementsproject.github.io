@@ -141,7 +141,7 @@ IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
 e2-cli importaddress $IADDR
 ~~~~
 
-Another way to make Bob's node aware of the issuance is for Bob to get the issuance transaction ID and use that to import any output address from the transaction into his wallet. This is useful if Bob is not able to get the adress from Alice, but knows the transaction in which the asset was issued... perhaps by using the [Blockstream Explorer's assets list](https://blockstream.info/liquid/assets/) to look it up. From that page he can either use the TXID or select one of the addresses from the outputs. Using the TXID requires that Bob's node has ``index=1`` set in the elements.conf file.
+Another way to make Bob's node aware of the issuance is for Bob to get the issuance transaction ID and use that to import any output address from the transaction into his wallet. This is useful if Bob is not able to get the address from Alice, but knows the transaction in which the asset was issued... perhaps by using the [Blockstream Explorer's assets list](https://blockstream.info/liquid/assets/) to look it up. From that page he can either use the TXID or select one of the addresses from the outputs. Using the TXID requires that Bob's node has ``index=1`` set in the elements.conf file.
 
 Bob's already imported the address above but for reference the code to import using TXID is shown below. It doesn't matter which address is used, so we will use the first instance:
 
