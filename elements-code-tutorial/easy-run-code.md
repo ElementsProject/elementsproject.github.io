@@ -93,7 +93,7 @@ echo "The following 3 'rm' commands may error - that is fine."
 rm -r ~/bitcoindir ; rm -r ~/elementsdir1 ; rm -r ~/elementsdir2
 mkdir ~/bitcoindir ; mkdir ~/elementsdir1 ; mkdir ~/elementsdir2
 
-echo "regtest=1
+echo -n "regtest=1
 txindex=1
 daemon=1
 rpcuser=user3
@@ -102,10 +102,9 @@ fallbackfee=0.0002
 [regtest]
 rpcport=18888
 port=18889
-
 " > ~/bitcoindir/bitcoin.conf
 
-echo "chain=elementsregtest
+echo -n "chain=elementsregtest
 rpcuser=user1
 rpcpassword=password1
 daemon=1
@@ -123,10 +122,9 @@ rpcport=18884
 port=18886
 anyonecanspendaremine=1
 connect=localhost:18887
-
 " > ~/elementsdir1/elements.conf
 
-echo "chain=elementsregtest
+echo -n "chain=elementsregtest
 rpcuser=user2
 rpcpassword=password2
 daemon=1
@@ -143,7 +141,6 @@ rpcport=18885
 port=18887
 anyonecanspendaremine=1
 connect=localhost:18886
-
 " > ~/elementsdir2/elements.conf
 
 b-dae
