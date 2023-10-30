@@ -780,7 +780,7 @@ TOKEN_AMOUNT
 PRECISION
 ~~~
 
-For reference as to how the values should be set please refer to the <a href="https://docs.blockstream.com/liquid/developer-guide/developer-guide-index.html#proof-of-issuance-blockstream-s-liquid-asset-registry" target="_blank">Blockstream docs site</a>.
+For reference as to how the values should be set please refer to the <a href="https://docs.liquid.net/docs/blockstream-liquid-asset-registry" target="_blank">Blockstream docs site</a>.
 
 ##### Note: The following will use the live Liquid network by default as the `datadir` is set to `.elements`. Assets issued on elementsregtest cannot be registered.
 
