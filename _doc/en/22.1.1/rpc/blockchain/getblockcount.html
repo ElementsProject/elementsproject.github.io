@@ -1,0 +1,21 @@
+---
+layout: doc
+name: getblockcount
+elemversion: 22.1.1
+elemgroup: blockchain
+permalink: /en/doc/22.1.1/rpc/blockchain/getblockcount/
+---
+
+getblockcount
+
+Returns the height of the most-work fully-validated chain.
+The genesis block has height 0.
+
+Result:
+n    (numeric) The current block count
+
+Examples:
+> elements-cli getblockcount 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblockcount", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

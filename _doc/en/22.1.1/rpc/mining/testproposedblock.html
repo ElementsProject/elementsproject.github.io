@@ -1,0 +1,23 @@
+---
+layout: doc
+name: testproposedblock
+elemversion: 22.1.1
+elemgroup: mining
+permalink: /en/doc/22.1.1/rpc/mining/testproposedblock/
+---
+
+testproposedblock "blockhex" ( acceptnonstd )
+
+Checks a block proposal for validity, and that it extends chaintip
+
+Arguments:
+1. blockhex        (string, required) The hex-encoded block from getnewblockhex
+2. acceptnonstd    (boolean, optional) If set false, returns error if block contains non-standard transaction. Default is set via `-acceptnonstdtxn`.
+
+Result:
+null    (json null)
+
+Examples:
+> elements-cli testproposedblock <hex>
+
+
