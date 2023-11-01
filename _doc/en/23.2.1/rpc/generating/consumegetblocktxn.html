@@ -1,0 +1,23 @@
+---
+layout: doc
+name: consumegetblocktxn
+elemversion: 23.2.1
+elemgroup: generating
+permalink: /en/doc/23.2.1/rpc/generating/consumegetblocktxn/
+---
+
+consumegetblocktxn "full_block" "block_tx_req"
+
+Consumes a transaction request for a compact block sketch.
+
+Arguments:
+1. full_block      (string, required) Hex serialied block that corresponds to the block request `block_tx_req`.
+2. block_tx_req    (string, required) Hex serialied BlockTransactionsRequest, aka getblocktxn network message.
+
+Result:
+"hex"    (string) The serialized list of found transactions aka BlockTransactions
+
+Examples:
+> elements-cli consumegetblocktxn <block_tx_req>
+
+

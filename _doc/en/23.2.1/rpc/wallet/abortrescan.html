@@ -1,0 +1,28 @@
+---
+layout: doc
+name: abortrescan
+elemversion: 23.2.1
+elemgroup: wallet
+permalink: /en/doc/23.2.1/rpc/wallet/abortrescan/
+---
+
+abortrescan
+
+Stops current wallet rescan triggered by an RPC call, e.g. by an importprivkey call.
+Note: Use "getwalletinfo" to query the scanning progress.
+
+Result:
+true|false    (boolean) Whether the abort was successful
+
+Examples:
+
+Import a private key
+> elements-cli importprivkey "mykey"
+
+Abort the running wallet rescan
+> elements-cli abortrescan 
+
+As a JSON-RPC call
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "abortrescan", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

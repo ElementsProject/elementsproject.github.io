@@ -1,0 +1,23 @@
+---
+layout: doc
+name: dumpissuanceblindingkey
+elemversion: 23.2.1
+elemgroup: wallet
+permalink: /en/doc/23.2.1/rpc/wallet/dumpissuanceblindingkey/
+---
+
+dumpissuanceblindingkey "txid" vin
+
+Dumps the private blinding key for an asset issuance in wallet.
+
+Arguments:
+1. txid    (string, required) The transaction id of the issuance
+2. vin     (numeric, required) The input number of the issuance in the transaction.
+
+Result:
+"str"    (string) the issuance blinding key
+
+Examples:
+> elements-cli dumpissuanceblindingkey "<txid>", 0
+
+

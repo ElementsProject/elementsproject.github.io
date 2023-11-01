@@ -1,0 +1,20 @@
+---
+layout: doc
+name: getdifficulty
+elemversion: 23.2.1
+elemgroup: blockchain
+permalink: /en/doc/23.2.1/rpc/blockchain/getdifficulty/
+---
+
+getdifficulty
+
+Returns the proof-of-work difficulty as a multiple of the minimum difficulty.
+
+Result:
+n    (numeric) the proof-of-work difficulty as a multiple of the minimum difficulty.
+
+Examples:
+> elements-cli getdifficulty 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getdifficulty", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

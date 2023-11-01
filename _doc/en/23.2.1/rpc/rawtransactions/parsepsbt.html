@@ -1,0 +1,25 @@
+---
+layout: doc
+name: parsepsbt
+elemversion: 23.2.1
+elemgroup: rawtransactions
+permalink: /en/doc/23.2.1/rpc/rawtransactions/parsepsbt/
+---
+
+parsepsbt "psbt"
+
+parse and print a PSBT.
+
+Arguments:
+1. psbt    (string, required) A base64 string of a PSBT
+
+Result:
+{                              (json object)
+  "psbt" : "str",              (string) The base64-encoded partially signed transaction
+  "canonical" : true|false     (boolean) Whether the input PSBT matches the output PSBT
+}
+
+Examples:
+> elements-cli parsepsbt "psbt"
+
+
