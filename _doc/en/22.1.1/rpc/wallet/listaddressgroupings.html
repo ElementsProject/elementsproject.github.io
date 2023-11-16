@@ -1,0 +1,32 @@
+---
+layout: doc
+name: listaddressgroupings
+elemversion: 22.1.1
+elemgroup: wallet
+permalink: /en/doc/22.1.1/rpc/wallet/listaddressgroupings/
+---
+
+listaddressgroupings
+
+Lists groups of addresses which have had their common ownership
+made public by common use as inputs or as the resulting change
+in past transactions
+
+Result:
+[               (json array)
+  [             (json array)
+    [           (json array)
+      "str",    (string) The address
+      n,        (numeric) The amount in BTC
+      "str"     (string, optional) The label
+    ],
+    ...
+  ],
+  ...
+]
+
+Examples:
+> elements-cli listaddressgroupings 
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listaddressgroupings", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

@@ -1,0 +1,46 @@
+---
+layout: doc
+name: rawblindrawtransaction
+elemversion: 22.1.1
+elemgroup: rawtransactions
+permalink: /en/doc/22.1.1/rpc/rawtransactions/rawblindrawtransaction/
+---
+
+rawblindrawtransaction "hexstring" ["inputamountblinder",...] [inputamount,...] ["inputasset",...] ["inputassetblinder",...] ( "totalblinder" ignoreblindfail )
+
+Convert one or more outputs of a raw transaction into confidential ones.
+Returns the hex-encoded raw transaction.
+The input raw transaction cannot have already-blinded outputs.
+The output keys used can be specified by using a confidential address in createrawtransaction.
+If an additional blinded output is required to make a balanced blinding, a 0-value unspendable output will be added. Since there is no access to the wallet the blinding pubkey from the last output with blinding key will be repeated.
+You can not blind issuances with this call.
+
+Arguments:
+1. hexstring                    (string, required) A hex-encoded raw transaction.
+2. inputamountblinders          (json array, required) An array with one entry per transaction input.
+     [
+       "inputamountblinder",    (string, required) A hex-encoded blinding factor, one for each input.                           Blinding factors can be found in the "blinder" output of listunspent.
+       ...
+     ]
+3. inputamounts                 (json array, required) An array with one entry per transaction input.
+     [
+       inputamount,             (numeric or string, required) An amount for each input.
+       ...
+     ]
+4. inputassets                  (json array, required) An array with one entry per transaction input.
+     [
+       "inputasset",            (string, required) A hex-encoded asset id, one for each input.
+       ...
+     ]
+5. inputassetblinders           (json array, required) An array with one entry per transaction input.
+     [
+       "inputassetblinder",     (string, required) A hex-encoded asset blinding factor, one for each input.
+       ...
+     ]
+6. totalblinder                 (string, optional) Ignored for now.
+7. ignoreblindfail              (boolean, optional, default=true) Return a transaction even when a blinding attempt fails due to number of blinded inputs/outputs.
+
+Result:
+"str"    (string) hex string of the transaction
+
+

@@ -1,0 +1,24 @@
+---
+layout: doc
+name: getwalletpakinfo
+elemversion: 22.1.1
+elemgroup: wallet
+permalink: /en/doc/22.1.1/rpc/wallet/getwalletpakinfo/
+---
+
+getwalletpakinfo
+
+Returns relevant pegout authorization key (PAK) information about this wallet. Throws an error if initpegoutwallet` has not been invoked on this wallet.
+
+Result:
+{                                  (json object)
+  "bip32_counter" : "str",         (string) next index to be used by the wallet for `sendtomainchain`
+  "bitcoin_descriptor" : "str",    (string) Bitcoin script descriptor loaded in the wallet for pegouts
+  "liquid_pak" : "hex",            (string) pubkey corresponding to the Liquid PAK loaded in the wallet for pegouts
+  "liquid_pak_address" : "str",    (string) corresponding address for `liquid_pak`. Useful for `dumpprivkey` for wallet backup or transfer
+  "address_lookahead" : [          (json array) the three next Bitcoin addresses the wallet will use for `sendtomainchain` based on the internal counter
+    "str"                          (string)
+  ]
+}
+
+

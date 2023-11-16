@@ -1,0 +1,38 @@
+---
+layout: doc
+name: listissuances
+elemversion: 22.1.1
+elemgroup: wallet
+permalink: /en/doc/22.1.1/rpc/wallet/listissuances/
+---
+
+listissuances ( "asset" )
+
+List all issuances known to the wallet for the given asset, or for all issued assets if none provided.
+
+Arguments:
+1. asset    (string) The asset whose issaunces you wish to list. Accepts either the asset hex or the locally assigned asset label.
+
+Result:
+[                                   (json array) List of transaction issuances and information in wallet
+  {                                 (json object)
+    "txid" : "hex",                 (string) Transaction id for issuance
+    "entropy" : "hex",              (string) Entropy of the asset type
+    "asset" : "hex",                (string) Asset type for issuance if known
+    "assetlabel" : "str",           (string) Asset label for issuance if set
+    "token" : "hex",                (string) Token type for issuancen
+    "vin" : n,                      (numeric) The input position of the issuance in the transaction
+    "assetamount" : n,              (numeric) The amount of asset issued. Is -1 if blinded and unknown to wallet
+    "tokenamount" : n,              (numeric) The reissuance token amount issued. Is -1 if blinded and unknown to wallet
+    "isreissuance" : true|false,    (boolean) Whether this is a reissuance
+    "assetblinds" : "hex",          (string) Blinding factor for asset amounts
+    "tokenblinds" : "hex"           (string) Blinding factor for token amounts
+  },
+  ...
+]
+
+Examples:
+> elements-cli listissuances <asset>
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "listissuances", "params": [<asset>]}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+
