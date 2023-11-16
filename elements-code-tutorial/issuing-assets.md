@@ -23,7 +23,7 @@ e1-cli getwalletinfo
 We see that Alice holds a lot of the "bitcoin" asset and nothing else:
 
 <div class="console-output">"balance": {
-    "bitcoin": 10500001.00000000
+    "bitcoin": 10500000.00000000
 </div>
 
 Every asset you issue within Elements (including the "bitcoin" default) will be assigned its own hex value. This is used to uniquely identify it on the network. Notice how "bitcoin" is displayed with a readable asset name however. This is because Elements automatically associates the label "bitcoin" with the asset hex for that default asset. To find out its hex value we can run: 
@@ -141,7 +141,7 @@ IADDR=$(e1-cli gettransaction $ITXID | jq -r '.details[0].address')
 e2-cli importaddress $IADDR
 ~~~~
 
-Another way to make Bob's node aware of the issuance is for Bob to get the issuance transaction ID and use that to import any output address from the transaction into his wallet. This is useful if Bob is not able to get the adress from Alice, but knows the transaction in which the asset was issued... perhaps by using the [Blockstream Explorer's assets list](https://blockstream.info/liquid/assets/) to look it up. From that page he can either use the TXID or select one of the addresses from the outputs. Using the TXID requires that Bob's node has ``index=1`` set in the elements.conf file.
+Another way to make Bob's node aware of the issuance is for Bob to get the issuance transaction ID and use that to import any output address from the transaction into his wallet. This is useful if Bob is not able to get the address from Alice, but knows the transaction in which the asset was issued... perhaps by using the [Blockstream Explorer's assets list](https://blockstream.info/liquid/assets/) to look it up. From that page he can either use the TXID or select one of the addresses from the outputs. Using the TXID requires that Bob's node has ``index=1`` set in the elements.conf file.
 
 Bob's already imported the address above but for reference the code to import using TXID is shown below. It doesn't matter which address is used, so we will use the first instance:
 

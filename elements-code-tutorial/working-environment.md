@@ -29,7 +29,7 @@ We need to set up our config files now. We'll do that by writing some settings t
 
 The Bitcoin config file:
 ~~~~
-echo "regtest=1
+echo -n "regtest=1
 txindex=1
 daemon=1
 rpcuser=user3
@@ -38,13 +38,12 @@ fallbackfee=0.0002
 [regtest]
 rpcport=18888
 port=18889
-
 " > ~/bitcoindir/bitcoin.conf
 ~~~~
 
 Elements 1 config file:
 ~~~
-echo "chain=elementsregtest
+echo -n "chain=elementsregtest
 rpcuser=user1
 rpcpassword=password1
 daemon=1
@@ -62,13 +61,12 @@ rpcport=18884
 port=18886
 anyonecanspendaremine=1
 connect=localhost:18887
-
 " > ~/elementsdir1/elements.conf
 ~~~
 
 Elements 2 config file:
 ~~~
-echo "chain=elementsregtest
+echo -n "chain=elementsregtest
 rpcuser=user2
 rpcpassword=password2
 daemon=1
@@ -85,7 +83,6 @@ rpcport=18885
 port=18887
 anyonecanspendaremine=1
 connect=localhost:18886
-
 " > ~/elementsdir2/elements.conf
 ~~~
 

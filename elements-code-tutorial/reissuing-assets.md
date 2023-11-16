@@ -83,7 +83,7 @@ e2-cli decoderawtransaction $RAWRTRANS
 We can see that the amounts and asset types are indeed blinded with results like this:
 
 <div class="console-output">"value-minimum": 0.00000001,
-"value-maximum": 42.94967296,
+"value-maximum": 45035996.27370496,
 </div>
 
 You could unblind these using the techniques we used for the initial issuance should you want to.

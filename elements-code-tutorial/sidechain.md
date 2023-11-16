@@ -156,6 +156,21 @@ CLAIMTXID=$(e1-cli claimpegin $RAW $PROOF $CLAIMSCRIPT)
 
 ##### NOTE: **The time between generating a peg-in address with "getpeginaddress" and claiming it with "claimpegin" should be kept as small as possible.**
 
+Remember that fees will also have been deducted on the sidechain from the amount received above.
+
+As the wallet started with 21 million bitcoin it should have nearly 1 more now (1 minus sidechain fees). To check:
+
+~~~~
+e1-cli getwalletinfo
+~~~~
+
+Which returns the claimed amount in the "unconfirmed_balance" value (minus fee)::
+
+<div class="console-output">"unconfirmed_balance": {
+    "bitcoin": 0.99992800
+  },
+</div>
+
 Bob's node (as well as Alice's of course) should accept the claim transaction as valid and add it to its mempool. Create a block containing the transaction:
 
 ~~~~
@@ -174,21 +189,6 @@ The output of which can be seen below. Note that the asset hex may differ from t
 "asset": "b7c9431837115ba3b8a1753dc227311ab4480c14d97484234f984d361a00c966",
 </div>
 
-Remember that fees will also have been deducted on the sidechain from the amount received above.
-
-As the wallet started with 21 million bitcoin it should have nearly 1 more now (1 minus sidechain fees). To check:
-
-~~~~
-e1-cli getwalletinfo
-~~~~
-
-Which returns the claimed amount in the "unconfirmed_balance" value (minus fee)::
-
-<div class="console-output">"unconfirmed_balance": {
-    "bitcoin": 0.99992800
-  },
-</div>
-
 Now that we have sent assets into our sidechain (peg-in) we will now peg-out and send assets representing bitcoin back from our sidechain to the main chain:
 
 ~~~~
@@ -204,16 +204,23 @@ The results of which show:
 },
 </div>
 
-Which is the amount before peg-out plus the (now confirmed) "unconfirmed_balance" balance we saw above, minus the 1 we pegged out. Remember that sidechain fees have also been deducted so we return to just under the original 21 million. These fees actually show in the "immature_balance" for Alice's wallet, as she mined the block and collected her own fees:
+Which is the amount before peg-in plus the (now confirmed) "unconfirmed_balance" balance we saw above, minus the 1 we pegged out. Remember that sidechain fees have also been deducted so we return to just under the original 21 million. These fees actually show in the "immature_balance" for Alice's wallet, as she mined the block and collected her own fees:
 
 <div class="console-output">”immature_balance”: {
-    “bitcoin”: 0.00012540
+    “bitcoin”: 0.00005760
+},
+</div>
+
+Similarly, for Bob's wallet:
+
+<div class="console-output">”immature_balance”: {
+    “bitcoin”: 0.00006780
 },
 </div>
 
 Checking this manually:
 
-<div class="console-output">20999999.99987460 + 0.00012540 = 21000000
+<div class="console-output">20999999.99987460 + 0.00005760 + 0.00006780 = 21000000
 </div>
 
 
