@@ -1,0 +1,29 @@
+---
+layout: doc
+name: consumecompactsketch
+elemversion: 23.2.1
+elemgroup: generating
+permalink: /en/doc/23.2.1/rpc/generating/consumecompactsketch/
+---
+
+consumecompactsketch "sketch"
+
+Takes hex representation of a proposed compact block sketch and fills it in
+using mempool. Returns the block if complete, and a list
+of missing transaction indices serialized as a native structure.NOTE: The latest instance of this call will have a partially filled block
+cached in memory to be used in `consumegetblocktxn` to finalize the block.
+
+Arguments:
+1. sketch    (string, required) Hex string of compact block sketch.
+
+Result:
+{                                  (json object)
+  "blockhex" : "hex",              (string) The filled block hex. Only returns when block is final
+  "block_tx_req" : "hex",          (string) The serialized structure of missing transaction indices, given to serving node
+  "found_tranasctions" : "hex"     (string) The serialized list of found transactions to be used in finalizecompactblock
+}
+
+Examples:
+> elements-cli consumecompactsketch <sketch>
+
+

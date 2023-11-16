@@ -1,0 +1,28 @@
+---
+layout: doc
+name: reissueasset
+elemversion: 23.2.1
+elemgroup: wallet
+permalink: /en/doc/23.2.1/rpc/wallet/reissueasset/
+---
+
+reissueasset "asset" assetamount
+
+Create more of an already issued asset. Must have reissuance token in wallet to do so. Reissuing does not affect your reissuance token balance, only asset.
+For more fine-grained control such as reissuing from a multi-signature address cold wallet, see `rawreissueasset` RPC call.
+
+Arguments:
+1. asset          (string, required) The asset you want to re-issue. The corresponding token must be in your wallet.
+2. assetamount    (numeric or string, required) Amount of additional asset to generate. Note that the amount is BTC-like, with 8 decimal places.
+
+Result:
+{                    (json object)
+  "txid" : "hex",    (string) transaction id for issuance
+  "vin" : n          (numeric) input position of the issuance in the transaction
+}
+
+Examples:
+> elements-cli reissueasset <asset> 0
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "reissueasset", "params": [<asset>, 0]}' -H 'content-type: text/plain;' http://127.0.0.1:7041/
+
+

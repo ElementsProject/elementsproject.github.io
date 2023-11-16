@@ -1,0 +1,29 @@
+---
+layout: doc
+name: signblock
+elemversion: 23.2.1
+elemgroup: wallet
+permalink: /en/doc/23.2.1/rpc/wallet/signblock/
+---
+
+signblock "blockhex" ( "witnessScript" )
+
+Signs a block proposal, checking that it would be accepted first. Errors if it cannot sign the block. Note that this call adds the witnessScript to your wallet for signing purposes! This function is intended for QA and testing.
+
+Arguments:
+1. blockhex         (string, required) The hex-encoded block from getnewblockhex
+2. witnessScript    (string, optional) The hex-encoded witness script. Required for dynamic federation blocks. Argument is "" when the block is P2WPKH.
+
+Result:
+[                        (json array)
+  {                      (json object)
+    "pubkey" : "hex",    (string) signature's pubkey
+    "sig" : "hex"        (string) the signature itself
+  },
+  ...
+]
+
+Examples:
+> elements-cli signblock 0000002018c6f2f913f9902aeab...5ca501f77be96de63f609010000000000000000015100000000
+
+

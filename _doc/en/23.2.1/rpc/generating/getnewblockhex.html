@@ -1,0 +1,37 @@
+---
+layout: doc
+name: getnewblockhex
+elemversion: 23.2.1
+elemgroup: generating
+permalink: /en/doc/23.2.1/rpc/generating/getnewblockhex/
+---
+
+getnewblockhex ( min_tx_age proposed_parameters ["",...] )
+
+Gets hex representation of a proposed, unmined new block
+
+Arguments:
+1. min_tx_age                       (numeric, optional, default=0) How many seconds a transaction must have been in the mempool to be included in the block proposal. This may help with faster block convergence among functionaries using compact blocks.
+2. proposed_parameters              (json object) Parameters to be used in dynamic federations blocks as proposals. During a period of `-dynamic_epoch_length` blocks, 4/5 of total blocks must signal these parameters for the proposal to become activated in the next epoch.
+     {
+       "signblockscript": "hex",    (string, required) Hex-encoded block signing script to propose
+       "max_block_witness": n,      (numeric, required) Total size in witness bytes that are allowed in the dynamic federations block witness for blocksigning
+       "fedpegscript": "hex",       (string, required) Hex-encoded fedpegscript for dynamic block proposal. This is interpreted as a v0 segwit witnessScript, and fills out the fedpeg_program as such.
+       "extension_space": [         (json array, required) Array of additional fields to embed in the dynamic blockheader. Has no consensus meaning aside from serialized size changes. This space is currently is only used for PAK enforcement.
+         "",                        (string, required) Hex encoded string for extension entries.
+         ...
+       ],
+     }
+3. commit_data                      (json array) Array of data in hex to be committed to in additional coinbase outputs.
+     [
+       "",                          (string, required) Hex encoded string for commit data
+       ...
+     ]
+
+Result:
+"hex"    (string) the block hex
+
+Examples:
+> elements-cli getnewblockhex 
+
+
