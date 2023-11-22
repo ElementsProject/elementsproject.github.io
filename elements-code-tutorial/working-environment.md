@@ -111,7 +111,7 @@ alias e1-cli="elements-cli -datadir=$HOME/elementsdir1"
 alias e2-dae="elementsd -datadir=$HOME/elementsdir2"
 alias e2-cli="elements-cli -datadir=$HOME/elementsdir2"
 alias e1-qt="elements-qt -datadir=$HOME/elementsdir1"
-alias e2-qt="elements-qt -datadir=$OME/elementsdir2"
+alias e2-qt="elements-qt -datadir=$HOME/elementsdir2"
 ~~~~
 
 You'll need to ensure that the directories containing `bitcoind`, `bitcoin-cli`, `elements-cli`, `elementsd`, and `elements-qt` are in the PATH environment variable.
