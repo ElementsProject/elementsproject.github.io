@@ -5,11 +5,12 @@
 @import "minima";
 
 /*
-
 CSS NOTES
 *********
 
-use of letter-spacing on smaller font sizes makes the font easier to read in most browsers but this does not render well in Firefox on Ubuntu for some reason, due to the rendering engine it uses. So spacing has been ommited aprt from in h1, h2 etc.
+use of letter-spacing on smaller font sizes makes the font easier to read in most browsers
+but this does not render well in Firefox on Ubuntu for some reason,
+due to the rendering engine it uses. So spacing has been ommited aprt from in h1, h2 etc.
 
 Elements theme color ref:
   Grey h1 and borders: #f0f0f0
@@ -18,91 +19,122 @@ Elements theme color ref:
   left logo blue: #6d8ac5
   right logo purple-blue: #5f53a2
   bottom right logo purple: #7a4596
-
-
 */
 
+// color vars
+$white: #ffffff;
+$black1: #111111;
+$black3: #333333;
+$black5: #555555;
+
+$gray1: #f0f0f0;
+$gray2: #f5f5f5;
+$gray3: #424242;
+$gray4: #e8e8e8;
+$gray5: #c9c9c9;
+
+$blue1: #5caadd;
+$blue2: #6d8ac5;
+$blue3: #6c8add;
+$blue4: #5351af;
+
+$purple1: #5f53a2;
+$purple2: #7a4596;
+$purple3: #7d3fa5;
+
 .html, html, .body, body {
-  font-family: Open Sans, sans-serif !important;
+  font-family: Open Sans, sans-serif;
   overflow-y: scroll;
-  //letter-spacing: 0.4px !important;
+  font-size: 14px;
+}
+
+a,
+a:visited {
+  color: $blue1;
+}
+
+a:focus,
+a:hover {
+  color: $blue2;
 }
 
 .h1, h1 {
-  background-color: #6C8ADD;
-  color: white !important;
-  font-family: Open Sans, sans-serif !important;
-  font-size: 28px !important;
-  font-weight: lighter !important;
-  letter-spacing: 0.5px !important;
-  line-height: 1.2 !important;
+  background-color: $blue3;
+  color: white;
+  font-family: Open Sans, sans-serif;
+  font-size: 28px;
+  font-weight: lighter;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
   padding-left: 30px;
   padding-top: 20px;
   padding-right: 30px;
   padding-bottom: 20px;
-  margin-top: 30px !important;
-  margin-bottom: 0px !important;
+  margin-top: 30px;
+  margin-bottom: 0px;
   border-radius: 4px;
-  //border-top-right-radius: 4px;
-  //border-top-left-radius: 4px;
-  //border-bottom: none;
 }
 
 // Light background box
 .h2, h2 {
-  background-color: #f5f5f5;
+  background-color: $gray2;
   padding-left: 30px;
   padding-top: 20px;
   padding-right: 30px;
   padding-bottom: 20px;
   border-radius: 4px;
-  //border-top: none;
-  //border-bottom-right-radius: 4px;
-  //border-bottom-left-radius: 4px;
-  margin-top: 14px !important;
-  margin-bottom: 20px !important;
-  color: #333 !important;
-  font-family: Open Sans, sans-serif !important;
-  font-size: 18px !important;
-  font-weight: lighter !important;
-  letter-spacing: 0.5px !important;
-  line-height: 1.2 !important;
+  margin-top: 14px;
+  margin-bottom: 20px;
+  color: $black3;
+  font-family: Open Sans, sans-serif;
+  font-size: 18px;
+  font-weight: lighter;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.post-content h2,
+.post-content h3 {
+  font-size: 18px;
+}
+
+.post-content h4 {
+  font-size: 14px;
 }
 
 .h3, h3 {
-  color: #333 !important;
-  font-family: Open Sans, sans-serif !important;
-  font-size: 18px !important;
-  font-weight: lighter !important;
-  letter-spacing: 0.5px !important;
-  line-height: 1.2 !important;
-  margin-bottom: 26px !important;
-  margin-top: 36px !important;
+  color: $black3;
+  font-family: Open Sans, sans-serif;
+  font-size: 18px;
+  font-weight: lighter;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-bottom: 26px;
+  margin-top: 36px;
   padding-bottom: 4px;
 }
 
 // A h4 is used as a comment/tip block:
 .h4, h4 {
-  color: #333 !important;
-  font-family: Open Sans, sans-serif !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  //letter-spacing: 0.4px !important;
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
-  border-left: 2px solid #6d8ac5;
+  color: $black3;
+  font-family: Open Sans, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-left: 2px solid $blue2;
   padding-left: 16px;
-  line-height: 1.42857143 !important;
+  line-height: 1.42857143;
 }
 
 // A h5 is used as a code 'note:' block:
 .h5, h5 {
-  color: #333 !important;
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
-  border-left: 2px solid #6d8ac5;
+  color: $black3;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-left: 2px solid $blue2;
   padding-left: 16px;
-  line-height: 1.42857143 !important;
+  line-height: 1.42857143;
 }
 
 // Used to display output from a command (so the output of something wrapped in a h5)
@@ -112,17 +144,15 @@ Elements theme color ref:
   font-weight: bold;
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
   padding-left: 17px;
-  word-break: break-all !important;
+  word-break: break-all;
 }
 
-
 .p, p {
-  font-family: Open Sans, sans-serif !important;
+  font-family: Open Sans, sans-serif;
   font-size: inherit !important;
-  margin-left: 18px !important;
-  margin-right: 18px !important;
-  margin-bottom: 16px !important;
-  //letter-spacing: 0.4px !important;
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-bottom: 16px;
 }
 
 .li, li {
@@ -136,42 +166,48 @@ Elements theme color ref:
 }
 
 // Color of drop down nav item when clicked and showing sub items
-.navbar-nav>.open>a {
-  background-color: #f5f5f5 !important;
-  border-radius: 4px !important;
-  border: 1px white !important;
+.navbar-nav > .open > a {
+  background-color: $gray2;
+  border-radius: 4px;
+  border: 1px white;
+}
+
+.navbar-default .navbar-nav > li > a {
+  font-size: 14px;
 }
 
 // Highlight current active page on nav bar
-.navbar-nav>.active>a {
-  background-color: #5351af !important;
-  color: white !important;
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .active > a:hover {
+  background-color: $blue4 !important;
+  color: white;
 }
 
-.navbar-nav>.active>a {
-  border-radius: 4px !important;
-  border: 1px white !important;
+.navbar-nav > .active > a {
+  border-radius: 4px;
+  border: 1px white;
 }
 
 // Highlight current active page in nav drop down
-.dropdown-menu>.active>a {
-  background-color: #7d3fa5 !important;
-  color: white !important;
+.dropdown-menu > .active > a {
+  background-color: $purple3;
+  color: white;
 }
 
-.dropdown-sub-header{
+.dropdown-sub-header {
   padding-left: 24px;
   padding-right: 24px;
 }
 
-.dropdown-menu-wide{
-  min-width: 220px !important;
+.dropdown-menu-wide {
+  min-width: 220px;
 }
 
 // Override the site header to remove border-bottom
 .site-header {
-  border-top: 5px solid #424242;
-  border-bottom: 0px solid #e8e8e8;
+  border-top: 5px solid $gray3;
+  border-bottom: 0px solid $gray3;
   min-height: 55.95px;
   position: relative;
 }
@@ -203,34 +239,34 @@ Elements theme color ref:
   max-width: calc(800px - (30px * 2));
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 0px !important;
+  margin-bottom: 0px;
   margin-top: 10px;
-  padding-right: 15px !important;
-  padding-left: 15px !important;
+  padding-right: 15px;
+  padding-left: 15px;
   position: relative;
-  background-color: white !important;
-  border: none !important; 
+  background-color: white;
+  border: none;
 }
 
 .navbar-toggle {
-  margin-right: 0px !important;
+  margin-right: 0px;
 }
 
 //Make sure the drop down items aren't spaced out like normal li instances
 .dropdown-menu > li {
-  margin-top: 4px !important;
-  margin-bottom: 4px !important;
-  margin-left: 0px !important;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 0px;
   vertical-align: middle;
 }
 
 .dropdown-menu > li > a {
-  padding-left: 24px !important;
-  padding-right: 24px !important;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .navbar-right > li {
-  margin-bottom: 0px !important;
+  margin-bottom: 0px;
 }
 
 // Override site-footer to add more space above
@@ -240,24 +276,21 @@ Elements theme color ref:
 
 // Table theme (e.g. when | col1 | col2 | is used in markdown)
 table {
-  color: #333 !important;
-  font-family: Open Sans, sans-serif !important;
-  //font-weight: 300 !important;
-  //letter-spacing: 0.5px !important;
-  line-height: 1.2 !important;
+  color: $black3;
+  font-family: Open Sans, sans-serif;
+  line-height: 1.2;
   border: none;
   margin-left: 18px;
 }
 
 table th {
   background-color: white;
-  color: #6d8ac5;
-  font-family: Open Sans, sans-serif !important;
-  font-size: 18px !important;
-  font-weight: lighter !important;
-  //letter-spacing: 0.5px !important;
-  line-height: 1.2 !important;
-  border-bottom: 1px solid #c9c9c9;
+  color: $blue2;
+  font-family: Open Sans, sans-serif;
+  font-size: 18px;
+  font-weight: lighter;
+  line-height: 1.2;
+  border-bottom: 1px solid $gray5;
   border-top: none;
   border-right: none;
   border-left: none;
@@ -267,7 +300,7 @@ table th {
 table td {
   border: none;
   vertical-align: top;
-  line-height: 1.42857143 !important;
+  line-height: 1.42857143;
 }
 
 table tr:nth-child(even) {
@@ -298,8 +331,8 @@ table th:nth-child(2) {
 
 // Add a bit more room around a hr
 hr {
-  margin-top: 40px !important;
-  margin-bottom: 40px !important;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 ul > li {
@@ -308,47 +341,192 @@ ul > li {
 
 // Code blocks used via the ~~~~ wrapper
 pre {
-  padding-left: 17px !important;
-  padding-right: 17px !important;
-  padding-top: 8px !important;
-  padding-bottom: 6px !important;
-  margin-bottom: 20px !important;
-  font-size: 13px !important;
+  padding-left: 17px;
+  padding-right: 17px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  background-color: $gray2;
 }
 
 // In-text code used via the ` character wrapper. Please note that syntax_highlighter_opts have been disabled in _config.yml
 code {
-  color: #333 !important;
-  background-color: #f5f5f5 !important;
-  padding-top: 3px !important;
-  padding-bottom: 2px !important;
-  font-size: 13px !important;
+  color: $black3;
+  background-color: $gray2;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  font-size: 13px;
 }
 
 .footer-links {
-  margin-bottom: 0px !important;
-  margin-left: 0px !important;
+  margin-bottom: 0px;
+  margin-left: 0px;
 }
 
 .footer-col-1 {
-  width: 50% !important;
+  width: 50%;
 }
 
 .footer-col-3 {
-  width: 50% !important;
+  width: 50%;
 }
 
 .footer-col-3 > p {
-  margin-left: 0px !important;
-  margin-right: 0px !important;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 strong {
-  font-weight: 700 !important;
+  font-weight: 700;
   letter-spacing: 0.4px;
 }
 
 .doc pre {
   word-break: break-word;
   white-space: pre-wrap;
+}
+
+.wrapper {
+  max-width: 1200px;
+}
+
+.navbar {
+  max-width: 1200px
+}
+
+// dark theme
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: $black3;
+  }
+
+  p {
+    color: $gray1;
+  }
+
+  h1 {
+    background-color: inherit;
+    color: $blue2;
+  }
+
+  .site-title,
+  .site-title:visited {
+    color: $gray1;
+  }
+
+  .navbar-elements-narrow {
+    background-color: inherit;
+  }
+
+  li, h2, h3, h4, h5 {
+    color: $gray1;
+  }
+
+  h2 {
+    background-color: $black5;
+  }
+
+  .navbar-elements-narrow {
+    max-width: 1200px;
+  }
+
+  hr {
+    border-color: $black5;
+  }
+
+  .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    color: $white;
+  }
+
+  .navbar-nav > .open > a {
+    background-color: $black5;
+    border-radius: 4px;
+    border: 1px $black5;
+    color: $white;
+  }
+
+  .navbar-nav > .active > a {
+    background-color: $blue4;
+    color: $black5;
+  }
+
+  .navbar-nav > .active > a {
+    border: 1px $black5;
+  }
+
+  .dropdown-menu > .active > a {
+    background-color: $purple3;
+    color: $white;
+  }
+
+  .dropdown-menu {
+    background-color: $black3;
+  }
+
+  .dropdown-menu > li > a {
+    background-color: $black3;
+    color: $white;
+  }
+
+  .dropdown-menu > li > a:hover {
+    background-color: $black5;
+    color: $white;
+  }
+
+  ul {
+    background-color: inherit;
+  }
+
+  pre {
+    color: $gray2;
+    border-color: $black5;
+    background-color: $black1;
+  }
+
+  code {
+    color: $gray2;
+    background-color: $black1;
+  }
+
+  .site-footer {
+    border-color: $black3;
+  }
+
+  .navbar-default .navbar-nav > .open > a,
+  .navbar-default .navbar-nav > .open > a:focus,
+  .navbar-default .navbar-nav > .open > a:hover {
+    color: $white;
+    background-color: $blue4;
+  }
+
+  table {
+    color: $white;
+  }
+
+  table th {
+    background-color: inherit;
+  }
+
+  table th {
+    background-color: $black3;
+  }
+
+  table td {
+    color: $white;
+  }
+
+  table tr:nth-child(even) {
+    background-color: $black3;
+  }
+
+  .navbar-default .navbar-nav > .active > a,
+  .navbar-default .navbar-nav > .active > a:focus,
+  .navbar-default .navbar-nav > .active > a:hover {
+    color: $white;
+  }
+
+  .console-output {
+    color: $white;
+  }
 }
