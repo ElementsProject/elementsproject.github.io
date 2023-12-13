@@ -58,7 +58,7 @@ e1-cli stop
 e2-cli stop
 ~~~~
 
-Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. Note that the value "214" comes from (required_signers * 74) + (number_of_nodes * 33). Also note that the "evbparams=dynafed:0:::" parameter is to prevent dynamic federations from activating which complicates block signing:
+Define the requirements of block creation (must be valid against our redeemscript) and store in a variable. Note that the value "214" comes from (required_signers * 74) + (number_of_nodes * 33). Also note that the "evbparams=dynafed:0:::" parameter is to prevent dynamic federations from activating which complicates block signing. NB, If you are using DynaFed then the formula becomes (required_signers * 77) + (number_of_nodes * 33):
 
 ~~~~
 SIGNBLOCKARGS=("-signblockscript=$(echo $REDEEMSCRIPT)" "-con_max_block_sig_size=214" "-evbparams=dynafed:0:::")
