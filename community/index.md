@@ -18,8 +18,18 @@ The source code for Elements and this website:
 
 * * * 
 
-There are a few ways that you can discuss Elements with other members of the community:
+### Elements Improvement Proposals (ELIPs)
 
-* **Slack channel** - [{{ site.slack_link }}]({{ site.slack_link }}) (users can get an invite automatically by visiting [{{ site.slack_sign_up_link }}]({{ site.slack_sign_up_link }}) and providing an email address)
+* **ELIPs** - [{{ site.elips_github_link }}]({{ site.elips_github_link }}) A process modeled after Bitcoin Improvement Proposals (BIPs) for proposing and documenting improvements to Elements.
 
-* **Freenode IRC** - [{{ site.freenode_irc_link }}]({{ site.freenode_irc_link }}) (webchat #sidechains-dev)
+### Developer Communities
+
+* **Liquid Dev** - [{{ site.liquid_developer_community_link }}]({{ site.liquid_developer_community_link }}) Liquid is an example of an Elements-based sidechain in production use. The Telegram group is a useful resource for developers building with Elements and Liquid.
+
+* **Simplicity Forum** - [{{ site.simplicity_community_link }}]({{ site.simplicity_community_link }}) The community forum for Simplicity, a smart contract language designed for Bitcoin-style blockchains and available on Liquid.
+
+### Other Resources
+
+* **Liquid Documentation** - [{{ site.liquid_docs_link }}]({{ site.liquid_docs_link }}) The main documentation site for those integrating with or building applications on Liquid.
+
+* **Simplicity Documentation** - [{{ site.simplicity_docs_link }}]({{ site.simplicity_docs_link }}) Technical documentation for building smart contracts with Simplicity and SimplicityHL, including getting started guides, core concepts and example contracts.
