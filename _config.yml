@@ -30,6 +30,11 @@ slack_link: https://bitcoincore.slack.com
 slack_sign_up_link: https://bitcoincoreslack.herokuapp.com
 mailing_list_link: https://lists.linuxfoundation.org/mailman/listinfo/sidechains-dev
 freenode_irc_link: https://webchat.freenode.net/?channels=%23sidechains-dev
+elips_github_link: https://github.com/ElementsProject/ELIPs
+liquid_developer_community_link: https://t.me/liquid_devel
+simplicity_community_link: https://community.simplicity-lang.org/
+liquid_docs_link: https://docs.liquid.net/
+simplicity_docs_link: https://docs.simplicity-lang.org/
 
 collections:
   doc:
